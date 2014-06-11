@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Indico::VERSION
   spec.authors       = ["Amit Ambardekar"]
   spec.email         = ["amitamb@gmail.com"]
-  spec.summary       = %q{Ruby gem for for Indico API.}
-  spec.description   = %q{Ruby gem for for Indico API.}
+  spec.summary       = %q{A simple Ruby Wrapper for the indico set of APIs.}
+  spec.description   = %q{A simple Ruby Wrapper for the indico set of APIs.}
   spec.homepage      = "https://github.com/IndicoDataSolutions/IndicoIo-ruby"
   spec.license       = "MIT"
 

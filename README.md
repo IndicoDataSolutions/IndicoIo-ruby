@@ -1,6 +1,6 @@
-# Indico
+# IndicoIo-ruby
 
-TODO: Write a gem description
+A simple Ruby Wrapper for the indico set of APIs
 
 ## Installation
 
