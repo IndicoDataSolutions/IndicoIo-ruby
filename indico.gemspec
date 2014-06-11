@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["amitamb@gmail.com"]
   spec.summary       = %q{Ruby gem for for Indico API.}
   spec.description   = %q{Ruby gem for for Indico API.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/IndicoDataSolutions/IndicoIo-ruby"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
