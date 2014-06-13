@@ -39,7 +39,8 @@ module Indico
   def self.facial_features(face)
     data_dict = JSON.dump({ face: face})
     response = make_request(base_url("facialfeatures"), data_dict, HEADERS)
-    JSON.parse(response.body)
+    response_dict = JSON.parse(response.body)
+    response_dict['response']
   end
 
 end
