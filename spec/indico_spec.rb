@@ -1,23 +1,42 @@
 require 'spec_helper'
+require 'set'
 
 describe Indico do
 
   it "should tag text with correct political tags" do
-    tagged_text = Indico.political("Guns don't kill people. People kill people.") # Guns don't kill people. People kill people.
+    expected_keys = Set.new(["Conservative", "Green", "Liberal", "Libertarian"])
+    response = Indico.political("Guns don't kill people. People kill people.") # Guns don't kill people. People kill people.
 
-    expect(tagged_text).to eql({"Conservative"=>0.8412676366335048, "Green"=>0.0, "Liberal"=>1.0, "Libertarian"=>0.7437584040439491})
+    expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
   it "should tag text with correct spam tags" do
-    tagged_text = Indico.spam("Free car!")
+    expected_keys = Set.new(["Ham", "Spam"])
+    response = Indico.spam("Free car!")
 
-    expect(tagged_text).to eql({"Ham"=>0.0, "Spam"=>1.0})
+    expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
   it "should tag text with correct sentiment tags" do
-    tagged_text = Indico.sentiment("Worst movie ever.")
+    expected_keys = Set.new(["Sentiment"])
+    response = Indico.sentiment("Worst movie ever.")
 
-    expect(tagged_text).to eql({"Sentiment" => 0.07062467665597527})
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
+  it "should tag face with correct faciel expression" do
+    expected_keys = Set.new(["Angry", "Sad", "Neutral", "Surprise", "Fear", "Happy"])
+    test_face = 0.step(50, 50.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
+    response = Indico.fer(test_face)
+
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
+  it "should tag face with correct faciel features" do
+    test_face = 0.step(50, 50.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
+    response = Indico.facial_features(test_face)
+
+    expect(response.length).to eql(48)
   end
 
 end

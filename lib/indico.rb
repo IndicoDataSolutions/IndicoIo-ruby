@@ -30,4 +30,16 @@ module Indico
     self.posneg(*args)
   end
 
+  def self.fer(face)
+    data_dict = JSON.dump({ face: face})
+    response = make_request(base_url("fer"), data_dict, HEADERS)
+    JSON.parse(response.body)
+  end
+
+  def self.facial_features(face)
+    data_dict = JSON.dump({ face: face})
+    response = make_request(base_url("facialfeatures"), data_dict, HEADERS)
+    JSON.parse(response.body)
+  end
+
 end
