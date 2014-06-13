@@ -26,4 +26,8 @@ module Indico
     JSON.parse(response.body)
   end
 
+  def self.sentiment(*args)
+    self.posneg(*args)
+  end
+
 end

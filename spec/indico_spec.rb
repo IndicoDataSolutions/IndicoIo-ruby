@@ -15,7 +15,7 @@ describe Indico do
   end
 
   it "should tag text with correct sentiment tags" do
-    tagged_text = Indico.posneg("Worst movie ever.")
+    tagged_text = Indico.sentiment("Worst movie ever.")
 
     expect(tagged_text).to eql({"Sentiment" => 0.07062467665597527})
   end

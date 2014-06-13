@@ -18,7 +18,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+Indico.political("Guns don't kill people. People kill people.")
+
+Indico.spam("Guns don't kill people. People kill people.")
+
+Indico.posneg("Guns don't kill people. People kill people.")
+```
 
 ## Contributing
 
