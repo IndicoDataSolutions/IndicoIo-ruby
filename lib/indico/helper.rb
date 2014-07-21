@@ -2,7 +2,7 @@ module Indico
   private
 
   def self.base_url(c)
-    "http://indico.io/api/%s" % c
+    "http://api.indico.io/%s" % c
   end
 
   def self.make_request(url, data_dict, headers)
