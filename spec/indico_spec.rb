@@ -10,13 +10,6 @@ describe Indico do
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
-  it "should tag text with correct spam tags" do
-    expected_keys = Set.new(["Ham", "Spam"])
-    response = Indico.spam("Free car!")
-
-    expect(Set.new(response.keys)).to eql(expected_keys)
-  end
-
   it "should tag text with correct sentiment tags" do
     expected_keys = Set.new(["Sentiment"])
     response = Indico.sentiment("Worst movie ever.")

@@ -14,12 +14,6 @@ module Indico
     JSON.parse(response.body)
   end
 
-  def self.spam(test_text)
-    data_dict = JSON.dump({ text: test_text})
-    response = make_request(base_url("spam"), data_dict, HEADERS)
-    JSON.parse(response.body)
-  end
-
   def self.posneg(test_text)
     data_dict = JSON.dump({ text: test_text})
     response = make_request(base_url("sentiment"), data_dict, HEADERS)
