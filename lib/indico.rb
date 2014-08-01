@@ -24,6 +24,12 @@ module Indico
     self.posneg(*args)
   end
 
+  def self.language(test_text)
+    data_dict = JSON.dump({ text: test_text })
+    response = make_request(base_url("language"), data_dict, HEADERS)
+    JSON.parse(response.body)
+  end
+
   def self.fer(face)
     data_dict = JSON.dump({ face: face})
     response = make_request(base_url("fer"), data_dict, HEADERS)

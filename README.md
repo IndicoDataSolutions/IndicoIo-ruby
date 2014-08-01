@@ -22,6 +22,8 @@ Or install it yourself as:
 Indico.political("Guns don't kill people. People kill people.")
 
 Indico.posneg("Guns don't kill people. People kill people.")
+
+Indico.language('Quis custodiet ipsos custodes')
 ```
 
 ## Contributing

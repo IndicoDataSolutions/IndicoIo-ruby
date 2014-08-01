@@ -17,6 +17,48 @@ describe Indico do
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
+  it "should tag text with correct language tags" do
+    expected_keys = Set.new([
+      'English',
+      'Spanish',
+      'Tagalog',
+      'Esperanto',
+      'French',
+      'Chinese',
+      'French',
+      'Bulgarian',
+      'Latin',
+      'Slovak',
+      'Hebrew',
+      'Russian',
+      'German',
+      'Japanese',
+      'Korean',
+      'Portuguese',
+      'Italian',
+      'Polish',
+      'Turkish',
+      'Dutch',
+      'Arabic',
+      'Persian (Farsi)',
+      'Czech',
+      'Swedish',
+      'Indonesian',
+      'Vietnamese',
+      'Romanian',
+      'Greek',
+      'Danish',
+      'Hungarian',
+      'Thai',
+      'Finnish',
+      'Norwegian',
+      'Lithuanian'
+    ])
+    response = Indico.language('Quis custodiet ipsos custodes')
+
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
   it "should tag face with correct faciel expression" do
     expected_keys = Set.new(["Angry", "Sad", "Neutral", "Surprise", "Fear", "Happy"])
     test_face = 0.step(50, 50.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
