@@ -21,6 +21,8 @@ Or install it yourself as:
 ```ruby
 > require 'indico'
 
+=> true
+
 > Indico.political("Guns don't kill people. People kill people.")
 
 > Indico.posneg("Guns don't kill people. People kill people.")
@@ -34,6 +36,8 @@ When using a local version of the api you must remember to require 'indico_local
 
 ```ruby
 > require 'indico_local'
+
+=> true
 
 > IndicoLocal.sentiment("I love using this tool!")
 
