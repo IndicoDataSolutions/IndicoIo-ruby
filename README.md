@@ -19,11 +19,25 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-Indico.political("Guns don't kill people. People kill people.")
+> require 'indico'
 
-Indico.posneg("Guns don't kill people. People kill people.")
+> Indico.political("Guns don't kill people. People kill people.")
 
-Indico.language('Quis custodiet ipsos custodes')
+> Indico.posneg("Guns don't kill people. People kill people.")
+
+> Indico.language('Quis custodiet ipsos custodes')
+```
+
+###Local
+
+When using a local version of the api you must remember to require 'indico_local' instead of 'indico'. Along the same vein, the package is then referenced as "IndicoLocal" rather than "Indico".
+
+```ruby
+> require 'indico_local'
+
+> IndicoLocal.sentiment("I love using this tool!")
+
+=> {"Sentiment"=>0.7483253499779664}
 ```
 
 ## Contributing
