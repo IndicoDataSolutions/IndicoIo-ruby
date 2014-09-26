@@ -25,7 +25,11 @@ Or install it yourself as:
 
 > Indico.political("Guns don't kill people. People kill people.")
 
+=> {"Libertarian"=>0.47740164630834825, "Liberal"=>0.16617097211030055, "Green"=>0.08454409540443657, "Conservative"=>0.2718832861769146}
+
 > Indico.posneg("Guns don't kill people. People kill people.")
+
+=> {"Sentiment"=>0.3400426452890788}
 
 > Indico.language('Quis custodiet ipsos custodes')
 ```
