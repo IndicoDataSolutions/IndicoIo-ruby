@@ -9,11 +9,11 @@ module Indico
   HEADERS = { "Content-Type" => "application/json", "Accept" => "text/plain" }
 
   def self.political(test_text, api="remote")
-    api_handler('text', test_text, api, "political")
+    api_handler(test_text, api, "political")
   end
 
   def self.posneg(test_text, api="remote")
-    api_handler('text', test_text, api, "sentiment")
+    api_handler(test_text, api, "sentiment")
   end
 
   def self.sentiment(*args)
@@ -21,15 +21,19 @@ module Indico
   end
 
   def self.language(test_text, api="remote")
-    api_handler('text', test_text, api, "language")
+    api_handler(test_text, api, "language")
   end
 
   def self.fer(face, api="remote")
-    api_handler('face', face, api, "fer")
+    api_handler(face, api, "fer")
   end
 
   def self.facial_features(face, api="remote")
-    api_handler('face', face, api, "facialfeatures")['response']
+    api_handler(face, api, "facialfeatures")
+  end
+
+  def self.image_features(image, api="remote")
+    api_handler(image, api, "imagefeatures")
   end
 
 end
