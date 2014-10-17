@@ -1,6 +1,6 @@
 # IndicoIo-ruby
 
-A simple Ruby Wrapper for the indico set of APIs
+A Ruby wrapper for indico's APIs.
 
 ## Installation
 

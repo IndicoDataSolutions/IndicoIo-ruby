@@ -5,16 +5,21 @@ module Indico
     if root == 'local'
       "http://localhost:9438/%s" % api
     else
-      "http://api.indico.io/%s" % api
+      "http://apiv1.indico.io/%s" % api
     end
   end
 
-  def self.api_handler(name, data, server, api)
+  def self.api_handler(data, server, api)
     d = {}
-    d[name] = data
+    d['data'] = data
     data_dict = JSON.dump(d)
     response = make_request(url_join(server, api), data_dict, HEADERS)
-    JSON.parse(response.body)
+    results = JSON.parse(response.body)
+    if results.key?("error")
+      results = results["error"]
+    else
+      results = results["results"]
+    end
   end
 
   def self.make_request(url, data_dict, headers)
@@ -23,7 +28,6 @@ module Indico
     http = Net::HTTP.new(uri.host, uri.port)
 
     request = Net::HTTP::Post.new(uri.request_uri)
-    # request.set_form_data({})
     request.body = data_dict
 
     headers.each do |key, val|
@@ -31,7 +35,5 @@ module Indico
     end
 
     response = http.request(request)
-
-    response
   end
 end

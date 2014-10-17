@@ -11,10 +11,9 @@ describe Indico do
   end
 
   it "should tag text with correct sentiment tags" do
-    expected_keys = Set.new(["Sentiment"])
     response = Indico.sentiment("Worst movie ever.")
 
-    expect(Set.new(response.keys)).to eql(expected_keys)
+    expect(response).to be < 0.5
   end
 
   it "should tag text with correct language tags" do
@@ -59,19 +58,26 @@ describe Indico do
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
-  it "should tag face with correct faciel expression" do
+  it "should tag face with correct facial expression" do
     expected_keys = Set.new(["Angry", "Sad", "Neutral", "Surprise", "Fear", "Happy"])
-    test_face = 0.step(50, 50.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
+    test_face = 0.step(1, 1.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
     response = Indico.fer(test_face)
 
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
-  it "should tag face with correct faciel features" do
-    test_face = 0.step(50, 50.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
+  it "should return a facial feature vector" do
+    test_face = 0.step(1, 1.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
     response = Indico.facial_features(test_face)
 
     expect(response.length).to eql(48)
+  end
+
+  it "should return an image features vector" do
+    test_image = 0.step(1, 1.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
+    response = Indico.image_features(test_image)
+
+    expect(response.length).to eql(2048)
   end
 
 end

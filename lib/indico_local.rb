@@ -26,4 +26,8 @@ module IndicoLocal
     Indico.facial_features(face, "local")
   end
 
+  def self.image_features(face)
+    Indico.image_features(image, "local")
+  end
+
 end
