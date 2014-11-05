@@ -27,11 +27,7 @@ module Indico
   def self.classification(test_text, api="remote")
     api_handler(test_text, api, "documentclassification")
   end
-
-  def self.named_entities(test_text, api="remote")
-    api_handler(test_text, api, "ner")
-  end
-
+  
   def self.fer(face, api="remote")
     api_handler(face, api, "fer")
   end

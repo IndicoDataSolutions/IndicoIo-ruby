@@ -22,10 +22,6 @@ module IndicoLocal
     Indico.classification(test_text, "local")
   end
 
-  def self.named_entities(test_text)
-    Indico.named_entities(test_text, "local")
-  end
-
   def self.fer(face)
     Indico.fer(face, "local")
   end
