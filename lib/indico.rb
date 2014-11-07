@@ -24,8 +24,8 @@ module Indico
     api_handler(test_text, api, "language")
   end
 
-  def self.classification(test_text, api="remote")
-    api_handler(test_text, api, "documentclassification")
+  def self.text_tags(test_text, api="remote")
+    api_handler(test_text, api, "text_tags")
   end
   
   def self.fer(face, api="remote")

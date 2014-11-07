@@ -18,8 +18,8 @@ module IndicoLocal
     Indico.language(test_text, "local")
   end
 
-  def self.classification(test_text)
-    Indico.classification(test_text, "local")
+  def self.text_tags(test_text)
+    Indico.test_tags(test_text, "local")
   end
 
   def self.fer(face)

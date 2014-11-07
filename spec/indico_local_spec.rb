@@ -10,9 +10,9 @@ describe Indico do
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
-  it "should tag text with correct document classifications" do
+  it "should tag text with correct text tags" do
     expected_keys = Set.new(["political", "arts", "products", "news"])
-    response = Indico.classification("Guns don't kill people. People kill people.") # Guns don't kill people. People kill people.
+    response = Indico.text_tags("Guns don't kill people. People kill people.") # Guns don't kill people. People kill people.
 
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
