@@ -19,7 +19,7 @@ module IndicoLocal
   end
 
   def self.text_tags(test_text)
-    Indico.test_tags(test_text, "local")
+    Indico.text_tags(test_text, "local")
   end
 
   def self.fer(face)

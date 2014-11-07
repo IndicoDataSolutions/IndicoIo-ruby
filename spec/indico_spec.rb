@@ -59,7 +59,17 @@ describe Indico do
   end
 
   it "should tag text with correct text tags" do
-    expected_keys = Set.new(["political", "arts", "products", "news"])
+    expected_keys = Set.new(['fashion', 'art', 'energy', 'economics', 'entrepreneur', 
+                             'books', 'politics', 'gardening', 'nba', 'conservative', 
+                             'technology', 'startups', 'relationships', 'education',
+                             'humor', 'psychology', 'bicycling', 'investing', 'travel',
+                             'cooking', 'christianity', 'environment', 'religion', 'health', 
+                             'hockey', 'pets', 'music', 'soccer', 'guns', 'gaming', 'jobs',
+                             'business', 'nature', 'food', 'cars', 'photography', 'philosophy',
+                             'geek', 'sports', 'baseball', 'news', 'television', 'entertainment',
+                             'parenting', 'comics', 'science', 'nfl','programming',
+                             'personalfinance', 'atheism', 'movies', 'anime', 'fitness',
+                             'military', 'realestate', 'history'])
     response = Indico.text_tags("Guns don't kill people. People kill people.") # Guns don't kill people. People kill people.
 
     expect(Set.new(response.keys)).to eql(expected_keys)
