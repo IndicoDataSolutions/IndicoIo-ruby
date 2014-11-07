@@ -13,7 +13,7 @@ describe Indico do
   it "should tag text with correct sentiment tags" do
     response = Indico.sentiment("Worst movie ever.")
 
-    expect(response).to be < 0.5
+    expect(response < 0.5).to eql(true)
   end
 
   it "should tag text with correct language tags" do
@@ -58,26 +58,36 @@ describe Indico do
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
+  it "should tag text with correct text tags" do
+    expected_keys = Set.new(['fashion', 'art', 'energy', 'economics', 'entrepreneur', 
+                             'books', 'politics', 'gardening', 'nba', 'conservative', 
+                             'technology', 'startups', 'relationships', 'education',
+                             'humor', 'psychology', 'bicycling', 'investing', 'travel',
+                             'cooking', 'christianity', 'environment', 'religion', 'health', 
+                             'hockey', 'pets', 'music', 'soccer', 'guns', 'gaming', 'jobs',
+                             'business', 'nature', 'food', 'cars', 'photography', 'philosophy',
+                             'geek', 'sports', 'baseball', 'news', 'television', 'entertainment',
+                             'parenting', 'comics', 'science', 'nfl','programming',
+                             'personalfinance', 'atheism', 'movies', 'anime', 'fitness',
+                             'military', 'realestate', 'history'])
+    response = Indico.text_tags("Guns don't kill people. People kill people.") # Guns don't kill people. People kill people.
+
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
   it "should tag face with correct facial expression" do
     expected_keys = Set.new(["Angry", "Sad", "Neutral", "Surprise", "Fear", "Happy"])
-    test_face = 0.step(1, 1.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
+    test_face = 0.step(50, 50.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
     response = Indico.fer(test_face)
 
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
-  it "should return a facial feature vector" do
-    test_face = 0.step(1, 1.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
+  it "should tag face with correct facial features" do
+    test_face = 0.step(50, 50.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
     response = Indico.facial_features(test_face)
 
     expect(response.length).to eql(48)
-  end
-
-  it "should return an image features vector" do
-    test_image = 0.step(1, 1.0/(48.0*48.0)).to_a[0..-2].each_slice(48).to_a
-    response = Indico.image_features(test_image)
-
-    expect(response.length).to eql(2048)
   end
 
 end

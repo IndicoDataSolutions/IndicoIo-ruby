@@ -34,6 +34,6 @@ module Indico
       request[key] = val
     end
 
-    response = http.request(request)
+    http.request(request)
   end
 end

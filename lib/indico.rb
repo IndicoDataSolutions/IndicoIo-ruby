@@ -24,6 +24,10 @@ module Indico
     api_handler(test_text, api, "language")
   end
 
+  def self.text_tags(test_text, api="remote")
+    api_handler(test_text, api, "texttags")
+  end
+  
   def self.fer(face, api="remote")
     api_handler(face, api, "fer")
   end
@@ -32,8 +36,9 @@ module Indico
     api_handler(face, api, "facialfeatures")
   end
 
-  def self.image_features(image, api="remote")
-    api_handler(image, api, "imagefeatures")
+  def self.image_features(face, api="remote")
+    api_handler(face, api, "imagefeatures")
   end
+
 
 end

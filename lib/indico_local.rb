@@ -18,6 +18,10 @@ module IndicoLocal
     Indico.language(test_text, "local")
   end
 
+  def self.text_tags(test_text)
+    Indico.text_tags(test_text, "local")
+  end
+
   def self.fer(face)
     Indico.fer(face, "local")
   end
@@ -26,7 +30,7 @@ module IndicoLocal
     Indico.facial_features(face, "local")
   end
 
-  def self.image_features(face)
+  def self.image_features(image)
     Indico.image_features(image, "local")
   end
 
