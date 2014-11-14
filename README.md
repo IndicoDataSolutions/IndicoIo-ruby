@@ -15,6 +15,10 @@ And then execute:
 Or install it yourself as:
 
     $ gem install indico
+    
+Update
+------------
+We now have [organized documentation](http://indico.readme.io/v1.0/docs)
 
 ## Usage
 
