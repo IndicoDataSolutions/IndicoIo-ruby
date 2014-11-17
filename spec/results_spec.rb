@@ -36,4 +36,26 @@ describe Indico::Results do
     result = Indico::Results.new(data)
     expect(result.probabilities).to eql([6, 5.5, 5, 5, 4])
   end
+
+  it 'can take a specified number of results' do
+    data = {a: 5, b: 6, c: 5.5, d: 4, e: 5}
+    result = Indico::Results.new(data)
+    expect(result.take(2)).to eql({b: 6, c: 5.5})
+  end
+
+  context '#method_missing' do
+    it 'handles a call to a key of the raw data' do
+      data = {'cat' => 5, 'dog' => 6, 'rat' => 5.5, 'dragon' => 4}
+      result = Indico::Results.new(data)
+      expect(result.cat).to eql(5)
+      expect(result.dragon).to eql(4)
+    end
+
+    it 'handles a question with a key' do
+      data = {'cat' => 5, 'dog' => 6, 'rat' => 5.5, 'dragon' => 4}
+      result = Indico::Results.new(data)
+      expect(result.cat?).to eql(false)
+      expect(result.dog?).to eql(true)
+    end
+  end
 end
