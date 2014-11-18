@@ -26,6 +26,11 @@ module Indico
       @sorted ||= Hash[sorted_raw]
     end
 
+    def [](key)
+      key = key.to_s
+      raw[key] || raw[key.capitalize]
+    end
+
     def take(n=5)
       Hash[sorted_raw.take(n)]
     end
@@ -36,18 +41,26 @@ module Indico
     end
 
     def method_missing(symbol, *args)
-      method = symbol.to_s.capitalize
-      if has_key?(method)
-        raw[method] || raw[method.downcase]
-      elsif method[-1] == '?' && has_key?(method[0...-1])
-        !!most_likely.match(/#{method[0...-1]}/i)
+      method = symbol.to_s
+      if has_value?(method)
+        self.[](method)
+      elsif is_question?(method)
+        most_likely.casecmp(method.chomp('?')) == 0
       else
         super args
       end
     end
 
-    def has_key?(key)
-      raw.has_key?(key.capitalize) || raw.has_key?(key.downcase)
+    def has_value?(value)
+      comparable_values.include?(value.to_s.downcase)
+    end
+
+    def is_question?(value)
+      value[-1] == '?' && has_value?(value.chomp('?'))
+    end
+
+    def comparable_values
+      @comparable_values ||= raw.keys.map(&:downcase)
     end
   end
 end
