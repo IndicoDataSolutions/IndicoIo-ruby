@@ -10,19 +10,19 @@ module Indico
     end
   end
 
-  def self.language(test_text, api="remote")
-    results_api_handler(test_text, api, "language")
+  def self.language(test_text, server="remote")
+    results_api_handler(test_text, server, "language")
   end
 
-  def self.political(test_text, api="remote")
-    results_api_handler(test_text, api, "political")
+  def self.political(test_text, server="remote")
+    results_api_handler(test_text, server, "political")
   end
 
-  def self.text_tags(test_text, api="remote")
-    results_api_handler(test_text, api, "texttags")
+  def self.text_tags(test_text, server="remote")
+    results_api_handler(test_text, server, "texttags")
   end
 
-  def self.fer(face, api="remote")
-    results_api_handler(test_text, api, "fer")
+  def self.fer(face, server="remote")
+    results_api_handler(test_text, server, "fer")
   end
 end
