@@ -59,6 +59,54 @@ When using a local version of the api you must remember to require 'indico_local
 => {"Sentiment"=>0.7483253499779664}
 ```
 
+###Extended Results
+
+rather than returning a simple hash,  return a Ruby object with more functionality
+```ruby
+> require_relative 'indico/extended_results'
+
+=> true
+
+> results = Indico.political("Guns don't kill people. People kill people.")
+....
+
+> results.Libertarian
+=> 0.47740164630834825
+
+> results.libertarian
+=> 0.47740164630834825
+
+> results.Libertarian?
+=> true
+
+> results.libertarian?
+=> true
+
+> results.Green?
+=> false
+
+> results.green?
+=> false
+
+> results.sorted
+=> {"Libertarian"=>0.47740164630834825, "Conservative"=>0.2718832861769146,"Liberal"=>0.16617097211030055, "Green"=>0.08454409540443657}
+
+> results.values
+=> {"Libertarian", "Conservative","Liberal", "Green"}
+
+> results.probabilities
+=> {0.47740164630834825, 0.2718832861769146, 0.16617097211030055, 0.08454409540443657}
+
+
+> results['Green']
+=> 0.08454409540443657
+
+> results['green']
+=> 0.08454409540443657
+
+```
+
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/indico/fork )

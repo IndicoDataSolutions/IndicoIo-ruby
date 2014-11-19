@@ -1,0 +1,1 @@
+require 'indico/results/extended'
