@@ -1,19 +1,24 @@
 require 'spec_helper'
 require 'set'
 
+$username = ENV['INDICO_USERNAME']
+$password = ENV['INDICO_PASSWORD']
+
 describe Indico do
 
   it "should tag text with correct political tags" do
     expected_keys = Set.new(["Conservative", "Green", "Liberal", "Libertarian"])
-    response = Indico.political("Guns don't kill people. People kill people.") # Guns don't kill people. People kill people.
+    data = ["Guns don't kill people."," People kill people."]
+    response = Indico.batch_political(data, $username, $password) # Guns don't kill people. People kill people.
 
-    expect(Set.new(response.keys)).to eql(expected_keys)
+    expect(Set.new(response[0].keys)).to eql(expected_keys)
+    expect(Set.new(response[1].keys)).to eql(expected_keys)
   end
 
   it "should tag text with correct sentiment tags" do
-    response = Indico.sentiment("Worst movie ever.")
+    response = Indico.batch_sentiment(["Worst movie ever."], $username, $password)
 
-    expect(response < 0.5).to eql(true)
+    expect(response[0] < 0.5).to eql(true)
   end
 
   it "should tag text with correct language tags" do
@@ -53,9 +58,12 @@ describe Indico do
       'Norwegian',
       'Lithuanian'
     ])
-    response = Indico.language('Quis custodiet ipsos custodes')
 
-    expect(Set.new(response.keys)).to eql(expected_keys)
+    data = ['Quis custodiet ipsos custodes', 'Clearly english, foo!']
+    response = Indico.batch_language(data, $username, $password)
+
+    expect(Set.new(response[0].keys)).to eql(expected_keys)
+    expect(Set.new(response[1].keys)).to eql(expected_keys)
   end
 
   it "should tag text with correct text tags" do
@@ -70,32 +78,37 @@ describe Indico do
                              'parenting', 'comics', 'science', 'nfl','programming',
                              'personalfinance', 'atheism', 'movies', 'anime', 'fitness',
                              'military', 'realestate', 'history'])
-    response = Indico.text_tags("Guns don't kill people. People kill people.") # Guns don't kill people. People kill people.
 
-    expect Set.new(response.keys).subset?(Set.new(expected_keys))
+    data = ["Guns don't kill people.", "People kill people."]
+    response = Indico.batch_text_tags(data, $username, $password) # Guns don't kill people. People kill people.
+
+    expect Set.new(response[0].keys).subset?(Set.new(expected_keys))
+    expect Set.new(response[1].keys).subset?(Set.new(expected_keys))
   end
 
   it "should tag face with correct facial expression" do
     expected_keys = Set.new(["Angry", "Sad", "Neutral", "Surprise", "Fear", "Happy"])
     test_face = Array.new(48){Array.new(48){rand(100)/100.0} }
+    response = Indico.batch_fer([test_face, test_face], $username, $password)
 
-    response = Indico.fer(test_face)
-
-    expect(Set.new(response.keys)).to eql(expected_keys)
+    expect(Set.new(response[0].keys)).to eql(expected_keys)
+    expect(Set.new(response[1].keys)).to eql(expected_keys)
   end
 
   it "should tag face with correct facial features" do
     test_face = Array.new(48){Array.new(48){rand(100)/100.0} }
-    response = Indico.facial_features(test_face)
+    response = Indico.batch_facial_features([test_face, test_face], $username, $password)
 
-    expect(response.length).to eql(48)
+    expect(response[0].length).to eql(48)
+    expect(response[1].length).to eql(48)
   end
 
   it "should tag image with correct image features" do
     test_image = Array.new(48){Array.new(48){rand(100)/100.0} }
-    response = Indico.image_features(test_image)
+    response = Indico.batch_image_features([test_image, test_image], $username, $password)
 
-    expect(response.length).to eql(2048)
+    expect(response[0].length).to eql(2048)
+    expect(response[1].length).to eql(2048)
   end
 
 end
