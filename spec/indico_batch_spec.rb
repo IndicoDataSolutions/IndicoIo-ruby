@@ -121,4 +121,13 @@ describe Indico do
     expect(response[1].length).to eql(2048)
   end
 
+  # Uncomment when frontend updated to accept image urls
+  # it "should accept image urls" do
+  #   test_image = "http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/48/Emotes-face-smile-icon.png"
+  #   response = Indico.batch_image_features([test_image, test_image], $username, $password)
+
+  #   expect(response[0].length).to eql(2048)
+  #   expect(response[1].length).to eql(2048)
+  # end
+
 end
