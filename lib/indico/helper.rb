@@ -4,10 +4,10 @@ module Indico
   private
 
   def self.url_join(root, api)
-    if root == 'local'
-      "http://localhost:9438/%s" % api
-    else
+    if root.nil?
       "http://apiv1.indico.io/%s" % api
+    else
+      "http://" + root + ".indico.domains/" + api
     end
   end
 

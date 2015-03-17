@@ -3,6 +3,7 @@ require 'set'
 
 $username = ENV['INDICO_USERNAME']
 $password = ENV['INDICO_PASSWORD']
+$private_cloud = 'indico-test'
 
 describe Indico do
 
@@ -10,6 +11,15 @@ describe Indico do
     expected_keys = Set.new(["Conservative", "Green", "Liberal", "Libertarian"])
     data = ["Guns don't kill people."," People kill people."]
     response = Indico.batch_political(data, $username, $password) # Guns don't kill people. People kill people.
+
+    expect(Set.new(response[0].keys)).to eql(expected_keys)
+    expect(Set.new(response[1].keys)).to eql(expected_keys)
+  end
+
+  it "should access a private cloud" do
+    expected_keys = Set.new(["Conservative", "Green", "Liberal", "Libertarian"])
+    data = ["Guns don't kill people."," People kill people."]
+    response = Indico.batch_political(data, $username, $password, $private_cloud) # Guns don't kill people. People kill people.
 
     expect(Set.new(response[0].keys)).to eql(expected_keys)
     expect(Set.new(response[1].keys)).to eql(expected_keys)
