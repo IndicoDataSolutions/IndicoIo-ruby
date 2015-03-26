@@ -1,5 +1,6 @@
 require 'indico/version'
 require 'indico/helper'
+require 'indico/settings'
 require 'uri'
 require 'json'
 require 'net/https'
