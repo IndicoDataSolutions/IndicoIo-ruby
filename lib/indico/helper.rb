@@ -11,7 +11,7 @@ module Indico
     end
   end
 
-  def self.api_handler(data, server, api, username = nil, password = nil)
+  def self.api_handler(data, server, api, username, password)
     d = {}
     d['data'] = data
     data_dict = JSON.dump(d)
