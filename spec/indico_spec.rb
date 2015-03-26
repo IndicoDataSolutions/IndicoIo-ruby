@@ -110,6 +110,13 @@ describe Indico do
     expect(response.length).to eql(2048)
   end
 
+  it "should tag rgb image with correct image features" do
+    test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)/100.0}}}
+    response = Indico.image_features(test_image)
+
+    expect(response.length).to eql(2048)
+  end
+
   # Uncomment when frontend updated to accept image urls
   # it 'should accept image urls' do
   #   response = Indico.image_features('http://icons.iconarchive.com/icons/' +
