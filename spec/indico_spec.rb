@@ -19,7 +19,6 @@ describe Indico do
     expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
     data = 'Guns don\'t kill people. People kill people.'
     response = Indico.political(data, @username, @password, @private_cloud)
-
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
@@ -106,6 +105,13 @@ describe Indico do
 
   it 'should tag image with correct image features' do
     test_image = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
+    response = Indico.image_features(test_image)
+
+    expect(response.length).to eql(2048)
+  end
+
+  it "should tag rgb image with correct image features" do
+    test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)/100.0}}}
     response = Indico.image_features(test_image)
 
     expect(response.length).to eql(2048)

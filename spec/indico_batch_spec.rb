@@ -33,7 +33,6 @@ describe Indico do
     response = Indico.batch_sentiment(['Worst movie ever.'],
                                       @username,
                                       @password)
-
     expect(response[0] < 0.5).to eql(true)
   end
 
@@ -116,7 +115,6 @@ describe Indico do
     response = Indico.batch_facial_features([test_face, test_face],
                                             @username,
                                             @password)
-
     expect(response[0].length).to eql(48)
     expect(response[1].length).to eql(48)
   end
@@ -126,7 +124,6 @@ describe Indico do
     response = Indico.batch_image_features([test_image, test_image],
                                            @username,
                                            @password)
-
     expect(response[0].length).to eql(2048)
     expect(response[1].length).to eql(2048)
   end
