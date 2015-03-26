@@ -1,6 +1,7 @@
 require 'inifile'
 
 module Indico
+  private
 
   class << self; attr_accessor :config; end
 

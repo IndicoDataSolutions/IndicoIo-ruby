@@ -19,7 +19,6 @@ describe Indico do
     expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
     data = 'Guns don\'t kill people. People kill people.'
     response = Indico.political(data, @username, @password, @private_cloud)
-
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
