@@ -5,31 +5,43 @@ module Indico
 
   class << self; attr_accessor :config; end
 
+  def self.valid_auth(config)
+    """
+    Does a config hashmap have a valid auth definition?
+    """
+    return config['auth'] && 
+           config['auth']['username'] && 
+           config['auth']['password']
+  end
+
+  def self.valid_cloud(config)
+    """
+    Does a config hashmap have a valid private cloud definition?
+    """
+    return config['private_cloud'] &&
+           config['private_cloud']['cloud']
+  end
+
   def self.merge_config(prev_config, new_config)
-    validAuth = new_config['auth'] && 
-                new_config['auth']['username'] && 
-                new_config['auth']['password']
-
-    if validAuth
-      prev_config['auth'] = [
-        new_config['auth']['username'], new_config['auth']['password']
-      ]
+    """
+    Merge two configurations, giving precedence to the second
+    """
+    if self.valid_auth(new_config)
+      prev_config['auth'] = new_config['auth']
     end
 
-    validCloud = new_config['private_cloud'] &&
-                 new_config['private_cloud']['cloud']
-
-    if validCloud
-      prev_config['cloud'] = new_config['private_cloud']['cloud']
+    if self.valid_cloud(new_config)
+      prev_config['private_cloud'] = new_config['private_cloud']
     end
+
     return prev_config
   end
 
   def self.load_config_files(filenames)
-    # Given a list of filenames, build up an ini file config
-    master_ini = Hash.new
-    master_ini['auth'] = false
-    master_ini['cloud'] = false
+    """
+    Given a list of filenames, build up an ini file config
+    """
+    master_ini = self.new_config()
 
     for filename in filenames
       ini = IniFile.load(filename)
@@ -42,6 +54,9 @@ module Indico
   end
 
   def self.find_config_files()
+    """
+    Provides a list of paths to search for indicorc files
+    """
     # returns the paths to the pertinent config files
     localPath = File.join(Dir.pwd, ".indicorc")
     globalPath = File.join(Dir.home, ".indicorc")
@@ -49,21 +64,53 @@ module Indico
   end
 
   def self.load_environment_vars()
+    """
+    Load environment variables into same format as INI file reader
+    """
     config = Hash.new
     config['auth'] = Hash.new
+    config['private_cloud'] = Hash.new
     config['auth']['username'] = ENV["INDICO_USERNAME"]
     config['auth']['password'] = ENV["INDICO_PASSWORD"]
-    config['private_cloud'] = Hash.new
     config['private_cloud']['cloud'] = ENV["INDICO_CLOUD"]
     return config
   end
 
+  def self.new_config()
+    """
+    Makes a new, empty config object
+    """
+    new_config = Hash.new
+    new_config['auth'] = false
+    new_config['cloud'] = false
+    return new_config
+  end
+
+  def self.simplify_config(config)
+    """
+    Goes from nested representation to flatter version
+    """
+    new_config = self.new_config()
+    if self.valid_auth(config)
+      new_config['auth'] = [
+        config['auth']['username'], config['auth']['password']
+      ] 
+    end
+    if self.valid_cloud(config)
+      new_config['cloud'] = config['private_cloud']['cloud']
+    end
+    return new_config
+  end
+
   def self.load_config()
+    """
+    Finds, loads, and simplifies all configuration types
+    """
     paths = self.find_config_files()
     config_file = self.load_config_files(paths)
     env_vars = self.load_environment_vars()
     config = self.merge_config(config_file, env_vars)
-    return config
+    return self.simplify_config(config)
   end
 end
 

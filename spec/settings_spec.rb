@@ -53,8 +53,11 @@ describe Indico do
         file_password = "file-password"
         file_cloud = "file-cloud"
         file_config = Hash.new
-        file_config['auth'] = [file_username, file_password]
-        file_config['cloud'] = file_cloud
+        file_config['auth'] = Hash.new
+        file_config['private_cloud'] = Hash.new
+        file_config['auth']['username'] = file_username
+        file_config['auth']['password'] = file_password
+        file_config['private_cloud']['cloud'] = file_cloud
 
         env_username = "env-username"
         env_password = "env-password"
@@ -65,7 +68,8 @@ describe Indico do
 
         env_config = Indico.load_environment_vars()
         merged = Indico.merge_config(file_config, env_config)
-        expect(merged['auth']).to eql([env_username, env_password])
-        expect(merged['cloud']).to eql(env_cloud)
+        expect(merged['auth']['username']).to eql(env_username)
+        expect(merged['auth']['password']).to eql(env_password)
+        expect(merged['private_cloud']['cloud']).to eql(env_cloud)
     end
 end
