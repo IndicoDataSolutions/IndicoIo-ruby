@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Indico do
-    it "should correctly parse an ini file" do 
-        config = Indico.load_config_files(['/home/mmay/.indicorc', './.indicorc'])
+    it "should correctly parse an ini file without raising an error" do 
+        Indico.load_config_files(Indico.find_config_files())
     end
 
     it "should find the correct config files" do 
