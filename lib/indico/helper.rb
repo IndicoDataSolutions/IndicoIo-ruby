@@ -1,30 +1,31 @@
-require "base64"
+require 'base64'
 
 module Indico
   private
 
   def self.url_join(root, api)
     if root.nil?
-      "http://apiv1.indico.io/%s" % api
+      'http://apiv1.indico.io/' + api
     else
-      "http://" + root + ".indico.domains/" + api
+      'http://' + root + '.indico.domains/' + api
     end
   end
 
-  def self.api_handler(data, server, api, username=nil, password=nil)
+  def self.api_handler(data, server, api, username = nil, password = nil)
     d = {}
     d['data'] = data
     data_dict = JSON.dump(d)
     if username.nil?
       response = make_request(url_join(server, api), data_dict, HEADERS)
     else
-      response = make_request(url_join(server, api), data_dict, encode_credentials(username, password))
+      response = make_request(url_join(server, api), data_dict,
+                              encode_credentials(username, password))
     end
     results = JSON.parse(response.body)
-    if results.key?("error")
-      raise results["error"]
+    if results.key?('error')
+      fail results['error']
     else
-      results = results["results"]
+      results['results']
     end
   end
 
@@ -44,10 +45,9 @@ module Indico
   end
 
   def self.encode_credentials(username, password)
-    headers = { "Content-Type" => "application/json", "Accept" => "text/plain" }
-    credentials = username + ":" + password
-    headers["Authorization"] = "Basic " + Base64.strict_encode64(credentials)
+    headers = { 'Content-Type' => 'application/json', 'Accept' => 'text/plain' }
+    credentials = username + ':' + password
+    headers['Authorization'] = 'Basic ' + Base64.strict_encode64(credentials)
     headers
   end
-
 end
