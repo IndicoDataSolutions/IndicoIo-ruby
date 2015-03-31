@@ -11,6 +11,18 @@ describe Indico do
         expect(files[1]).to eql("#{Dir.pwd}/.indicorc")
     end
 
+    it "should read in config files properly" do 
+        files = [
+            File.expand_path("../config/.indicorc.test", __FILE__),
+            File.expand_path("../config/.indicorc.test.2", __FILE__)
+        ]
+        config = Indico.load_config_files(files)
+        expected_auth = Hash.new
+        expected_auth['username'] = "test2@example.com"
+        expected_auth['password'] = "test2"
+        expect(config["auth"]).to eql(expected_auth)
+    end
+
     it "should read in variables from the user's environment" do 
         username = "username"
         password = "password"

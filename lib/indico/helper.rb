@@ -4,7 +4,7 @@ module Indico
   private
 
   def self.url_join(root, api)
-    if root.nil?
+    if !root
       'http://apiv1.indico.io/' + api
     else
       'http://' + root + '.indico.domains/' + api
@@ -30,6 +30,7 @@ module Indico
     else
       response = make_request(url_join(server, api), data_dict,
                               encode_credentials(username, password))
+    end
 
     results = JSON.parse(response.body)
     if results.key?('error')
