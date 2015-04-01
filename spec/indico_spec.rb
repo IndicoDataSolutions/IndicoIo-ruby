@@ -3,9 +3,9 @@ require 'set'
 
 describe Indico do
   before do
-    @username = ENV['INDICO_USERNAME']
-    @password = ENV['INDICO_PASSWORD']
-    @private_cloud = 'indico-test'
+    api_key = ENV['INDICO_API_KEY']
+    private_cloud = 'indico-test'
+    @config = { api_key: api_key, cloud: private_cloud}
   end
 
   it 'should tag text with correct political tags' do
@@ -18,7 +18,11 @@ describe Indico do
   it 'should tag text with correct political tags' do
     expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
     data = 'Guns don\'t kill people. People kill people.'
-    response = Indico.political(data, @username, @password, @private_cloud)
+    
+    # for mocking: use http to redirect requests to our public cloud endpoint
+    Indico.cloud_protocol = 'http://'
+    response = Indico.political(data, @config)
+    Indico.cloud_protocol = 'https://'
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 

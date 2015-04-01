@@ -1,8 +1,9 @@
 # IndicoIo-ruby
 
-A Ruby wrapper for indico's APIs.
+A ruby wrapper for the [indico API](http://indico.io).
 
-## Installation
+Installation
+-------------
 
 Add this line to your application's Gemfile:
 
@@ -10,17 +11,23 @@ Add this line to your application's Gemfile:
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 Or install it yourself as:
 
     $ gem install indico
 
-Documentation
-------------
-Found [here](http://indico.readme.io/v1.0/docs)
 
-## Usage
+API Keys + Setup
+----------------
+For API key registration and setup, checkout our [quickstart guide](http://docs.indico.io/v2.0/docs/api-keys).
+
+Full Documentation
+------------
+Detailed documentation and further code examples are available at [indico.reame.io](http://indico.readme.io/v2.0/docs/ruby)
+
+Examples
+---------
 
 ```ruby
 > require 'indico'
@@ -45,44 +52,25 @@ Found [here](http://indico.readme.io/v1.0/docs)
 
 ```
 
-###Batch API Access
+Batch API
+---------
 
-If you'd like to use our batch api interface, please check out the [pricing page](https://indico.io/pricing) on our website to find the right plan for you.
+Each `Indico` method has a corresponding batch method for analyzing many examples with a single request. Simply pass in an array of inputs and receive an array of results in return.
 
-```ruby
-> require 'indico'
-
-=> true
-
-> data = ["I believe in capital punishment", "The president is wrong"]
-
-=> ["I believe in capital punishment", "The president is wrong"]
-
-> Indico.batch_political(data, "username", "password")
-
-=> [ {"Libertarian"=>0.3511057701654774, "Liberal"=>0.06709112089656208, "Green"=>0.03830472376983833, "Conservative"=>0.5434983851681222}, {"Libertarian"=>0.08762905907467175, "Liberal"=>0.18965142341591298, "Green"=>0.02612359787701222, "Conservative"=>0.696595919632403}]
-````
-
-###Private cloud API Access
-
-If you're looking to use indico's API for high throughput applications, please check out the [pricing page](https://indico.io/pricing) on our website to find the right plan for you.
 
 ```ruby
 > require 'indico'
 
 => true
 
-> data = ["I believe in capital punishment", "The president is wrong"]
+> Indico.api_key = "YOUR_API_KEY"
 
-=> ["I believe in capital punishment", "The president is wrong"]
+=> "YOUR_API_KEY"
 
-> Indico.batch_political(data, "username", "password", cloud)
+> Indico.batch_sentiment(['Best day ever', 'Worst day ever'])
 
-=> [ {"Libertarian"=>0.3511057701654774, "Liberal"=>0.06709112089656208, "Green"=>0.03830472376983833, "Conservative"=>0.5434983851681222}, {"Libertarian"=>0.08762905907467175, "Liberal"=>0.18965142341591298, "Green"=>0.02612359787701222, "Conservative"=>0.696595919632403}]
-````
-
-The `cloud` parameter redirects API calls to your private cloud hosted at `[cloud].indico.domains`
-
+=> [0.9899001220871786, 0.005709885173415242]
+```
 
 ## Contributing
 

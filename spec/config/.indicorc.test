@@ -1,3 +1,5 @@
 [auth]
-username = test@example.com
-password = test
+api_key=testapikey
+
+[private_cloud]
+cloud=testcloud

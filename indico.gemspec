@@ -6,8 +6,8 @@ require 'indico/version'
 Gem::Specification.new do |spec|
   spec.name          = 'indico'
   spec.version       = Indico::VERSION
-  spec.authors       = ['Slater Victoroff', 'Amit Ambardekar']
-  spec.email         = ['slater@indico.io', 'amitamb@gmail.com']
+  spec.authors       = ['Slater Victoroff', 'Amit Ambardekar', 'Madison May', 'Annie Carlson']
+  spec.email         = ['slater@indico.io', 'amitamb@gmail.com', 'madison@indico.io', 'annie@indico.io']
   spec.summary       = 'A simple Ruby Wrapper for the indico set of APIs.'
   spec.description   = 'A simple Ruby Wrapper for the indico set of APIs.'
   spec.homepage      = 'https://github.com/IndicoDataSolutions/IndicoIo-ruby'

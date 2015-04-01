@@ -8,22 +8,36 @@ require 'net/https'
 module Indico
   HEADERS = { 'Content-Type' => 'application/json', 'Accept' => 'text/plain' }
 
-  def self.political(test_text, username = nil, password = nil,
-                     private_cloud = nil)
-    api_handler(test_text, private_cloud, 'political', username, password)
+  def self.api_key
+    config['auth']
   end
 
-  def self.batch_political(test_text, username, password, private_cloud = nil)
-    api_handler(test_text, private_cloud, 'political/batch', username, password)
+  def self.api_key=(api)
+    config['auth'] = api
   end
 
-  def self.posneg(test_text, username = nil, password = nil,
-                  private_cloud = nil)
-    api_handler(test_text, private_cloud, 'sentiment', username, password)
+  def self.private_cloud
+    config['cloud']
   end
 
-  def self.batch_posneg(test_text, username, password, private_cloud = nil)
-    api_handler(test_text, private_cloud, 'sentiment/batch', username, password)
+  def self.private_cloud=(cloud)
+    config['cloud'] = cloud
+  end
+
+  def self.political(test_text, config = nil)
+    api_handler(test_text, 'political', config)
+  end
+
+  def self.batch_political(test_text, config = nil)
+    api_handler(test_text, 'political/batch', config)
+  end
+
+  def self.posneg(test_text, config = nil)
+    api_handler(test_text, 'sentiment', config)
+  end
+
+  def self.batch_posneg(test_text, config = nil)
+    api_handler(test_text, 'sentiment/batch', config)
   end
 
   def self.sentiment(*args)
@@ -34,51 +48,43 @@ module Indico
     batch_posneg(*args)
   end
 
-  def self.language(test_text, username = nil, password = nil,
-                    private_cloud = nil)
-    api_handler(test_text, private_cloud, 'language', username, password)
+  def self.language(test_text, config = nil)
+    api_handler(test_text, 'language', config)
   end
 
-  def self.batch_language(test_text, username, password, private_cloud = nil)
-    api_handler(test_text, private_cloud, 'language/batch', username, password)
+  def self.batch_language(test_text, config = nil)
+    api_handler(test_text, 'language/batch', config)
   end
 
-  def self.text_tags(test_text, username = nil, password = nil,
-                     private_cloud = nil)
-    api_handler(test_text, private_cloud, 'texttags', username, password)
+  def self.text_tags(test_text, config = nil)
+    api_handler(test_text, 'texttags', config)
   end
 
-  def self.batch_text_tags(test_text, username, password, private_cloud = nil)
-    api_handler(test_text, private_cloud, 'texttags/batch', username, password)
+  def self.batch_text_tags(test_text, config = nil)
+    api_handler(test_text, 'texttags/batch', config)
   end
 
-  def self.fer(face, username = nil, password = nil, private_cloud = nil)
-    api_handler(face, private_cloud, 'fer', username, password)
+  def self.fer(face, config = nil)
+    api_handler(face, 'fer', config)
   end
 
-  def self.batch_fer(test_text, username, password, private_cloud = nil)
-    api_handler(test_text, private_cloud, 'fer/batch', username, password)
+  def self.batch_fer(test_text, config = nil)
+    api_handler(test_text, 'fer/batch', config)
   end
 
-  def self.facial_features(face, username = nil, password = nil,
-                           private_cloud = nil)
-    api_handler(face, private_cloud, 'facialfeatures', username, password)
+  def self.facial_features(face, config = nil)
+    api_handler(face, 'facialfeatures', config)
   end
 
-  def self.batch_facial_features(test_text, username, password,
-                                 private_cloud = nil)
-    api_handler(test_text, private_cloud, 'facialfeatures/batch',
-                username, password)
+  def self.batch_facial_features(test_text, config = nil)
+    api_handler(test_text, 'facialfeatures/batch', config)
   end
 
-  def self.image_features(face, username = nil, password = nil,
-                          private_cloud = nil)
-    api_handler(face, private_cloud, 'imagefeatures', username, password)
+  def self.image_features(face, config = nil)
+    api_handler(face, 'imagefeatures', config)
   end
 
-  def self.batch_image_features(test_text, username, password,
-                                private_cloud = nil)
-    api_handler(test_text, private_cloud, 'imagefeatures/batch',
-                username, password)
+  def self.batch_image_features(test_text, config = nil)
+    api_handler(test_text, 'imagefeatures/batch', config)
   end
 end
