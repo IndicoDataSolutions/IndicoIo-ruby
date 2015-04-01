@@ -58,7 +58,7 @@ If you'd like to use our batch api interface, please check out the [pricing page
 
 => ["I believe in capital punishment", "The president is wrong"]
 
-> Indico.batch_political(data, "username", "password")
+> Indico.batch_political(data)
 
 => [ {"Libertarian"=>0.3511057701654774, "Liberal"=>0.06709112089656208, "Green"=>0.03830472376983833, "Conservative"=>0.5434983851681222}, {"Libertarian"=>0.08762905907467175, "Liberal"=>0.18965142341591298, "Green"=>0.02612359787701222, "Conservative"=>0.696595919632403}]
 ````
@@ -76,13 +76,56 @@ If you're looking to use indico's API for high throughput applications, please c
 
 => ["I believe in capital punishment", "The president is wrong"]
 
-> Indico.batch_political(data, "username", "password", cloud)
+> Indico.batch_political(data, "my-private-cloud")
 
 => [ {"Libertarian"=>0.3511057701654774, "Liberal"=>0.06709112089656208, "Green"=>0.03830472376983833, "Conservative"=>0.5434983851681222}, {"Libertarian"=>0.08762905907467175, "Liberal"=>0.18965142341591298, "Green"=>0.02612359787701222, "Conservative"=>0.696595919632403}]
 ````
 
 The `cloud` parameter redirects API calls to your private cloud hosted at `[cloud].indico.domains`
 
+
+###Configuration
+
+Indicoio-java will search ./.indicorc and $HOME/.indicorc for the optional configuration file. Values in the local configuration file (./.indicorc) take precedence over those found in a global configuration file ($HOME/.indicorc). The indicorc file can be used to set an authentication username and password or a private cloud subdomain, so these arguments don't need to be specified for every api call. All sections are optional.
+
+Here is an example of a valid indicorc file:
+
+
+```
+[auth]
+api_key=example-api-key
+
+[private_cloud]
+cloud = example-private-cloud
+```
+
+Environment variables take precedence over any configuration found in the indicorc file.
+The following environment variables are valid:
+
+```
+$INDICO_API_KEY
+$INDICO_CLOUD
+```
+
+Variables set with a `Indico.set_private_cloud(cloud)` or `Indico.set_api_key(api_key)` override any environment variables or configuration found in the indicorc file for any subsequent api calls, like so:
+
+```java
+Indico.set_api_key('example-api-key')
+Indico.set_private_cloud('example-private_cloud')
+
+Indico.sentiment('This song is incredible')
+```
+
+
+Finally, any values explicitly passed in to an api call will override configuration options set in the indicorc file, in an environment variable, or with a `Indico.set_private_cloud(cloud)` or `Indico.set_api_key(api_key)` call. These values are sent in a config map, as shown:
+
+```ruby
+api_key = 'example-api-key'
+private_cloud = 'test-cloud'
+config = { api_key: api_key, cloud: private_cloud }
+
+Indico.sentiment('This song is incredible', config)
+```
 
 ## Contributing
 

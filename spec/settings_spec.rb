@@ -73,4 +73,23 @@ describe Indico do
         expect(merged['auth']['api_key']).to eql(env_api_key)
         expect(merged['private_cloud']['cloud']).to eql(env_cloud)
     end
+
+    it 'should set api key with a call to set_api_key' do
+        Indico.set_api_key(nil)
+        begin
+            Indico.political('Guns don\'t kill people. People kill people.')
+        rescue ArgumentError => exception
+            expect(exception.message).to eql('api key is required')
+        else
+            fail('api_key was not null')
+        end
+
+        begin
+            Indico.political('Guns don\'t kill people. People kill people.')
+        rescue ArgumentError => exception
+            expect(exception.message).to eql('api key is required')
+        else
+            fail('api_key was not null')
+        end
+    end
 end

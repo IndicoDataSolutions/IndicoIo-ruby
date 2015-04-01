@@ -11,13 +11,19 @@ module Indico
     end
   end
 
-  def self.api_handler(data, server, api, api_key)
+  def self.api_handler(data, api, config)
+    server = nil
+    api_key = nil
+    unless config.nil?
+      server = config['cloud']
+      api_key = config['api_key']
+    end
     d = {}
     d['data'] = data
     data_dict = JSON.dump(d)
 
     if api_key.nil?
-      api_key = Indico.config['api_key']
+      api_key = Indico.config['auth']
     end
 
     if server.nil?
@@ -52,6 +58,9 @@ module Indico
   end
 
   def self.add_api_key_to_header(api_key)
+    if api_key.nil?
+      raise ArgumentError, 'api key is required'
+    end
     headers = { 'Content-Type' => 'application/json', 'Accept' => 'text/plain' }
     headers['Authorization'] = api_key
     headers

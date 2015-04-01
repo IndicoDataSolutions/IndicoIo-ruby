@@ -8,22 +8,28 @@ require 'net/https'
 module Indico
   HEADERS = { 'Content-Type' => 'application/json', 'Accept' => 'text/plain' }
 
-  def self.political(test_text, api_key=nil,
-                     private_cloud = nil)
-    api_handler(test_text, private_cloud, 'political', api_key)
+  def self.set_api_key(api_key)
+    Indico.config['auth'] = api_key
   end
 
-  def self.batch_political(test_text, api_key=nil, private_cloud = nil)
-    api_handler(test_text, private_cloud, 'political/batch', api_key)
+  def self.set_private_cloud(cloud)
+    Indico.config['cloud'] = cloud
   end
 
-  def self.posneg(test_text, api_key=nil,
-                  private_cloud = nil)
-    api_handler(test_text, private_cloud, 'sentiment', api_key)
+  def self.political(test_text, config = nil)
+    api_handler(test_text, 'political', 'config')
   end
 
-  def self.batch_posneg(test_text, api_key=nil, private_cloud = nil)
-    api_handler(test_text, private_cloud, 'sentiment/batch', api_key)
+  def self.batch_political(test_text, config = nil)
+    api_handler(test_text, 'political/batch', config)
+  end
+
+  def self.posneg(test_text, config = nil)
+    api_handler(test_text, 'sentiment', config)
+  end
+
+  def self.batch_posneg(test_text, config = nil)
+    api_handler(test_text, 'sentiment/batch', config)
   end
 
   def self.sentiment(*args)
@@ -34,51 +40,43 @@ module Indico
     batch_posneg(*args)
   end
 
-  def self.language(test_text, api_key=nil,
-                    private_cloud = nil)
-    api_handler(test_text, private_cloud, 'language', api_key)
+  def self.language(test_text, config = nil)
+    api_handler(test_text, 'language', config)
   end
 
-  def self.batch_language(test_text, api_key=nil, private_cloud = nil)
-    api_handler(test_text, private_cloud, 'language/batch', api_key)
+  def self.batch_language(test_text, config = nil)
+    api_handler(test_text, 'language/batch', config)
   end
 
-  def self.text_tags(test_text, api_key=nil,
-                     private_cloud = nil)
-    api_handler(test_text, private_cloud, 'texttags', api_key)
+  def self.text_tags(test_text, config = nil)
+    api_handler(test_text, 'texttags', config)
   end
 
-  def self.batch_text_tags(test_text, api_key=nil, private_cloud = nil)
-    api_handler(test_text, private_cloud, 'texttags/batch', api_key)
+  def self.batch_text_tags(test_text, config = nil)
+    api_handler(test_text, 'texttags/batch', config)
   end
 
-  def self.fer(face, api_key=nil, private_cloud = nil)
-    api_handler(face, private_cloud, 'fer', api_key)
+  def self.fer(face, config = nil)
+    api_handler(face, 'fer', config)
   end
 
-  def self.batch_fer(test_text, api_key=nil, private_cloud = nil)
-    api_handler(test_text, private_cloud, 'fer/batch', api_key)
+  def self.batch_fer(test_text, config = nil)
+    api_handler(test_text, 'fer/batch', config)
   end
 
-  def self.facial_features(face, api_key=nil,
-                           private_cloud = nil)
-    api_handler(face, private_cloud, 'facialfeatures', api_key)
+  def self.facial_features(face, config = nil)
+    api_handler(face, 'facialfeatures', config)
   end
 
-  def self.batch_facial_features(test_text, api_key=nil,
-                                 private_cloud = nil)
-    api_handler(test_text, private_cloud, 'facialfeatures/batch',
-                api_key)
+  def self.batch_facial_features(test_text, config = nil)
+    api_handler(test_text, 'facialfeatures/batch', config)
   end
 
-  def self.image_features(face, api_key=nil,
-                          private_cloud = nil)
-    api_handler(face, private_cloud, 'imagefeatures', api_key)
+  def self.image_features(face, config = nil)
+    api_handler(face, 'imagefeatures', config)
   end
 
-  def self.batch_image_features(test_text, api_key=nil,
-                                private_cloud = nil)
-    api_handler(test_text, private_cloud, 'imagefeatures/batch',
-                api_key)
+  def self.batch_image_features(test_text, config = nil)
+    api_handler(test_text, 'imagefeatures/batch', config)
   end
 end
