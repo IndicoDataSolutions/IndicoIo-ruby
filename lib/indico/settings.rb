@@ -7,9 +7,8 @@ module Indico
 
   def self.valid_auth(config)
     # Does a config hashmap have a valid auth definition?
-    return config['auth'] && 
-           config['auth']['username'] && 
-           config['auth']['password']
+    return config['auth'] &&
+           config['auth']['api_key']
   end
 
   def self.valid_cloud(config)
@@ -57,8 +56,7 @@ module Indico
     config = Hash.new
     config['auth'] = Hash.new
     config['private_cloud'] = Hash.new
-    config['auth']['username'] = ENV["INDICO_USERNAME"]
-    config['auth']['password'] = ENV["INDICO_PASSWORD"]
+    config['auth']['api_key'] = ENV["INDICO_API_KEY"]
     config['private_cloud']['cloud'] = ENV["INDICO_CLOUD"]
     return config
   end
@@ -75,9 +73,7 @@ module Indico
     # Goes from nested representation to flatter version
     new_config = self.new_config()
     if self.valid_auth(config)
-      new_config['auth'] = [
-        config['auth']['username'], config['auth']['password']
-      ] 
+      new_config['auth'] = config['auth']['api_key']
     end
     if self.valid_cloud(config)
       new_config['cloud'] = config['private_cloud']['cloud']
