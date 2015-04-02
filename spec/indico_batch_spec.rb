@@ -21,16 +21,14 @@ describe Indico do
   it 'should access a private cloud' do
     expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
     data = ['Guns don\'t kill people.', ' People kill people.']
-    response = Indico.batch_political(data,
-                                      @config_private_cloud )
+    response = Indico.batch_political(data, @config_private_cloud)
 
     expect(Set.new(response[0].keys)).to eql(expected_keys)
     expect(Set.new(response[1].keys)).to eql(expected_keys)
   end
 
   it 'should tag text with correct sentiment tags' do
-    response = Indico.batch_sentiment(['Worst movie ever.'],
-                                      @config)
+    response = Indico.batch_sentiment(['Worst movie ever.'], @config)
     expect(response[0] < 0.5).to eql(true)
   end
 
@@ -110,16 +108,14 @@ describe Indico do
 
   it 'should tag face with correct facial features' do
     test_face = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
-    response = Indico.batch_facial_features([test_face, test_face],
-                                            @config)
+    response = Indico.batch_facial_features([test_face, test_face], @config)
     expect(response[0].length).to eql(48)
     expect(response[1].length).to eql(48)
   end
 
   it 'should tag image with correct image features' do
     test_image = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
-    response = Indico.batch_image_features([test_image, test_image],
-                                           @config)
+    response = Indico.batch_image_features([test_image, test_image], @config)
     expect(response[0].length).to eql(2048)
     expect(response[1].length).to eql(2048)
   end

@@ -75,7 +75,7 @@ describe Indico do
     end
 
     it 'should set api key with a call to set_api_key' do
-        Indico.set_api_key(nil)
+        Indico.api_key = nil
         begin
             Indico.political('Guns don\'t kill people. People kill people.')
         rescue ArgumentError => exception

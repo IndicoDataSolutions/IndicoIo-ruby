@@ -53,12 +53,13 @@ module Indico
 
   def self.load_environment_vars()
     # Load environment variables into same format as INI file reader
-    config = Hash.new
-    config['auth'] = Hash.new
-    config['private_cloud'] = Hash.new
-    config['auth']['api_key'] = ENV["INDICO_API_KEY"]
-    config['private_cloud']['cloud'] = ENV["INDICO_CLOUD"]
-    return config
+    return {'auth' => {'api_key' => ENV["INDICO_API_KEY"]},
+              'private_cloud' => {'cloud' => ENV["INDICO_CLOUD"]}}
+    # config['auth'] = Hash.new
+    # config['private_cloud'] = Hash.new
+    # config['auth']['api_key'] = ENV["INDICO_API_KEY"]
+    # config['private_cloud']['cloud'] = ENV["INDICO_CLOUD"]
+    # return config
   end
 
   def self.new_config()
