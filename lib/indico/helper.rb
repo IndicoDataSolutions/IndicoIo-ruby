@@ -62,7 +62,7 @@ module Indico
       raise ArgumentError, 'api key is required'
     end
     headers = { 'Content-Type' => 'application/json', 'Accept' => 'text/plain' }
-    headers['Authorization'] = api_key
+    headers['X-ApiKey'] = api_key
     headers
   end
 end
