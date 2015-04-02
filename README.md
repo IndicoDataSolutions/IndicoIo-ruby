@@ -107,17 +107,17 @@ $INDICO_API_KEY
 $INDICO_CLOUD
 ```
 
-Variables set with a `Indico.set_private_cloud(cloud)` or `Indico.set_api_key(api_key)` override any environment variables or configuration found in the indicorc file for any subsequent api calls, like so:
+Variables set with a `Indico.private_cloud = cloud` or `Indico.api_key = api_key` override any environment variables or configuration found in the indicorc file for any subsequent api calls, like so:
 
-```java
-Indico.set_api_key('example-api-key')
-Indico.set_private_cloud('example-private_cloud')
+```ruby
+Indico.api_key = 'example-api-key'
+Indico.private_cloud = 'example-private_cloud'
 
 Indico.sentiment('This song is incredible')
 ```
 
 
-Finally, any values explicitly passed in to an api call will override configuration options set in the indicorc file, in an environment variable, or with a `Indico.set_private_cloud(cloud)` or `Indico.set_api_key(api_key)` call. These values are sent in a config map, as shown:
+Finally, any values explicitly passed in to an api call will override configuration options set in the indicorc file, in an environment variable, or with a `Indico.private_cloud = cloud` or `Indico.api_key = api_key` call. These values are sent in a config map, as shown:
 
 ```ruby
 api_key = 'example-api-key'

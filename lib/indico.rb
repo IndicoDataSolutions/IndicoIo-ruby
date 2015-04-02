@@ -8,12 +8,20 @@ require 'net/https'
 module Indico
   HEADERS = { 'Content-Type' => 'application/json', 'Accept' => 'text/plain' }
 
-  def self.set_api_key(api_key)
-    Indico.config['auth'] = api_key
+  def self.api_key
+    config['auth']
   end
 
-  def self.set_private_cloud(cloud)
-    Indico.config['cloud'] = cloud
+  def self.api_key=(api)
+    config['auth'] = api
+  end
+
+  def self.private_cloud
+    config['cloud']
+  end
+
+  def self.private_cloud=(cloud)
+    config['cloud'] = cloud
   end
 
   def self.political(test_text, config = nil)
