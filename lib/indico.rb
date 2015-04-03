@@ -25,7 +25,7 @@ module Indico
   end
 
   def self.political(test_text, config = nil)
-    api_handler(test_text, 'political', 'config')
+    api_handler(test_text, 'political', config)
   end
 
   def self.batch_political(test_text, config = nil)

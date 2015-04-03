@@ -15,8 +15,8 @@ module Indico
     server = nil
     api_key = nil
     unless config.nil?
-      server = config['cloud']
-      api_key = config['api_key']
+      server = config[:cloud]
+      api_key = config[:api_key]
     end
     d = {}
     d['data'] = data
