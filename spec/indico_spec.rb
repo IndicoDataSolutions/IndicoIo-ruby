@@ -5,7 +5,7 @@ describe Indico do
   before do
     api_key = ENV['INDICO_API_KEY']
     private_cloud = 'indico-test'
-    @config_private_cloud = { api_key: api_key, cloud: private_cloud}
+    @config = { api_key: api_key, cloud: private_cloud}
   end
 
   it 'should tag text with correct political tags' do
