@@ -21,7 +21,11 @@ describe Indico do
   it 'should access a private cloud' do
     expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
     data = ['Guns don\'t kill people.', ' People kill people.']
+    
+    # for mocking: use http instead of https to route requests to our public cloud
+    Indico.cloud_protocol = 'http://'
     response = Indico.batch_political(data, @config_private_cloud)
+    Indico.cloud_protocol = 'https://'
 
     expect(Set.new(response[0].keys)).to eql(expected_keys)
     expect(Set.new(response[1].keys)).to eql(expected_keys)
