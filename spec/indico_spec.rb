@@ -18,6 +18,8 @@ describe Indico do
   it 'should tag text with correct political tags' do
     expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
     data = 'Guns don\'t kill people. People kill people.'
+    
+    # for mocking: use http to redirect requests to our public cloud endpoint
     Indico.cloud_protocol = 'http://'
     response = Indico.political(data, @config)
     Indico.cloud_protocol = 'https://'
