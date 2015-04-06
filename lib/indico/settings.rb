@@ -4,6 +4,9 @@ module Indico
   private
 
   class << self; attr_accessor :config; end
+  class << self; attr_accessor :cloud_protocol; end
+
+  Indico.cloud_protocol = 'https://'
 
   def self.valid_auth(config)
     # Does a config hashmap have a valid auth definition?

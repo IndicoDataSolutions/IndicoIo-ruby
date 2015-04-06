@@ -7,7 +7,7 @@ module Indico
     if !root
       'http://apiv2.indico.io/' + api
     else
-      'https://' + root + '.indico.domains/' + api
+      Indico.cloud_protocol + root + '.indico.domains/' + api
     end
   end
 
