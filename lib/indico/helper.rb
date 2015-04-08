@@ -5,7 +5,7 @@ module Indico
 
   def self.url_join(root, api)
     if !root
-      'http://apiv2.indico.io/' + api
+      'https://apiv2.indico.io/' + api
     else
       Indico.cloud_protocol + root + '.indico.domains/' + api
     end
@@ -46,6 +46,10 @@ module Indico
     uri = URI(url)
 
     http = Net::HTTP.new(uri.host, uri.port)
+
+    if url.index('https') == 0
+      http.use_ssl = true
+    end
 
     request = Net::HTTP::Post.new(uri.request_uri)
     request.body = data_dict
