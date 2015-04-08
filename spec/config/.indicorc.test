@@ -1,0 +1,5 @@
+[auth]
+api_key=testapikey
+
+[private_cloud]
+cloud=testcloud

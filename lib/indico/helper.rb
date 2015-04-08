@@ -4,23 +4,36 @@ module Indico
   private
 
   def self.url_join(root, api)
-    if root.nil?
-      'http://apiv1.indico.io/' + api
+    if !root
+      'http://apiv2.indico.io/' + api
     else
-      'http://' + root + '.indico.domains/' + api
+      Indico.cloud_protocol + root + '.indico.domains/' + api
     end
   end
 
-  def self.api_handler(data, server, api, username = nil, password = nil)
+  def self.api_handler(data, api, config)
+    server = nil
+    api_key = nil
+    unless config.nil?
+      server = config[:cloud]
+      api_key = config[:api_key]
+    end
     d = {}
     d['data'] = data
     data_dict = JSON.dump(d)
-    if username.nil?
-      response = make_request(url_join(server, api), data_dict, HEADERS)
-    else
-      response = make_request(url_join(server, api), data_dict,
-                              encode_credentials(username, password))
+
+    if api_key.nil?
+      api_key = Indico.config['auth']
     end
+
+    if server.nil?
+      server = Indico.config['cloud']
+    end
+
+    response = make_request(url_join(server, api), data_dict,
+                            add_api_key_to_header(api_key))
+
+
     results = JSON.parse(response.body)
     if results.key?('error')
       fail results['error']
@@ -44,10 +57,12 @@ module Indico
     http.request(request)
   end
 
-  def self.encode_credentials(username, password)
+  def self.add_api_key_to_header(api_key)
+    if api_key.nil?
+      raise ArgumentError, 'api key is required'
+    end
     headers = { 'Content-Type' => 'application/json', 'Accept' => 'text/plain' }
-    credentials = username + ':' + password
-    headers['Authorization'] = 'Basic ' + Base64.strict_encode64(credentials)
+    headers['X-ApiKey'] = api_key
     headers
   end
 end
