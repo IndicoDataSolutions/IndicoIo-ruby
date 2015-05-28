@@ -9,7 +9,7 @@ module Indico
   HEADERS = { 'Content-Type' => 'application/json',
               'Accept' => 'application/json', 
               'client-lib' => 'ruby',
-              'version-number' => '0.2.4' }
+              'version-number' => '0.2.5' }
 
   def self.api_key
     config['auth']
