@@ -6,7 +6,10 @@ require 'json'
 require 'net/https'
 
 module Indico
-  HEADERS = { 'Content-Type' => 'application/json', 'Accept' => 'text/plain' }
+  HEADERS = { 'Content-Type' => 'application/json',
+              'Accept' => 'application/json', 
+              'client-lib' => 'ruby',
+              'version-number' => '0.2.4' }
 
   def self.api_key
     config['auth']
