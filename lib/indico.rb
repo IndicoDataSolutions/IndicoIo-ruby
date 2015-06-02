@@ -6,11 +6,6 @@ require 'json'
 require 'net/https'
 
 module Indico
-  HEADERS = { 'Content-Type' => 'application/json',
-              'Accept' => 'application/json', 
-              'client-lib' => 'ruby',
-              'version-number' => '0.2.5' }
-
   def self.api_key
     config['auth']
   end
@@ -89,5 +84,21 @@ module Indico
 
   def self.batch_image_features(test_text, config = nil)
     api_handler(test_text, 'imagefeatures/batch', config)
+  end
+
+  def self.predict_image(face, apis = IMAGE_APIS, config = nil)
+    multi(face, "image", apis, IMAGE_APIS, config)
+  end
+
+  def self.predict_text(test_text, apis = TEXT_APIS, config = nil)
+    multi(test_text, "text", apis, TEXT_APIS, config)
+  end
+
+  def self.batch_predict_image(face, apis, config = nil)
+    multi(face, "image", apis, IMAGE_APIS, true, config)
+  end
+
+  def self.batch_predict_text(test_text, apis, config = nil)
+    multi(test_text, "text", apis, TEXT_APIS, true, config)
   end
 end

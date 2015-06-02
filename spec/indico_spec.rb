@@ -18,7 +18,7 @@ describe Indico do
   it 'should tag text with correct political tags' do
     expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
     data = 'Guns don\'t kill people. People kill people.'
-    
+
     # for mocking: use http to redirect requests to our public cloud endpoint
     Indico.cloud_protocol = 'http://'
     response = Indico.political(data, @config)
@@ -119,6 +119,39 @@ describe Indico do
     response = Indico.image_features(test_image)
 
     expect(response.length).to eql(2048)
+  end
+
+  it "should respond with all text apis called" do
+    expected_keys = Set.new(TEXT_APIS)
+    response = Indico.predict_text("Worst movie ever.", TEXT_APIS)
+
+    expect(response.class).to eql(Hash)
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
+  it "should respond with all text apis called by default" do
+    expected_keys = Set.new(TEXT_APIS)
+    response = Indico.predict_text("Worst movie ever.")
+
+    expect(response.class).to eql(Hash)
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
+  it "should respond with all image apis called" do
+    test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)/100.0}}}
+    expected_keys = Set.new(IMAGE_APIS)
+    response = Indico.predict_image(test_image, IMAGE_APIS)
+
+    expect(response.class).to eql(Hash)
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
+  it "should respond with all text apis called in batch" do
+    expected_keys = Set.new(TEXT_APIS)
+    response = Indico.batch_predict_text(["Worst movie ever."], TEXT_APIS)
+
+    expect(response.class).to eql(Hash)
+    expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
   # Uncomment when frontend updated to accept image urls
