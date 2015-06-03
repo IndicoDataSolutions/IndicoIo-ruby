@@ -19,6 +19,7 @@ module Indico
     if image.class == String
       decoded_image = handle_string_input(image)
     elsif image.class == Array
+      warn "Warning! Array input as image will be deprecated in the next major release.\n Consider using filepaths or base64 encoded strings"
       decoded_image = handle_array_input(image)
     else
       raise Exception.new("Image input must be nested array of pixels, filename, or base64 string")
@@ -32,8 +33,7 @@ module Indico
     # Handles string input
     if File.file?(str)
       # Handling File Inputs
-      image = load_image(str)
-      return handle_array_input(image)
+      return ChunkyPNG::Image.from_file(str)
     end
 
     regex = %r{^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$}.match(str)
@@ -104,19 +104,5 @@ module Indico
       ChunkyPNG::Color.g(value),
       ChunkyPNG::Color.b(value)
     ]
-  end
-
-  def self.load_image(filepath)
-    # Loads and populates properly formatted array from filepath
-    image_load = ChunkyPNG::Image.from_file(filepath)
-    image = Array.new(image_load.width) {Array.new(image_load.height)}
-    # image still good
-
-    (0..image_load.height - 1).each do |x|
-      (0..image_load.width - 1).each do |y|
-        image[x][y] = get_rgb(image_load[x, y])
-      end
-    end
-    return image
   end
 end
