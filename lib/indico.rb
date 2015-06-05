@@ -87,18 +87,22 @@ module Indico
   end
 
   def self.predict_image(face, apis = IMAGE_APIS, config = nil)
-    multi(face, "image", apis, IMAGE_APIS, config)
+    api_hash = {"apis" => apis}
+    multi(face, "image", apis, IMAGE_APIS, config ? config.update(api_hash) : api_hash)
   end
 
   def self.predict_text(test_text, apis = TEXT_APIS, config = nil)
-    multi(test_text, "text", apis, TEXT_APIS, config)
+    api_hash = {"apis" => apis}
+    multi(test_text, "text", apis, TEXT_APIS, config ? config.update(api_hash) : api_hash)
   end
 
   def self.batch_predict_image(face, apis, config = nil)
-    multi(face, "image", apis, IMAGE_APIS, true, config)
+    api_hash = {"apis" => apis}
+    multi(face, "image", apis, IMAGE_APIS, true, config ? config.update(api_hash) : api_hash)
   end
 
   def self.batch_predict_text(test_text, apis, config = nil)
-    multi(test_text, "text", apis, TEXT_APIS, true, config)
+    api_hash = {"apis" => apis}
+    multi(test_text, "text", apis, TEXT_APIS, true, config ? config.update(api_hash) : api_hash)
   end
 end

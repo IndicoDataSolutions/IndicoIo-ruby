@@ -32,19 +32,15 @@ module Indico
     unless config.nil?
       server = config[:cloud]
       api_key = config[:api_key]
+      apis = config["apis"]
       d = d.merge(config)
     end
 
-    if api_key.nil?
-      api_key = Indico.config['auth']
-    end
+    url = url_join((server or Indico.config['cloud']), api) +
+          (apis ? "?apis=" + apis.join(",") : "")
 
-    if server.nil?
-      server = Indico.config['cloud']
-    end
-
-    response = make_request(url_join(server, api), JSON.dump(d),
-                            add_api_key_to_header(api_key))
+    response = make_request(url, JSON.dump(d),
+                            add_api_key_to_header((api_key or Indico.config['auth'])))
 
 
     results = JSON.parse(response.body)
