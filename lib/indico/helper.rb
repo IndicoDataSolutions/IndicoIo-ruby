@@ -15,11 +15,24 @@ module Indico
     server = nil
     api_key = nil
     unless config.nil?
-      server = config[:cloud]
-      api_key = config[:api_key]
+      if config.has_key?('cloud')
+        server = config[:cloud]
+      end
+      if config.has_key?('api_key')
+        api_key = config[:api_key]
+      end
     end
     d = {}
     d['data'] = data
+
+    unless config.nil?
+      config.each do |option, value|
+        unless ['cloud','api_key'].include?(option)
+          d[option.to_s] = value
+        end
+      end
+    end
+
     data_dict = JSON.dump(d)
 
     if api_key.nil?

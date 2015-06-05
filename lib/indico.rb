@@ -7,7 +7,7 @@ require 'net/https'
 
 module Indico
   HEADERS = { 'Content-Type' => 'application/json',
-              'Accept' => 'application/json', 
+              'Accept' => 'application/json',
               'client-lib' => 'ruby',
               'version-number' => '0.2.5' }
 
