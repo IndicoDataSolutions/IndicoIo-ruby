@@ -1,0 +1,3 @@
+class IndicoError < StandardError
+
+end

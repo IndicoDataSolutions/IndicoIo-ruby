@@ -1,4 +1,5 @@
 require 'base64'
+require 'errors'
 
 module Indico
   CLIENT_TO_SERVER = {
@@ -76,7 +77,11 @@ module Indico
   def self.handle_multi(results)
     converted_results = Hash.new
     results.each do |key, value|
-      converted_results[SERVER_TO_CLIENT[key]] = value
+      if value.is_a?(Hash) && value.has_key?("results")
+        converted_results[SERVER_TO_CLIENT[key]] = value["results"]
+      else
+        raise IndicoError, 'unexpected result from ' + key + '\n\t' + value.fetch("error", "")
+      end
     end
     converted_results
   end

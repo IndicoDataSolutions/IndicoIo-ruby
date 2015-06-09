@@ -164,7 +164,6 @@ describe Indico do
 
     expect(response.class).to eql(Hash)
     expect(Set.new(response.keys)).to eql(expected_keys)
-    expect(response["fer"].has_key?("results")).to eql(true)
   end
 
   it "should respond with all text apis called in batch" do
@@ -173,7 +172,6 @@ describe Indico do
 
     expect(response.class).to eql(Hash)
     expect(Set.new(response.keys)).to eql(expected_keys)
-    expect(response["sentiment"].has_key?("results")).to eql(true)
   end
 
   # Uncomment when frontend updated to accept image urls
