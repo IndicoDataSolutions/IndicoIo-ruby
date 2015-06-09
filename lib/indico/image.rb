@@ -19,7 +19,6 @@ module Indico
     if image.class == String
       decoded_image = handle_string_input(image)
     elsif image.class == Array
-      warn "Warning! Array input as image will be deprecated in the next major release.\n Consider using filepaths or base64 encoded strings"
       decoded_image = handle_array_input(image)
     else
       raise Exception.new("Image input must be nested array of pixels, filename, or base64 string")
@@ -48,6 +47,8 @@ module Indico
   def self.handle_array_input(image)
     # Handles properly formatting and loading array of pixels
     # Single Request
+    warn "Warning! Array input as image will be deprecated in the next major release.\n Consider using filepaths or base64 encoded strings"
+    
     dimens = get_dimension(image)
     isFloat = array_contains_float(image, dimens)
 
