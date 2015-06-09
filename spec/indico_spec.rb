@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'set'
+require 'oily_png'
 
 describe Indico do
   before do
@@ -94,31 +95,50 @@ describe Indico do
   it 'should tag face with correct facial expression' do
     expected_keys = Set.new(%w(Angry Sad Neutral Surprise Fear Happy))
     test_face = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
-
-    response = Indico.fer(test_face)
-
-    expect(Set.new(response.keys)).to eql(expected_keys)
+    silent_warnings do
+      response = Indico.fer(test_face)
+      expect(Set.new(response.keys)).to eql(expected_keys)
+    end
   end
 
   it 'should tag face with correct facial features' do
     test_face = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
-    response = Indico.facial_features(test_face)
-
-    expect(response.length).to eql(48)
+    silent_warnings do
+      response = Indico.facial_features(test_face)
+      expect(response.length).to eql(48)
+    end
   end
 
   it 'should tag image with correct image features' do
     test_image = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
-    response = Indico.image_features(test_image)
-
-    expect(response.length).to eql(2048)
+    silent_warnings do
+      response = Indico.image_features(test_image)
+      expect(response.length).to eql(2048)
+    end
   end
 
   it "should tag rgb image with correct image features" do
     test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)/100.0}}}
-    response = Indico.image_features(test_image)
+    silent_warnings do
+      response = Indico.image_features(test_image)
+      expect(response.length).to eql(2048)
+    end
+  end
 
-    expect(response.length).to eql(2048)
+  it "should be able to load image from path" do
+    expected_keys = Set.new(%w(Angry Sad Neutral Surprise Fear Happy))
+    response = Indico.fer(File.dirname(__FILE__) + "/data/happy.png")
+
+    expect(Set.new(response.keys)).to eql(expected_keys)
+    expect(response["Happy"]).to be > 0.5
+  end
+
+  it "should be able to load image from b64" do
+    expected_keys = Set.new(%w(Angry Sad Neutral Surprise Fear Happy))
+    response = Indico.fer(File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read })
+
+    expect(Set.new(response.keys)).to eql(expected_keys)
+    expect(response["Happy"]).to be > 0.5
   end
 
   it "should respond with all text apis called" do

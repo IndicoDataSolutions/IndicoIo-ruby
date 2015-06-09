@@ -1,5 +1,6 @@
 require 'indico/version'
 require 'indico/helper'
+require 'indico/image'
 require 'indico/settings'
 require 'uri'
 require 'json'
@@ -62,28 +63,28 @@ module Indico
     api_handler(test_text, 'texttags/batch', config)
   end
 
-  def self.fer(face, config = nil)
-    api_handler(face, 'fer', config)
+  def self.fer(test_image, config = nil)
+    api_handler(preprocess(test_image, 48, false), 'fer', config)
   end
 
-  def self.batch_fer(test_text, config = nil)
-    api_handler(test_text, 'fer/batch', config)
+  def self.batch_fer(test_image, config = nil)
+    api_handler(preprocess(test_image, 48, true), 'fer/batch', config)
   end
 
-  def self.facial_features(face, config = nil)
-    api_handler(face, 'facialfeatures', config)
+  def self.facial_features(test_image, config = nil)
+    api_handler(preprocess(test_image, 48, false), 'facialfeatures', config)
   end
 
-  def self.batch_facial_features(test_text, config = nil)
-    api_handler(test_text, 'facialfeatures/batch', config)
+  def self.batch_facial_features(test_image, config = nil)
+    api_handler(preprocess(test_image, 48, true), 'facialfeatures/batch', config)
   end
 
-  def self.image_features(face, config = nil)
-    api_handler(face, 'imagefeatures', config)
+  def self.image_features(test_image, config = nil)
+    api_handler(preprocess(test_image, 64, false), 'imagefeatures', config)
   end
 
-  def self.batch_image_features(test_text, config = nil)
-    api_handler(test_text, 'imagefeatures/batch', config)
+  def self.batch_image_features(test_image, config = nil)
+    api_handler(preprocess(test_image, 64, true), 'imagefeatures/batch', config)
   end
 
   def self.predict_image(face, apis = IMAGE_APIS, config = nil)
