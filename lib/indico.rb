@@ -1,16 +1,12 @@
 require 'indico/version'
 require 'indico/helper'
+require 'indico/image'
 require 'indico/settings'
 require 'uri'
 require 'json'
 require 'net/https'
 
 module Indico
-  HEADERS = { 'Content-Type' => 'application/json',
-              'Accept' => 'application/json', 
-              'client-lib' => 'ruby',
-              'version-number' => '0.2.5' }
-
   def self.api_key
     config['auth']
   end
@@ -67,27 +63,47 @@ module Indico
     api_handler(test_text, 'texttags/batch', config)
   end
 
-  def self.fer(face, config = nil)
-    api_handler(face, 'fer', config)
+  def self.fer(test_image, config = nil)
+    api_handler(preprocess(test_image, 48, false), 'fer', config)
   end
 
-  def self.batch_fer(test_text, config = nil)
-    api_handler(test_text, 'fer/batch', config)
+  def self.batch_fer(test_image, config = nil)
+    api_handler(preprocess(test_image, 48, true), 'fer/batch', config)
   end
 
-  def self.facial_features(face, config = nil)
-    api_handler(face, 'facialfeatures', config)
+  def self.facial_features(test_image, config = nil)
+    api_handler(preprocess(test_image, 48, false), 'facialfeatures', config)
   end
 
-  def self.batch_facial_features(test_text, config = nil)
-    api_handler(test_text, 'facialfeatures/batch', config)
+  def self.batch_facial_features(test_image, config = nil)
+    api_handler(preprocess(test_image, 48, true), 'facialfeatures/batch', config)
   end
 
-  def self.image_features(face, config = nil)
-    api_handler(face, 'imagefeatures', config)
+  def self.image_features(test_image, config = nil)
+    api_handler(preprocess(test_image, 64, false), 'imagefeatures', config)
   end
 
-  def self.batch_image_features(test_text, config = nil)
-    api_handler(test_text, 'imagefeatures/batch', config)
+  def self.batch_image_features(test_image, config = nil)
+    api_handler(preprocess(test_image, 64, true), 'imagefeatures/batch', config)
+  end
+
+  def self.predict_image(face, apis = IMAGE_APIS, config = nil)
+    api_hash = {"apis" => apis}
+    multi(face, "image", apis, IMAGE_APIS, config ? config.update(api_hash) : api_hash)
+  end
+
+  def self.predict_text(test_text, apis = TEXT_APIS, config = nil)
+    api_hash = {"apis" => apis}
+    multi(test_text, "text", apis, TEXT_APIS, config ? config.update(api_hash) : api_hash)
+  end
+
+  def self.batch_predict_image(face, apis, config = nil)
+    api_hash = {"apis" => apis}
+    multi(face, "image", apis, IMAGE_APIS, true, config ? config.update(api_hash) : api_hash)
+  end
+
+  def self.batch_predict_text(test_text, apis, config = nil)
+    api_hash = {"apis" => apis}
+    multi(test_text, "text", apis, TEXT_APIS, true, config ? config.update(api_hash) : api_hash)
   end
 end
