@@ -15,10 +15,16 @@ describe Indico do
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
+  it 'should take variable arguments such as top_n and threshold' do
+    response = Indico.text_tags('Guns don\'t kill people. People kill people.',
+                                {top_n: 2})
+    expect(response.keys.length).to eql(2)
+  end
+
   it 'should tag text with correct political tags' do
     expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
     data = 'Guns don\'t kill people. People kill people.'
-    
+
     # for mocking: use http to redirect requests to our public cloud endpoint
     Indico.cloud_protocol = 'http://'
     response = Indico.political(data, @config)
