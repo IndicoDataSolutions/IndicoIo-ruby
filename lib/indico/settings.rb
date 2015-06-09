@@ -1,9 +1,10 @@
 require 'inifile'
+require_relative 'version'
 
 HEADERS = { 'Content-Type' => 'application/json',
             'Accept' => 'application/json',
             'client-lib' => 'ruby',
-            'version-number' => '0.2.5' }
+            'version-number' => Indico::VERSION }
 # APIS
 TEXT_APIS = ["political", "sentiment", "language", "text_tags"]
 IMAGE_APIS = ["fer", "facial_features", "image_features"]
