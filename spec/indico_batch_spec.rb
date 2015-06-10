@@ -130,6 +130,37 @@ describe Indico do
     end
   end
 
+  it "should respond with all text apis called in batch" do
+    expected_keys = Set.new(TEXT_APIS)
+    response = Indico.batch_predict_text(["Worst movie ever."], TEXT_APIS)
+
+    expect(response.class).to eql(Hash)
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
+  it "should respond with all image apis called in batch" do
+    test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)/100.0}}}
+    expected_keys = Set.new(IMAGE_APIS)
+    silent_warnings do
+      response = Indico.batch_predict_image([test_image], IMAGE_APIS)
+
+      expect(response.class).to eql(Hash)
+      expect(Set.new(response.keys)).to eql(expected_keys)
+    end
+  end
+
+  it "should respond with all image apis called on int array in batch" do
+    test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)}}}
+    expected_keys = Set.new(IMAGE_APIS)
+    silent_warnings do
+      response = Indico.batch_predict_image([test_image], IMAGE_APIS)
+
+      expect(response.class).to eql(Hash)
+      expect(Set.new(response.keys)).to eql(expected_keys)
+    end
+  end
+
+
   # Uncomment when frontend updated to accept image urls
   # it "should accept image urls" do
   #   test_image = 'http://icons.iconarchive.com/icons/oxygen-icons.org/' +

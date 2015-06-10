@@ -1,6 +1,7 @@
 require 'indico/version'
 require 'indico/helper'
 require 'indico/image'
+require 'indico/multi'
 require 'indico/settings'
 require 'uri'
 require 'json'
@@ -89,7 +90,7 @@ module Indico
 
   def self.predict_image(face, apis = IMAGE_APIS, config = nil)
     api_hash = {"apis" => apis}
-    multi(face, "image", apis, IMAGE_APIS, config ? config.update(api_hash) : api_hash)
+    multi(preprocess(face, 48, false), "image", apis, IMAGE_APIS, config ? config.update(api_hash) : api_hash)
   end
 
   def self.predict_text(test_text, apis = TEXT_APIS, config = nil)
@@ -99,7 +100,7 @@ module Indico
 
   def self.batch_predict_image(face, apis, config = nil)
     api_hash = {"apis" => apis}
-    multi(face, "image", apis, IMAGE_APIS, true, config ? config.update(api_hash) : api_hash)
+    multi(preprocess(face, 48, true), "image", apis, IMAGE_APIS, true, config ? config.update(api_hash) : api_hash)
   end
 
   def self.batch_predict_text(test_text, apis, config = nil)
