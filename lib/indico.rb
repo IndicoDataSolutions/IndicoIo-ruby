@@ -64,6 +64,14 @@ module Indico
     api_handler(test_text, 'texttags/batch', config)
   end
 
+  def self.keywords(test_text, config = nil)
+    api_handler(test_text, 'keywords', config)
+  end
+
+  def self.batch_keywords(test_text, config = nil)
+    api_handler(test_text, 'keywords/batch', config)
+  end
+
   def self.fer(test_image, config = nil)
     api_handler(preprocess(test_image, 48, false), 'fer', config)
   end
