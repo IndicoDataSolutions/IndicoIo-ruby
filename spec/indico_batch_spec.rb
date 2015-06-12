@@ -7,6 +7,8 @@ describe Indico do
     private_cloud = 'indico-test'
     @config_private_cloud = { api_key: api_key, cloud: private_cloud}
     @config = { api_key: api_key}
+    # FIXME Remove when sentiment_hq is released
+    TEXT_APIS.delete("sentiment_hq")
   end
 
   it 'should tag text with correct political tags' do
@@ -35,6 +37,11 @@ describe Indico do
     response = Indico.batch_sentiment(['Worst movie ever.'], @config)
     expect(response[0] < 0.5).to eql(true)
   end
+
+  # it 'should tag text with correct sentiment_hq tags' do
+  #   response = Indico.batch_sentiment_hq(['Worst movie ever.'], @config)
+  #   expect(response[0] < 0.5).to eql(true)
+  # end
 
   it 'should tag text with correct language tags' do
     expected_keys = Set.new([

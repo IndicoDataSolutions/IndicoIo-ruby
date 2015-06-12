@@ -4,6 +4,7 @@ module Indico
   CLIENT_TO_SERVER = {
     "political" => "political",
     "sentiment" => "sentiment",
+    "sentiment_hq" => "sentimenthq",
     "language" => "language",
     "text_tags" => "texttags",
     "fer" => "fer",
@@ -26,7 +27,7 @@ module Indico
       config = {}
     end
 
-    config["apis"] = converted_apis
+    config[:apis] = converted_apis
     response = api_handler(data, batch ? "apis/batch" : "apis", config)
     results = handle_multi(response)
 
@@ -39,7 +40,7 @@ module Indico
       if value.is_a?(Hash) && value.has_key?("results")
         converted_results[SERVER_TO_CLIENT[key]] = value["results"]
       else
-        raise IndicoError, 'unexpected result from ' + key + '\n\t' + value.fetch("error", "")
+        raise IndicoError, 'unexpected result from ' + key + '. ' + value.fetch("error", "")
       end
     end
     converted_results

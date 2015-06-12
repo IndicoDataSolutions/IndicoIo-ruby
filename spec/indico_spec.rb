@@ -6,6 +6,8 @@ describe Indico do
   before do
     api_key = ENV['INDICO_API_KEY']
     private_cloud = 'indico-test'
+    # FIXME - REMOVE WHEN SENTIMENTHQ RELEASE
+    TEXT_APIS.delete("sentiment_hq")
     @config = { api_key: api_key, cloud: private_cloud}
   end
 
@@ -32,6 +34,12 @@ describe Indico do
 
     expect(response < 0.5).to eql(true)
   end
+
+  # it 'should tag text with correct sentimenthq tags' do
+  #   response = Indico.sentiment_hq('Worst movie ever.')
+  #
+  #   expect(response < 0.5).to eql(true)
+  # end
 
   it 'should tag text with correct language tags' do
     expected_keys = Set.new([
@@ -151,7 +159,7 @@ describe Indico do
 
   it "should respond with all text apis called by default" do
     expected_keys = Set.new(TEXT_APIS)
-    response = Indico.predict_text("Worst movie ever.")
+    response = Indico.predict_text("Worst movie ever.", TEXT_APIS)
 
     expect(response.class).to eql(Hash)
     expect(Set.new(response.keys)).to eql(expected_keys)
