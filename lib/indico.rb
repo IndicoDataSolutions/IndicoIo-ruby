@@ -32,20 +32,28 @@ module Indico
     api_handler(test_text, 'political/batch', config)
   end
 
-  def self.posneg(test_text, config = nil)
+  def self.posneg(*args)
+    sentiment(*args)
+  end
+
+  def self.batch_posneg(*args)
+    batch_sentiment(*args)
+  end
+
+  def self.sentiment(test_text, config = nil)
     api_handler(test_text, 'sentiment', config)
   end
 
-  def self.batch_posneg(test_text, config = nil)
+  def self.batch_sentiment(test_text, config = nil)
     api_handler(test_text, 'sentiment/batch', config)
   end
 
-  def self.sentiment(*args)
-    posneg(*args)
+  def self.sentiment_hq(test_text, config = nil)
+    api_handler(test_text, 'sentimenthq', config)
   end
 
-  def self.batch_sentiment(*args)
-    batch_posneg(*args)
+  def self.batch_sentiment_hq(test_text, config = nil)
+    api_handler(test_text, 'sentimenthq/batch', config)
   end
 
   def self.language(test_text, config = nil)
@@ -89,22 +97,24 @@ module Indico
   end
 
   def self.predict_image(face, apis = IMAGE_APIS, config = nil)
-    api_hash = {"apis" => apis}
+    api_hash = {apis:apis}
     multi(preprocess(face, 48, false), "image", apis, IMAGE_APIS, config ? config.update(api_hash) : api_hash)
   end
 
-  def self.predict_text(test_text, apis = TEXT_APIS, config = nil)
-    api_hash = {"apis" => apis}
+  # FIXME - use settings TEXT_APIS when sentimenthq is released
+  def self.predict_text(test_text, apis = ['political', 'sentiment', 'language', 'text_tags'], config = nil)
+    api_hash = {apis:apis}
     multi(test_text, "text", apis, TEXT_APIS, config ? config.update(api_hash) : api_hash)
   end
 
   def self.batch_predict_image(face, apis, config = nil)
-    api_hash = {"apis" => apis}
+    api_hash = {apis:apis}
     multi(preprocess(face, 48, true), "image", apis, IMAGE_APIS, true, config ? config.update(api_hash) : api_hash)
   end
 
-  def self.batch_predict_text(test_text, apis, config = nil)
-    api_hash = {"apis" => apis}
+  # FIXME - use settings TEXT_APIS when sentimenthq is released
+  def self.batch_predict_text(test_text, apis = ['political', 'sentiment', 'language', 'text_tags'], config = nil)
+    api_hash = {apis:apis}
     multi(test_text, "text", apis, TEXT_APIS, true, config ? config.update(api_hash) : api_hash)
   end
 end

@@ -21,12 +21,20 @@ module Indico
     unless config.nil?
       server = config[:cloud]
       api_key = config[:api_key]
-      apis = config["apis"]
+      apis = config[:apis]
       d = d.merge(config)
     end
 
-    url = url_join((server or Indico.config['cloud']), api) +
-          (apis ? "?apis=" + apis.join(",") : "")
+    server = server or Indico.config['cloud']
+
+    #FIXME Remove when sentimenthq is publicly released
+    if !server
+        if api == 'sentimenthq' || (apis && apis.include?('sentimenthq'))
+            raise IndicoError, 'The high quality sentiment API is currently in private beta.'
+        end
+    end
+
+    url = url_join(server, api) + (apis ? "?apis=" + apis.join(",") : "")
 
     response = make_request(url, JSON.dump(d),
                             add_api_key_to_header((api_key or Indico.config['auth'])))
