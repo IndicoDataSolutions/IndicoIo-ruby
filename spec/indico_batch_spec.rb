@@ -38,10 +38,10 @@ describe Indico do
     expect(response[0] < 0.5).to eql(true)
   end
 
-  # it 'should tag text with correct sentiment_hq tags' do
-  #   response = Indico.batch_sentiment_hq(['Worst movie ever.'], @config)
-  #   expect(response[0] < 0.5).to eql(true)
-  # end
+  it 'should tag text with correct sentiment_hq tags' do
+    response = Indico.batch_sentiment_hq(['Worst movie ever.'], @config)
+    expect(response[0] < 0.5).to eql(true)
+  end
 
   it 'should tag text with correct language tags' do
     expected_keys = Set.new([
