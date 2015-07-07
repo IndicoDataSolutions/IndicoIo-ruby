@@ -108,6 +108,16 @@ describe Indico do
     expect Set.new(response[1].keys).subset?(Set.new(expected_keys))
   end
 
+  it 'should tag text with correct keywords' do
+    expected_keys = Set.new(%w(people kill guns))
+
+    data = ['Guns don\'t kill people.', 'People kill people.']
+    response = Indico.batch_keywords(data, @config)
+
+    expect Set.new(response[0].keys).subset?(Set.new(expected_keys))
+    expect Set.new(response[1].keys).subset?(Set.new(expected_keys))
+  end
+
   it 'should tag face with correct facial expression' do
     expected_keys = Set.new(%w(Angry Sad Neutral Surprise Fear Happy))
     test_face = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
