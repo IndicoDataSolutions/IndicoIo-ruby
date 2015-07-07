@@ -118,6 +118,28 @@ describe Indico do
     expect Set.new(response[1].keys).subset?(Set.new(expected_keys))
   end
 
+  it 'should return all named entities with category breakdowns' do
+    expected_keys = Set.new(%w(unknown organization location person))
+    response = Indico.batch_named_entities(['I want to move to New York City!'])
+    expect(response.length).to eql(1)
+    response = response[0]
+
+    expect(response.keys.length > 0).to eql(true)
+    expect(response.values[0]['confidence']).to be >= 0.75
+    expect(Set.new(response.values[0]['categories'].keys)).to eql(expected_keys)
+
+    chance_sum = response.values[0]['categories'].values.inject{|sum,x| sum + x }
+    expect(chance_sum).to be > 0.9999
+  end
+
+  it 'should return no named entities when threshold is 1' do
+    config = { threshold: 1 }
+    response = Indico.batch_named_entities(['I want to move to New York City!'], config)
+    expect(response.length).to eql(1)
+    response = response[0]
+    expect(response.keys.length).to eql(0)
+  end
+
   it 'should tag face with correct facial expression' do
     expected_keys = Set.new(%w(Angry Sad Neutral Surprise Fear Happy))
     test_face = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }

@@ -24,7 +24,7 @@ For API key registration and setup, checkout our [quickstart guide](http://docs.
 
 Full Documentation
 ------------
-Detailed documentation and further code examples are available at [indico.readme.io](http://indico.readme.io/v2.0/docs/ruby)
+Detailed documentation, a full list of APIs, and further code examples are available at [indico.readme.io](http://indico.readme.io/v2.0/docs/ruby)
 
 Examples
 ---------
