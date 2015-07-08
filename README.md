@@ -50,6 +50,11 @@ Examples
 
 => { "food"=>0.3713687833244494, "cars"=>0.0037924017632370586, ...}
 
+> Indico.keywords("Facebook blog posts about Android tech make better journalism than most news outlets.", {top_n: 3})
+
+=> {"android"=>0.10602030910588661, "journalism"=>0.13466866170166855, "outlets"=>0.13930405357808642}
+
+
 ```
 
 Batch API
