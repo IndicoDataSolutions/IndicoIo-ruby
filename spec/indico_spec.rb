@@ -37,7 +37,7 @@ describe Indico do
 
   it 'should tag text with correct sentimenthq tags' do
     response = Indico.sentiment_hq('Worst movie ever.')
-  
+
     expect(response < 0.5).to eql(true)
   end
 
@@ -105,6 +105,24 @@ describe Indico do
     response = Indico.keywords('Guns don\'t kill people. People kill people.')
 
     expect Set.new(response.keys).subset?(Set.new(expected_keys))
+  end
+
+  it 'should return all named entities with category breakdowns' do
+    expected_keys = Set.new(%w(unknown organization location person))
+    response = Indico.named_entities('I want to move to New York City!')
+
+    expect(response.keys.length > 0).to eql(true)
+    expect(response.values[0]['confidence']).to be >= 0.75
+    expect(Set.new(response.values[0]['categories'].keys)).to eql(expected_keys)
+
+    chance_sum = response.values[0]['categories'].values.inject{|sum,x| sum + x }
+    expect(chance_sum).to be > 0.9999
+  end
+
+  it 'should return no named entities when threshold is 1' do
+    config = { threshold: 1 }
+    response = Indico.named_entities('I want to move to New York City!', config)
+    expect(response.keys.length).to eql(0)
   end
 
   it 'should tag face with correct facial expression' do

@@ -80,6 +80,14 @@ module Indico
     api_handler(test_text, 'keywords/batch', config)
   end
 
+  def self.named_entities(test_text, config = nil)
+    api_handler(test_text, 'namedentities', config)
+  end
+
+  def self.batch_named_entities(test_text, config = nil)
+    api_handler(test_text, 'namedentities/batch', config)
+  end
+
   def self.fer(test_image, config = nil)
     api_handler(preprocess(test_image, 48, false), 'fer', config)
   end
