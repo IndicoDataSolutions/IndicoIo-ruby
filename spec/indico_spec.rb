@@ -124,6 +124,14 @@ describe Indico do
     end
   end
 
+  it 'should tag noise as sfw' do
+    test_image = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
+    silent_warnings do
+      response = Indico.content_filtering(test_image)
+      expect(response).to be < 0.5
+    end
+  end
+
   it 'should tag image with correct image features' do
     test_image = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
     silent_warnings do
