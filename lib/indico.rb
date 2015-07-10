@@ -89,7 +89,8 @@ module Indico
   end
 
   def self.fer(test_image, config = nil)
-    api_handler(preprocess(test_image, 48, false), 'fer', config)
+    should_resize = !config.nil? and (config.key?(:detect) and config[:detect])
+    api_handler(preprocess(test_image, 48, false, should_resize), 'fer', config)
   end
 
   def self.batch_fer(image, config = nil)
@@ -113,11 +114,11 @@ module Indico
   end
 
   def self.content_filtering(image, config = nil)
-    api_handler(preprocess(image, 128, false), 'contentfiltering', config)
+    api_handler(preprocess(image, 128, false, false), 'contentfiltering', config)
   end
 
   def self.batch_content_filtering(image, config = nil)
-    api_handler(preprocess(image, 128, true), 'contentfiltering/batch', config)
+    api_handler(preprocess(image, 128, true, false), 'contentfiltering/batch', config)
   end
 
   def self.predict_image(face, apis = IMAGE_APIS, config = nil)
