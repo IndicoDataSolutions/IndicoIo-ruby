@@ -7,7 +7,7 @@ HEADERS = { 'Content-Type' => 'application/json',
             'version-number' => Indico::VERSION }
 # APIS
 TEXT_APIS = ["political", "sentiment", "sentiment_hq", "language", "text_tags"]
-IMAGE_APIS = ["fer", "facial_features", "image_features"]
+IMAGE_APIS = ["fer", "facial_features", "image_features", "content_filtering"]
 
 module Indico
   private

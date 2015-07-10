@@ -27,13 +27,6 @@ module Indico
 
     server = server or Indico.config['cloud']
 
-    #FIXME Remove when sentimenthq is publicly released
-    if !server
-        if api == 'sentimenthq' || (apis && apis.include?('sentimenthq'))
-            raise IndicoError, 'The high quality sentiment API is currently in private beta.'
-        end
-    end
-
     url = url_join(server, api) + (apis ? "?apis=" + apis.join(",") : "")
 
     response = make_request(url, JSON.dump(d),

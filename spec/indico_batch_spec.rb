@@ -38,10 +38,10 @@ describe Indico do
     expect(response[0] < 0.5).to eql(true)
   end
 
-  # it 'should tag text with correct sentiment_hq tags' do
-  #   response = Indico.batch_sentiment_hq(['Worst movie ever.'], @config)
-  #   expect(response[0] < 0.5).to eql(true)
-  # end
+  it 'should tag text with correct sentiment_hq tags' do
+    response = Indico.batch_sentiment_hq(['Worst movie ever.'], @config)
+    expect(response[0] < 0.5).to eql(true)
+  end
 
   it 'should tag text with correct language tags' do
     expected_keys = Set.new([
@@ -103,6 +103,16 @@ describe Indico do
 
     data = ['Guns don\'t kill people.', 'People kill people.']
     response = Indico.batch_text_tags(data, @config)
+
+    expect Set.new(response[0].keys).subset?(Set.new(expected_keys))
+    expect Set.new(response[1].keys).subset?(Set.new(expected_keys))
+  end
+
+  it 'should tag text with correct keywords' do
+    expected_keys = Set.new(%w(people kill guns))
+
+    data = ['Guns don\'t kill people.', 'People kill people.']
+    response = Indico.batch_keywords(data, @config)
 
     expect Set.new(response[0].keys).subset?(Set.new(expected_keys))
     expect Set.new(response[1].keys).subset?(Set.new(expected_keys))

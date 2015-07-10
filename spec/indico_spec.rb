@@ -35,11 +35,11 @@ describe Indico do
     expect(response < 0.5).to eql(true)
   end
 
-  # it 'should tag text with correct sentimenthq tags' do
-  #   response = Indico.sentiment_hq('Worst movie ever.')
-  #
-  #   expect(response < 0.5).to eql(true)
-  # end
+  it 'should tag text with correct sentimenthq tags' do
+    response = Indico.sentiment_hq('Worst movie ever.')
+  
+    expect(response < 0.5).to eql(true)
+  end
 
   it 'should tag text with correct language tags' do
     expected_keys = Set.new([
@@ -100,6 +100,13 @@ describe Indico do
     expect Set.new(response.keys).subset?(Set.new(expected_keys))
   end
 
+  it 'should tag text with correct keywords' do
+    expected_keys = Set.new(%w(guns kill people))
+    response = Indico.keywords('Guns don\'t kill people. People kill people.')
+
+    expect Set.new(response.keys).subset?(Set.new(expected_keys))
+  end
+
   it 'should tag face with correct facial expression' do
     expected_keys = Set.new(%w(Angry Sad Neutral Surprise Fear Happy))
     test_face = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
@@ -114,6 +121,14 @@ describe Indico do
     silent_warnings do
       response = Indico.facial_features(test_face)
       expect(response.length).to eql(48)
+    end
+  end
+
+  it 'should tag noise as sfw' do
+    test_image = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
+    silent_warnings do
+      response = Indico.content_filtering(test_image)
+      expect(response).to be < 0.5
     end
   end
 
