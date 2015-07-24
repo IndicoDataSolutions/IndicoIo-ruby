@@ -8,9 +8,12 @@ module Indico
     "language" => "language",
     "text_tags" => "texttags",
     "fer" => "fer",
+    "named_entities" => "named_entities",
+    "keywords" => "keywords",
     "facial_features" => "facialfeatures",
     "image_features" => "imagefeatures",
-    "content_filtering" => "contentfiltering"
+    "content_filtering" => "contentfiltering",
+    "twitter_engagement" => "twitterengagement"
   }
 
   SERVER_TO_CLIENT = CLIENT_TO_SERVER.invert
