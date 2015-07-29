@@ -134,7 +134,7 @@ describe Indico do
 
   it 'should tag face with correct facial expression' do
     expected_keys = Set.new(%w(Angry Sad Neutral Surprise Fear Happy))
-    test_face = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
+    test_face= File.dirname(__FILE__) + "/data/happy.png"
     silent_warnings do
       response = Indico.fer(test_face)
       expect(Set.new(response.keys)).to eql(expected_keys)
@@ -142,7 +142,7 @@ describe Indico do
   end
 
   it 'should tag face with correct facial features' do
-    test_face = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
+    test_face= File.dirname(__FILE__) + "/data/happy.png"
     silent_warnings do
       response = Indico.facial_features(test_face)
       expect(response.length).to eql(48)
@@ -150,7 +150,7 @@ describe Indico do
   end
 
   it 'should tag noise as sfw' do
-    test_image = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
+    test_image= File.dirname(__FILE__) + "/data/happy.png"
     silent_warnings do
       response = Indico.content_filtering(test_image)
       expect(response).to be < 0.5
@@ -158,7 +158,7 @@ describe Indico do
   end
 
   it 'should tag image with correct image features' do
-    test_image = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
+    test_image= File.dirname(__FILE__) + "/data/happy.png"
     silent_warnings do
       response = Indico.image_features(test_image)
       expect(response.length).to eql(2048)
@@ -166,7 +166,7 @@ describe Indico do
   end
 
   it "should tag rgb image with correct image features" do
-    test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)/100.0}}}
+    test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
     silent_warnings do
       response = Indico.image_features(test_image)
       expect(response.length).to eql(2048)
@@ -206,7 +206,7 @@ describe Indico do
   end
 
   it "should respond with all image apis called" do
-    test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)/100.0}}}
+    test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
     expected_keys = Set.new(IMAGE_APIS)
     silent_warnings do
       response = Indico.predict_image(test_image, IMAGE_APIS)
@@ -217,7 +217,7 @@ describe Indico do
   end
 
   it "should respond with all image apis called on int array" do
-    test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)}}}
+    test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
     expected_keys = Set.new(IMAGE_APIS)
     silent_warnings do
       response = Indico.predict_image(test_image, IMAGE_APIS)
