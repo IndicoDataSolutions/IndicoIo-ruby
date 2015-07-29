@@ -49,11 +49,11 @@ module Indico
   end
 
   def self.twitter_engagement(text, config = nil)
-    api_handler(text, 'engagement', config)
+    api_handler(text, 'twitterengagement', config)
   end
 
   def self.batch_twitter_engagement(text, config = nil)
-    api_handler(text, 'engagement/batch', config)
+    api_handler(text, 'twitterengagement/batch', config)
   end
 
   def self.sentiment_hq(text, config = nil)
