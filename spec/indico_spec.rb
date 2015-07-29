@@ -227,6 +227,14 @@ describe Indico do
     end
   end
 
+  it 'should properly resize an image with min_axis set' do
+    test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
+    silent_warnings do
+      image = Indico.preprocess(test_image, 128, true)
+      image = ChunkyPNG::Image.from_data_url("data:image/png;base64," + image.gsub("data:image/png;base64," ,""))
+      expect(image.width).to eql(128)
+    end
+  end
 
   # Uncomment when frontend updated to accept image urls
   # it 'should accept image urls' do
