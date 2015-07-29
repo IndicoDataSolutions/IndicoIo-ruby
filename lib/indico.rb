@@ -89,40 +89,40 @@ module Indico
   end
 
   def self.fer(test_image, config = nil)
-    api_handler(preprocess(test_image, 48, false), 'fer', config)
+    api_handler(preprocess(test_image, 48, false, false), 'fer', config)
   end
 
   def self.batch_fer(image, config = nil)
-    api_handler(preprocess(image, 48, true), 'fer/batch', config)
+    api_handler(preprocess(image, 48, false, true), 'fer/batch', config)
   end
 
   def self.facial_features(image, config = nil)
-    api_handler(preprocess(image, 48, false), 'facialfeatures', config)
+    api_handler(preprocess(image, 48, false, false), 'facialfeatures', config)
   end
 
   def self.batch_facial_features(image, config = nil)
-    api_handler(preprocess(image, 48, true), 'facialfeatures/batch', config)
+    api_handler(preprocess(image, 48, false, true), 'facialfeatures/batch', config)
   end
 
   def self.image_features(image, config = nil)
-    api_handler(preprocess(image, 64, false), 'imagefeatures', config)
+    api_handler(preprocess(image, 64, false, false), 'imagefeatures', config)
   end
 
   def self.batch_image_features(image, config = nil)
-    api_handler(preprocess(image, 64, true), 'imagefeatures/batch', config)
+    api_handler(preprocess(image, 64, false, true), 'imagefeatures/batch', config)
   end
 
   def self.content_filtering(image, config = nil)
-    api_handler(preprocess(image, 128, false), 'contentfiltering', config)
+    api_handler(preprocess(image, 128, true, false), 'contentfiltering', config)
   end
 
   def self.batch_content_filtering(image, config = nil)
-    api_handler(preprocess(image, 128, true), 'contentfiltering/batch', config)
+    api_handler(preprocess(image, 128, true, true), 'contentfiltering/batch', config)
   end
 
   def self.predict_image(face, apis = IMAGE_APIS, config = nil)
     api_hash = {apis:apis}
-    multi(preprocess(face, 48, false), "image", apis, IMAGE_APIS, config ? config.update(api_hash) : api_hash)
+    multi(preprocess(face, 128, false, false), "image", apis, IMAGE_APIS, config ? config.update(api_hash) : api_hash)
   end
 
   # FIXME - use settings TEXT_APIS when sentimenthq is released
@@ -133,7 +133,7 @@ module Indico
 
   def self.batch_predict_image(face, apis, config = nil)
     api_hash = {apis:apis}
-    multi(preprocess(face, 48, true), "image", apis, IMAGE_APIS, true, config ? config.update(api_hash) : api_hash)
+    multi(preprocess(face, 128, false, true), "image", apis, IMAGE_APIS, true, config ? config.update(api_hash) : api_hash)
   end
 
   # FIXME - use settings TEXT_APIS when sentimenthq is released
