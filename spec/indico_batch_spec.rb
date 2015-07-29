@@ -43,6 +43,13 @@ describe Indico do
     expect(response[0] < 0.5).to eql(true)
   end
 
+  it 'should tag text with correct twitter engagment tags' do
+    response = Indico.batch_twitter_engagement(['#Breaking rt if you <3 pic.twitter.com @Startup'])
+
+    expect(response[0] < 1).to eql(true)
+    expect(response[0] > 0).to eql(true)
+  end
+
   it 'should tag text with correct language tags' do
     expected_keys = Set.new([
       'English',
