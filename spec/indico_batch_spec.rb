@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'set'
 
+
 describe Indico do
   before do
     api_key = ENV['INDICO_API_KEY']
