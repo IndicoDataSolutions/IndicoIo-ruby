@@ -89,6 +89,7 @@ module Indico
   end
 
   def self.fer(test_image, config = nil)
+    size = (config != nil and config["detect"] == true) ? false : 48
     api_handler(preprocess(test_image, 48, false), 'fer', config)
   end
 
