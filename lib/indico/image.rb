@@ -2,7 +2,7 @@ require 'oily_png'
 require 'base64'
 
 module Indico
-  def self.preprocess(image, size, batch)
+  def self.preprocess(image, size, batch, resize = true)
     # image is [[f,f,f,f, ...], ..] or [[[f,f,f],[f,f,f],[f,f,f]], ...]
     if batch
       # Batch Request
@@ -24,8 +24,18 @@ module Indico
       raise Exception.new("Image input must be nested array of pixels, filename, or base64 string")
     end
 
-    # Resize and export base64 encoded string
-    return decoded_image.resize(size, size).to_data_url.gsub("data:image/png;base64," ,"")
+    if resize
+      height = decoded_image.height()
+      width = decoded_image.width()
+      # Resize and export base64 encoded string
+      if height > width
+        return decoded_image.resize(height / width * size, size).to_data_url.gsub("data:image/png;base64," ,"")
+      else
+        return decoded_image.resize(size, width / height * size).to_data_url.gsub("data:image/png;base64," ,"")
+      end
+    else
+      return decoded_image.to_data_url.gsub("data:image/png;base64," ,"")
+    end
   end
 
   def self.handle_string_input(str)
@@ -48,7 +58,7 @@ module Indico
     # Handles properly formatting and loading array of pixels
     # Single Request
     warn "Warning! Array input as image will be deprecated in the next major release.\n Consider using filepaths or base64 encoded strings"
-    
+
     dimens = get_dimension(image)
     isFloat = array_contains_float(image, dimens)
 
