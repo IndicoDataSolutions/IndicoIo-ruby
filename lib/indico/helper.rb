@@ -18,6 +18,10 @@ module Indico
     d = {}
     d['data'] = data
 
+    if data.class == Array
+        api += "/batch"
+    end
+
     unless config.nil?
       server = config[:cloud]
       api_key = config[:api_key]
