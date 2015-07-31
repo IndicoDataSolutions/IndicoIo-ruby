@@ -149,6 +149,12 @@ describe Indico do
     end
   end
 
+  it 'should locate a face in the image' do
+    expected_keys = Set.new(%w(top_left_corner bottom_right_corner))
+    response = Indico.facial_localization(File.dirname(__FILE__) + "/data/happy.png")[0]
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
   it 'should tag noise as sfw' do
     test_image= File.dirname(__FILE__) + "/data/happy.png"
     silent_warnings do
