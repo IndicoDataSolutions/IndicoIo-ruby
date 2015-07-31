@@ -2,29 +2,50 @@ require 'oily_png'
 require 'base64'
 
 module Indico
-  def self.preprocess(image, size)
+  def self.preprocess(image, size, min_axis)
+    
     if image.class == String
       decoded_image = handle_string_input(image)
     elsif image.class == Array
-        # Batch Request
-        im_array = Array.new
+      # Batch Request
+      im_array = Array.new
 
-        # process each image
-        image.each do |_image|
-          im_array.push(preprocess(_image, size))
-        end
+      # process each image
+      image.each do |_image|
+        im_array.push(preprocess(_image, size, min_axis))
+      end
 
-        return im_array
+      return im_array
     else
       raise Exception.new("Image input must be filename or base64 string")
     end
 
-    # Resize and export base64 encoded string
     if size
-        decoded_image = decoded_image.resize(size, size)
+      if min_axis
+        image = self.min_resize(decoded_image, size)
+      else
+        image = decoded_image.resize(size, size) 
+      end
+    else
+      image = decoded_image
     end
-    
-    return decoded_image.to_data_url.gsub("data:image/png;base64," ,"")
+
+    # Resize and export base64 encoded string
+    return image.to_data_url.gsub("data:image/png;base64," ,"")
+  end
+
+  def self.min_resize(decoded_image, size)
+    img_size = [decoded_image.width, decoded_image.height]
+    min_idx, max_idx = img_size[0] < img_size[1] ? [0, 1] : [1, 0]
+    aspect = img_size[max_idx] / Float(img_size[min_idx])
+    if aspect > 10
+      warn("An aspect ratio greater than 10:1 is not recommended")
+    end
+    size_arr = [0, 0]
+    size_arr[min_idx] = size
+    size_arr[max_idx] = Integer(size * aspect)
+    image = decoded_image.resize(size_arr[0], size_arr[1])
+    return image
   end
 
   def self.handle_string_input(str)

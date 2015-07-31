@@ -137,10 +137,9 @@ module Indico
     self.named_entities(text, config)
   end
 
-
   def self.fer(image, config = nil)
     size = (config != nil and config["detect"] == true) ? false : 48
-    api_handler(preprocess(image, size), 'fer', config)
+    api_handler(preprocess(image, size, false), 'fer', config)
   end
 
   def self.batch_fer(image, config = nil)
@@ -153,7 +152,7 @@ module Indico
 
 
   def self.facial_features(image, config = nil)
-    api_handler(preprocess(image, 48), 'facialfeatures', config)
+    api_handler(preprocess(image, 48, false), 'facialfeatures', config)
   end
 
   def self.batch_facial_features(image, config = nil)
@@ -162,11 +161,12 @@ module Indico
       "Please call `facial_features` instead with the same arguments"
     )
     self.facial_features(image, config)
+    api_handler(preprocess(image, 48, false, false), 'facialfeatures', config)
   end
 
 
   def self.image_features(image, config = nil)
-    api_handler(preprocess(image, 64), 'imagefeatures', config)
+    api_handler(preprocess(image, 64, false), 'imagefeatures', config)
   end
 
   def self.batch_image_features(image, config = nil)
@@ -177,9 +177,8 @@ module Indico
     self.image_features(image, config)
   end
 
-
   def self.content_filtering(image, config = nil)
-    api_handler(preprocess(image, 128), 'contentfiltering', config)
+    api_handler(preprocess(image, 128, true), 'contentfiltering', config)
   end
 
   def self.batch_content_filtering(image, config = nil)
@@ -190,10 +189,9 @@ module Indico
     self.content_filtering(image, config)
   end
 
-
   def self.predict_image(face, apis = IMAGE_APIS, config = nil)
     api_hash = {apis:apis}
-    multi(preprocess(face, 48), "image", apis, IMAGE_APIS, config ? config.update(api_hash) : api_hash)
+    multi(preprocess(face, 48, false), "image", apis, IMAGE_APIS, config ? config.update(api_hash) : api_hash)
   end
 
   def self.batch_predict_image(image, config = nil)

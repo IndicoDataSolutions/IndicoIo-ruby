@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'set'
 
+
 describe Indico do
   before do
     api_key = ENV['INDICO_API_KEY']
@@ -44,7 +45,7 @@ describe Indico do
   end
 
   it 'should tag text with correct twitter engagment tags' do
-    response = Indico.batch_twitter_engagement(['#Breaking rt if you <3 pic.twitter.com @Startup'])
+    response = Indico.twitter_engagement(['#Breaking rt if you <3 pic.twitter.com @Startup'])
 
     expect(response[0] < 1).to eql(true)
     expect(response[0] > 0).to eql(true)
