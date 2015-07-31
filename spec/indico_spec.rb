@@ -41,6 +41,13 @@ describe Indico do
     expect(response < 0.5).to eql(true)
   end
 
+  it 'should tag text with correct twitter engagment tags' do
+    response = Indico.twitter_engagement('#Breaking rt if you <3 pic.twitter.com @Startup')
+
+    expect(response < 1).to eql(true)
+    expect(response > 0).to eql(true)
+  end
+
   it 'should tag text with correct language tags' do
     expected_keys = Set.new([
       'English',
@@ -127,7 +134,7 @@ describe Indico do
 
   it 'should tag face with correct facial expression' do
     expected_keys = Set.new(%w(Angry Sad Neutral Surprise Fear Happy))
-    test_face = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
+    test_face= File.dirname(__FILE__) + "/data/happy.png"
     silent_warnings do
       response = Indico.fer(test_face)
       expect(Set.new(response.keys)).to eql(expected_keys)
@@ -135,15 +142,21 @@ describe Indico do
   end
 
   it 'should tag face with correct facial features' do
-    test_face = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
+    test_face= File.dirname(__FILE__) + "/data/happy.png"
     silent_warnings do
       response = Indico.facial_features(test_face)
       expect(response.length).to eql(48)
     end
   end
 
+  it 'should locate a face in the image' do
+    expected_keys = Set.new(%w(top_left_corner bottom_right_corner))
+    response = Indico.facial_localization(File.dirname(__FILE__) + "/data/happy.png")[0]
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
   it 'should tag noise as sfw' do
-    test_image = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
+    test_image= File.dirname(__FILE__) + "/data/happy.png"
     silent_warnings do
       response = Indico.content_filtering(test_image)
       expect(response).to be < 0.5
@@ -151,7 +164,7 @@ describe Indico do
   end
 
   it 'should tag image with correct image features' do
-    test_image = Array.new(48) { Array.new(48) { rand(100) / 100.0 } }
+    test_image= File.dirname(__FILE__) + "/data/happy.png"
     silent_warnings do
       response = Indico.image_features(test_image)
       expect(response.length).to eql(2048)
@@ -159,7 +172,7 @@ describe Indico do
   end
 
   it "should tag rgb image with correct image features" do
-    test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)/100.0}}}
+    test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
     silent_warnings do
       response = Indico.image_features(test_image)
       expect(response.length).to eql(2048)
@@ -199,7 +212,7 @@ describe Indico do
   end
 
   it "should respond with all image apis called" do
-    test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)/100.0}}}
+    test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
     expected_keys = Set.new(IMAGE_APIS)
     silent_warnings do
       response = Indico.predict_image(test_image, IMAGE_APIS)
@@ -210,7 +223,7 @@ describe Indico do
   end
 
   it "should respond with all image apis called on int array" do
-    test_image = Array.new(48){Array.new(48){Array.new(3){rand(100)}}}
+    test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
     expected_keys = Set.new(IMAGE_APIS)
     silent_warnings do
       response = Indico.predict_image(test_image, IMAGE_APIS)
@@ -220,6 +233,14 @@ describe Indico do
     end
   end
 
+  it 'should properly resize an image with min_axis set' do
+    test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
+    silent_warnings do
+      image = Indico.preprocess(test_image, 128, true)
+      image = ChunkyPNG::Image.from_data_url("data:image/png;base64," + image.gsub("data:image/png;base64," ,""))
+      expect(image.width).to eql(128)
+    end
+  end
 
   # Uncomment when frontend updated to accept image urls
   # it 'should accept image urls' do
