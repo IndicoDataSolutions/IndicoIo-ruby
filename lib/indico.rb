@@ -164,6 +164,13 @@ module Indico
     api_handler(preprocess(image, 48, false, false), 'facialfeatures', config)
   end
 
+  def self.facial_localization(image, config = nil)
+    api_handler(preprocess(image, 128, false), 'faciallocalization', config)
+  end
+
+  def self.batch_facial_localization(image, config = nil)
+    api_handler(preprocess(image, 128, true), 'faciallocalization/batch', config)
+  end
 
   def self.image_features(image, config = nil)
     api_handler(preprocess(image, 64, false), 'imagefeatures', config)
