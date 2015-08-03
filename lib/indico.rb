@@ -161,9 +161,19 @@ module Indico
       "Please call `facial_features` instead with the same arguments"
     )
     self.facial_features(image, config)
-    api_handler(preprocess(image, 48, false, false), 'facialfeatures', config)
   end
 
+  def self.facial_localization(image, config = nil)
+    api_handler(preprocess(image, 128, false), 'faciallocalization', config)
+  end
+
+  def self.batch_facial_localization(image, config = nil)
+    warn(
+      "The `batch_facial_localization` function will be deprecated in the next major upgrade. " + 
+      "Please call `facial_localization` instead with the same arguments"
+    )
+    self.facial_localization(image, config)
+  end
 
   def self.image_features(image, config = nil)
     api_handler(preprocess(image, 64, false), 'imagefeatures', config)

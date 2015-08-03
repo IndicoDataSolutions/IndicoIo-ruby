@@ -177,6 +177,16 @@ describe Indico do
     end
   end
 
+  it 'should locate a face in the image' do
+    test_image = File.dirname(__FILE__) + "/data/happy.png"
+    expected_keys = Set.new(%w(top_left_corner bottom_right_corner))
+    silent_warnings do
+      response = Indico.facial_localization([test_image, test_image], @config)
+      expect(Set.new(response[0][0].keys)).to eql(expected_keys)
+      expect(Set.new(response[1][0].keys)).to eql(expected_keys)
+    end
+  end
+
   it "should respond with all text apis called in batch" do
     expected_keys = Set.new(TEXT_APIS)
     response = Indico.predict_text(["Worst movie ever."], TEXT_APIS)
