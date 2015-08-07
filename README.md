@@ -72,7 +72,7 @@ Each `Indico` method has a corresponding batch method for analyzing many example
 
 => "YOUR_API_KEY"
 
-> Indico.batch_sentiment(['Best day ever', 'Worst day ever'])
+> Indico.sentiment(['Best day ever', 'Worst day ever'])
 
 => [0.9899001220871786, 0.005709885173415242]
 ```
@@ -99,7 +99,7 @@ Accepted image API names: `fer, facial_features, image_features`
 
 => {"sentiment"=>0.9899001220871786, "language"=>{"Swedish"=>0.0022464881013042294, "Vietnamese"=>9.887170914498351e-05, ...}}
 
-> Indico.batch_predict_text(["Best day ever", "Worst day ever"], ["sentiment", "language"])
+> Indico.predict_text(["Best day ever", "Worst day ever"], ["sentiment", "language"])
 
 => {"sentiment"=>[0.9899001220871786, 0.005709885173415242], "language"=>[{"Swedish"=>0.0022464881013042294, "Vietnamese"=>9.887170914498351e-05, "Romanian"=>0.00010661175919993216, ...}, {"Swedish"=>0.4924352805804646, "Vietnamese"=>0.028574824174911372, "Romanian"=>0.004185623723173551, "Dutch"=>0.000717033819689362, "Korean"=>0.0030093489153785826, ...}]}
 
@@ -111,7 +111,7 @@ Accepted image API names: `fer, facial_features, image_features`
 
 => {"facial_features"=>[0.0, -0.026176479280200796, 0.20707644777495776, ...], "fer"=>{"Angry"=>0.08877494466353497, "Sad"=>0.3933999409104264, "Neutral"=>0.1910612654566151, "Surprise"=>0.0346146405941845, "Fear"=>0.17682159820518667, "Happy"=>0.11532761017005204}}
 
-> Indico.batch_predict_image([test_face, test_face], ["fer", "facial_features"])
+> Indico.predict_image([test_face, test_face], ["fer", "facial_features"])
 
 => {"facial_features"=>[[0.0, -0.026176479280200796, 0.20707644777495776, ...], [0.0, -0.026176479280200796, 0.20707644777495776, ...]], "fer"=>[{"Angry"=>0.08877494466353497, "Sad"=>0.3933999409104264, "Neutral"=>0.1910612654566151, "Surprise"=>0.0346146405941845, "Fear"=>0.17682159820518667, "Happy"=>0.11532761017005204}, {"Angry"=>0.08877494466353497, "Sad"=>0.3933999409104264, "Neutral"=>0.1910612654566151, "Surprise"=>0.0346146405941845, "Fear"=>0.17682159820518667, "Happy"=>0.11532761017005204}]}
 ```
