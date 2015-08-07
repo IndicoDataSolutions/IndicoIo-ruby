@@ -114,6 +114,21 @@ describe Indico do
     expect Set.new(response.keys).subset?(Set.new(expected_keys))
   end
 
+  it 'should tag text with correct keywords for auto detect language' do
+    text = "La semaine suivante, il remporte sa premiere victoire, dans la descente de Val Gardena en Italie, près de cinq ans après la dernière victoire en Coupe du monde d'un Français dans cette discipline, avec le succès de Nicolas Burtin à Kvitfjell."
+    config = { "language" => "detect" }
+    response = Indico.keywords(text)
+
+    expect Set.new(response.keys).subset?(Set.new(text.gsub(/\s+/m, ' ').strip.split(" ")))
+  end
+  it 'should tag text with correct keywords for specified language' do
+    text = "La semaine suivante, il remporte sa premiere victoire, dans la descente de Val Gardena en Italie, près de cinq ans après la dernière victoire en Coupe du monde d'un Français dans cette discipline, avec le succès de Nicolas Burtin à Kvitfjell."
+    config = { "language" => "French" }
+    response = Indico.keywords(text)
+
+    expect Set.new(response.keys).subset?(Set.new(text.gsub(/\s+/m, ' ').strip.split(" ")))
+  end
+
   it 'should return all named entities with category breakdowns' do
     expected_keys = Set.new(%w(unknown organization location person))
     response = Indico.named_entities('I want to move to New York City!')
@@ -127,7 +142,7 @@ describe Indico do
   end
 
   it 'should return no named entities when threshold is 1' do
-    config = { threshold: 1 }
+    config = { "threshold" => 1 }
     response = Indico.named_entities('I want to move to New York City!', config)
     expect(response.keys.length).to eql(0)
   end
