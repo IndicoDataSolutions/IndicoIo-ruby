@@ -199,30 +199,30 @@ module Indico
     self.content_filtering(image, config)
   end
 
-  def self.predict_image(face, apis = IMAGE_APIS, config = nil)
+  def self.analyze_image(face, apis = IMAGE_APIS, config = nil)
     api_hash = {apis:apis}
     multi(preprocess(face, 48, false), "image", apis, IMAGE_APIS, config ? config.update(api_hash) : api_hash)
   end
 
-  def self.batch_predict_image(image, config = nil)
+  def self.batch_analyze_image(image, apis = IMAGE_APIS, config = nil)
     warn(
-      "The `batch_predict_image` function will be deprecated in the next major upgrade. " + 
-      "Please call `predict_image` instead with the same arguments"
+      "The `batch_analyze_image` function will be deprecated in the next major upgrade. " + 
+      "Please call `analyze_image` instead with the same arguments"
     )
-    self.predict_image(image, config)
+    self.analyze_image(image, apis, config)
   end
 
-  def self.predict_text(text, apis = TEXT_APIS, config = nil)
+  def self.analyze_text(text, apis = TEXT_APIS, config = nil)
     api_hash = {apis:apis}
     multi(text, "text", apis, TEXT_APIS, config ? config.update(api_hash) : api_hash)
   end
 
-  def self.batch_predict_text(text, config = nil)
+  def self.batch_analyze_text(text, apis = TEXT_APIS, config = nil)
     warn(
-      "The `batch_predict_text` function will be deprecated in the next major upgrade. " + 
-      "Please call `predict_text` instead with the same arguments"
+      "The `batch_analyze_text` function will be deprecated in the next major upgrade. " + 
+      "Please call `analyze_text` instead with the same arguments"
     )
-    self.predict_text(text, config)
+    self.analyze_text(text, apis, config)
   end
 
 end

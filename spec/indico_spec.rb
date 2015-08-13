@@ -212,7 +212,7 @@ describe Indico do
 
   it "should respond with all text apis called" do
     expected_keys = Set.new(TEXT_APIS)
-    response = Indico.predict_text("Worst movie ever.", TEXT_APIS)
+    response = Indico.analyze_text("Worst movie ever.", TEXT_APIS)
 
     expect(response.class).to eql(Hash)
     expect(Set.new(response.keys)).to eql(expected_keys)
@@ -220,7 +220,7 @@ describe Indico do
 
   it "should respond with all text apis called by default" do
     expected_keys = Set.new(TEXT_APIS)
-    response = Indico.predict_text("Worst movie ever.", TEXT_APIS)
+    response = Indico.analyze_text("Worst movie ever.", TEXT_APIS)
 
     expect(response.class).to eql(Hash)
     expect(Set.new(response.keys)).to eql(expected_keys)
@@ -230,7 +230,7 @@ describe Indico do
     test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
     expected_keys = Set.new(IMAGE_APIS)
     silent_warnings do
-      response = Indico.predict_image(test_image, IMAGE_APIS)
+      response = Indico.analyze_image(test_image, IMAGE_APIS)
 
       expect(response.class).to eql(Hash)
       expect(Set.new(response.keys)).to eql(expected_keys)
@@ -241,7 +241,7 @@ describe Indico do
     test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
     expected_keys = Set.new(IMAGE_APIS)
     silent_warnings do
-      response = Indico.predict_image(test_image, IMAGE_APIS)
+      response = Indico.analyze_image(test_image, IMAGE_APIS)
 
       expect(response.class).to eql(Hash)
       expect(Set.new(response.keys)).to eql(expected_keys)
@@ -255,6 +255,21 @@ describe Indico do
       image = ChunkyPNG::Image.from_data_url("data:image/png;base64," + image.gsub("data:image/png;base64," ,""))
       expect(image.width).to eql(128)
     end
+  end
+
+  it 'should respond with proper results from intersections api' do
+    text = ['data', 'baseball', 'weather']
+    apis = ['twitter_engagement', 'sentiment']
+    response = Indico.intersections(text, apis)
+    expect(Set.new(response.keys)).to eql(Set.new(['twitter_engagement']))
+  end
+
+  it 'should respond with proper results from raw intersections api' do
+    data = {}
+    data['sentiment'] = [0.1, 0.2, 0.3];
+    data['twitter_engagement'] = [0.1, 0.2, 0.3]
+    response = Indico.intersections(data, ['sentiment', 'twitter_engagement'])
+    expect(Set.new(response.keys)).to eql(Set.new(['sentiment']))
   end
 
   # Uncomment when frontend updated to accept image urls
