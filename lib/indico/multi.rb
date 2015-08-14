@@ -1,4 +1,5 @@
 require_relative './errors'
+require_relative './settings'
 
 module Indico
   CLIENT_TO_SERVER = {
@@ -8,41 +9,69 @@ module Indico
     "language" => "language",
     "text_tags" => "texttags",
     "fer" => "fer",
-    "named_entities" => "named_entities",
+    "named_entities" => "namedentities",
     "keywords" => "keywords",
     "facial_features" => "facialfeatures",
+    "facial_localization" => "facial_localization",
     "image_features" => "imagefeatures",
     "content_filtering" => "contentfiltering",
     "twitter_engagement" => "twitterengagement"
   }
 
   SERVER_TO_CLIENT = CLIENT_TO_SERVER.invert
-  def self.multi(data, type, apis, allowed, batch = false, config)
-    converted_apis = Array.new
+
+  def self.validate_apis(apis, type="api", allowed=CLIENT_TO_SERVER.keys)
     apis.each { |api|
       if not allowed.include? api
         fail  api + " is not a valid api for " + type + " requests. Please use: " + allowed.join(", ")
-      else
-        converted_apis.push(CLIENT_TO_SERVER[api])
       end
     }
+  end
+
+  def self.multi(data, type, apis, allowed, batch = false, config)
 
     if config.nil?
       config = {}
     end
 
-    config[:apis] = converted_apis
+    self.validate_apis(apis, type, allowed)
+    config[:apis] = apis
     response = api_handler(data, batch ? "apis/batch" : "apis", config)
-    results = handle_multi(response)
+    return handle_multi(response)
+  end
 
-    results
+  def self.intersections(data, apis = nil, config = nil)
+
+    if apis == nil
+      fail "Argument 'apis' must be provided"
+    end
+
+    api_types = apis.map { |api| API_TYPES[api] }
+
+    if !apis.is_a? Array or apis.length != 2
+      fail "Argument 'apis' must be of length 2"
+    elsif data.is_a? Array and data.length < 3
+      fail "At least 3 examples are required to use the intersections api"
+    elsif api_types[0] != api_types[1]
+      fail "Both 'apis' must accept the same kind of input to use the intersections api."
+    end
+
+    if config.nil?
+      config = {}
+    end
+
+    self.validate_apis(apis)
+    config[:apis] = apis
+    response = api_handler(data, "apis/intersections", config)
+    return response
+
   end
 
   def self.handle_multi(results)
     converted_results = Hash.new
     results.each do |key, value|
       if value.is_a?(Hash) && value.has_key?("results")
-        converted_results[SERVER_TO_CLIENT[key]] = value["results"]
+        converted_results[key] = value["results"]
       else
         raise IndicoError, 'unexpected result from ' + key + '. ' + value.fetch("error", "")
       end
