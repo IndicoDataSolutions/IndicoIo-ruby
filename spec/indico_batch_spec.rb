@@ -189,7 +189,7 @@ describe Indico do
 
   it "should respond with all text apis called in batch" do
     expected_keys = Set.new(TEXT_APIS)
-    response = Indico.predict_text(["Worst movie ever."], TEXT_APIS)
+    response = Indico.analyze_text(["Worst movie ever."], TEXT_APIS)
 
     expect(response.class).to eql(Hash)
     expect(Set.new(response.keys)).to eql(expected_keys)
@@ -199,7 +199,7 @@ describe Indico do
     test_image = File.dirname(__FILE__) + "/data/happy.png"
     expected_keys = Set.new(IMAGE_APIS)
     silent_warnings do
-      response = Indico.predict_image([test_image], IMAGE_APIS)
+      response = Indico.analyze_image([test_image], IMAGE_APIS)
 
       expect(response.class).to eql(Hash)
       expect(Set.new(response.keys)).to eql(expected_keys)
@@ -210,7 +210,7 @@ describe Indico do
     test_image = File.dirname(__FILE__) + "/data/happy.png"
     expected_keys = Set.new(IMAGE_APIS)
     silent_warnings do
-      response = Indico.predict_image([test_image], IMAGE_APIS)
+      response = Indico.analyze_image([test_image], IMAGE_APIS)
 
       expect(response.class).to eql(Hash)
       expect(Set.new(response.keys)).to eql(expected_keys)

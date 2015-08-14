@@ -6,8 +6,31 @@ HEADERS = { 'Content-Type' => 'application/json',
             'client-lib' => 'ruby',
             'version-number' => Indico::VERSION }
 # APIS
-TEXT_APIS = ["political", "sentiment", "sentiment_hq", "language", "text_tags"]
-IMAGE_APIS = ["fer", "facial_features", "image_features", "content_filtering"]
+TEXT_APIS = [
+  "political", 
+  "sentiment", 
+  "sentiment_hq", 
+  "language", 
+  "text_tags", 
+  "twitter_engagement", 
+  "keywords", 
+  "named_entities"
+]
+IMAGE_APIS = [
+  "fer", 
+  "facial_features", 
+  "facial_localization",
+  "image_features", 
+  "content_filtering"
+]
+
+API_TYPES = {}
+TEXT_APIS.each do |api|
+  API_TYPES[:api] = 'text'
+end
+IMAGE_APIS.each do |api|
+  API_TYPES[:api] = 'image'
+end
 
 module Indico
   private

@@ -19,20 +19,22 @@ module Indico
     d['data'] = data
 
     if data.class == Array
+      if api != "apis/intersections"
         api += "/batch"
+      end
     end
 
     unless config.nil?
-      server = config[:cloud]
-      api_key = config[:api_key]
-      apis = config[:apis]
+      server = config.delete('cloud')
+      api_key = config.delete('api_key')
+      apis = config.delete(:apis)
       d = d.merge(config)
     end
+
 
     server = server or Indico.config['cloud']
 
     url = url_join(server, api) + (apis ? "?apis=" + apis.join(",") : "")
-
     response = make_request(url, JSON.dump(d),
                             add_api_key_to_header((api_key or Indico.config['auth'])))
 
