@@ -5,7 +5,7 @@ module Indico
 
   def self.url_join(root, api)
     if !root
-      'https://dev.indico.domains/' + api
+      'https://apiv2.indico.io/' + api
     else
       Indico.cloud_protocol + root + '.indico.domains/' + api
     end

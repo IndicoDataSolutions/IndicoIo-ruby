@@ -12,6 +12,7 @@ module Indico
     "named_entities" => "namedentities",
     "keywords" => "keywords",
     "facial_features" => "facialfeatures",
+    "facial_localization" => "facial_localization",
     "image_features" => "imagefeatures",
     "content_filtering" => "contentfiltering",
     "twitter_engagement" => "twitterengagement"
