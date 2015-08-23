@@ -80,7 +80,7 @@ Each `Indico` method has a corresponding batch method for analyzing many example
 
 Calling multiple APIs with a single function
 ---------
-There are two multiple API functions `predict_text` and `predict_image` (and their batch counterparts). These functions are similar to the existing api functions, but take in an additional `apis` argument as an array of strings of API names (defaults to all existing apis). `predict_text` accepts a list of existing text APIs and vice versa for `predict_image`.
+There are two multiple API functions `analyze_text` and `analyze_image` (and their batch counterparts). These functions are similar to the existing api functions, but take in an additional `apis` argument as an array of strings of API names (defaults to all existing apis). `analyze_text` accepts a list of existing text APIs and vice versa for `analyze_image`.
 
 Accepted text API names: `text_tags, political, sentiment, language`
 
@@ -95,11 +95,11 @@ Accepted image API names: `fer, facial_features, image_features`
 
 => "YOUR_API_KEY"
 
-> Indico.predict_text("Best day ever", ["sentiment", "language"])
+> Indico.analyze_text("Best day ever", ["sentiment", "language"])
 
 => {"sentiment"=>0.9899001220871786, "language"=>{"Swedish"=>0.0022464881013042294, "Vietnamese"=>9.887170914498351e-05, ...}}
 
-> Indico.predict_text(["Best day ever", "Worst day ever"], ["sentiment", "language"])
+> Indico.analyze_text(["Best day ever", "Worst day ever"], ["sentiment", "language"])
 
 => {"sentiment"=>[0.9899001220871786, 0.005709885173415242], "language"=>[{"Swedish"=>0.0022464881013042294, "Vietnamese"=>9.887170914498351e-05, "Romanian"=>0.00010661175919993216, ...}, {"Swedish"=>0.4924352805804646, "Vietnamese"=>0.028574824174911372, "Romanian"=>0.004185623723173551, "Dutch"=>0.000717033819689362, "Korean"=>0.0030093489153785826, ...}]}
 
@@ -107,11 +107,11 @@ Accepted image API names: `fer, facial_features, image_features`
 
 => [[[0.66, 0.99, 0.03], [0.42, 0.72, 0.86], [0.95, 0.44, 0.61], [0.39, 0.57, 0.4], [0.06, 0.52, 0.43], [0.11, 0.09, 0.78], [0.35, 0.69, 0.32], [0.44, 0.5, 0.26], [0.71, 0.75, 0.64], [0.91, 0.92, 0.14], [0.71, 0.98, 0.02], ..]]
 
-> Indico.predict_image(test_face, ["fer", "facial_features"])
+> Indico.analyze_image(test_face, ["fer", "facial_features"])
 
 => {"facial_features"=>[0.0, -0.026176479280200796, 0.20707644777495776, ...], "fer"=>{"Angry"=>0.08877494466353497, "Sad"=>0.3933999409104264, "Neutral"=>0.1910612654566151, "Surprise"=>0.0346146405941845, "Fear"=>0.17682159820518667, "Happy"=>0.11532761017005204}}
 
-> Indico.predict_image([test_face, test_face], ["fer", "facial_features"])
+> Indico.analyze_image([test_face, test_face], ["fer", "facial_features"])
 
 => {"facial_features"=>[[0.0, -0.026176479280200796, 0.20707644777495776, ...], [0.0, -0.026176479280200796, 0.20707644777495776, ...]], "fer"=>[{"Angry"=>0.08877494466353497, "Sad"=>0.3933999409104264, "Neutral"=>0.1910612654566151, "Surprise"=>0.0346146405941845, "Fear"=>0.17682159820518667, "Happy"=>0.11532761017005204}, {"Angry"=>0.08877494466353497, "Sad"=>0.3933999409104264, "Neutral"=>0.1910612654566151, "Surprise"=>0.0346146405941845, "Fear"=>0.17682159820518667, "Happy"=>0.11532761017005204}]}
 ```
