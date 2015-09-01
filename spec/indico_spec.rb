@@ -6,8 +6,6 @@ describe Indico do
   before do
     api_key = ENV['INDICO_API_KEY']
     private_cloud = 'indico-test'
-    # FIXME - REMOVE WHEN SENTIMENTHQ RELEASE
-    TEXT_APIS.delete("sentiment_hq")
     @config = { api_key: api_key, cloud: private_cloud}
   end
 
@@ -117,14 +115,14 @@ describe Indico do
   it 'should tag text with correct keywords for auto detect language' do
     text = "La semaine suivante, il remporte sa premiere victoire, dans la descente de Val Gardena en Italie, près de cinq ans après la dernière victoire en Coupe du monde d'un Français dans cette discipline, avec le succès de Nicolas Burtin à Kvitfjell."
     config = { "language" => "detect" }
-    response = Indico.keywords(text)
+    response = Indico.keywords(text, config)
 
     expect Set.new(response.keys).subset?(Set.new(text.gsub(/\s+/m, ' ').strip.split(" ")))
   end
   it 'should tag text with correct keywords for specified language' do
     text = "La semaine suivante, il remporte sa premiere victoire, dans la descente de Val Gardena en Italie, près de cinq ans après la dernière victoire en Coupe du monde d'un Français dans cette discipline, avec le succès de Nicolas Burtin à Kvitfjell."
     config = { "language" => "French" }
-    response = Indico.keywords(text)
+    response = Indico.keywords(text, config)
 
     expect Set.new(response.keys).subset?(Set.new(text.gsub(/\s+/m, ' ').strip.split(" ")))
   end
