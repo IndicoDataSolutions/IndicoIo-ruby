@@ -75,6 +75,7 @@ describe Indico do
     end
 
     it 'should set api key with a call to set_api_key' do
+        saved_key = Indico.api_key
         Indico.api_key = nil
         begin
             Indico.political('Guns don\'t kill people. People kill people.')
@@ -91,5 +92,6 @@ describe Indico do
         else
             fail('api_key was not null')
         end
+        Indico.api_key = saved_key
     end
 end

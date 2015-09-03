@@ -14,6 +14,7 @@ module Indico
   def self.api_handler(data, api, config)
     server = nil
     api_key = nil
+    version = nil
 
     d = {}
     d['data'] = data
@@ -28,15 +29,24 @@ module Indico
       server = config.delete('cloud')
       api_key = config.delete('api_key')
       apis = config.delete(:apis)
+      version = config.delete(:version)
       d = d.merge(config)
     end
 
+    api_key = (api_key or Indico.config['auth'])
+    server = (server or Indico.config['cloud'])
 
-    server = server or Indico.config['cloud']
+    if api_key.nil?
+      raise ArgumentError, 'api key is required'
+    end
+    
+    url = url_join(server, api) + \
+         ("?key=" + api_key) + \
+         (apis ? "&apis=" + apis.join(",") : "") + \
+         (version ? "&version=" + version : "")
 
-    url = url_join(server, api) + (apis ? "?apis=" + apis.join(",") : "")
     response = make_request(url, JSON.dump(d),
-                            add_api_key_to_header((api_key or Indico.config['auth'])))
+                            add_api_key_to_header(api_key))
 
 
     results = JSON.parse(response.body)
@@ -67,9 +77,6 @@ module Indico
   end
 
   def self.add_api_key_to_header(api_key)
-    if api_key.nil?
-      raise ArgumentError, 'api key is required'
-    end
     headers = HEADERS
     headers['X-ApiKey'] = api_key
     headers
