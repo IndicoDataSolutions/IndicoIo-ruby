@@ -30,7 +30,7 @@ module Indico
 
   def self.batch_political(text, config = nil)
     warn(
-      "The `batch_political` function will be deprecated in the next major upgrade. " + 
+      "The `batch_political` function will be deprecated in the next major upgrade. " +
       "Please call `political` instead with the same arguments"
     )
     self.political(text, config)
@@ -42,7 +42,7 @@ module Indico
 
   def self.batch_posneg(text, config = nil)
     warn(
-      "The `batch_posneg` function will be deprecated in the next major upgrade. " + 
+      "The `batch_posneg` function will be deprecated in the next major upgrade. " +
       "Please call `posneg` instead with the same arguments"
     )
     self.posneg(text, config)
@@ -54,7 +54,7 @@ module Indico
 
   def self.batch_sentiment(text, config = nil)
     warn(
-      "The `batch_sentiment` function will be deprecated in the next major upgrade. " + 
+      "The `batch_sentiment` function will be deprecated in the next major upgrade. " +
       "Please call `sentiment` instead with the same arguments"
     )
     self.sentiment(text, config)
@@ -67,7 +67,7 @@ module Indico
 
   def self.batch_twitter_engagement(text, config = nil)
     warn(
-      "The `batch_twitter_engagement` function will be deprecated in the next major upgrade. " + 
+      "The `batch_twitter_engagement` function will be deprecated in the next major upgrade. " +
       "Please call `twitter_engagement` instead with the same arguments"
     )
     self.twitter_engagement(text, config)
@@ -79,7 +79,7 @@ module Indico
 
   def self.batch_sentiment_hq(text, config = nil)
     warn(
-      "The `batch_sentiment_hq` function will be deprecated in the next major upgrade. " + 
+      "The `batch_sentiment_hq` function will be deprecated in the next major upgrade. " +
       "Please call `sentiment_hq` instead with the same arguments"
     )
     self.sentiment_hq(text, config)
@@ -92,7 +92,7 @@ module Indico
 
   def self.batch_language(text, config = nil)
     warn(
-      "The `batch_language` function will be deprecated in the next major upgrade. " + 
+      "The `batch_language` function will be deprecated in the next major upgrade. " +
       "Please call `language` instead with the same arguments"
     )
     self.language(text, config)
@@ -105,7 +105,7 @@ module Indico
 
   def self.batch_text_tags(text, config = nil)
     warn(
-      "The `batch_text_tags` function will be deprecated in the next major upgrade. " + 
+      "The `batch_text_tags` function will be deprecated in the next major upgrade. " +
       "Please call `text_tags` instead with the same arguments"
     )
     self.text_tags(text, config)
@@ -118,7 +118,7 @@ module Indico
 
   def self.batch_keywords(text, config = nil)
     warn(
-      "The `batch_keywords` function will be deprecated in the next major upgrade. " + 
+      "The `batch_keywords` function will be deprecated in the next major upgrade. " +
       "Please call `keywords` instead with the same arguments"
     )
     self.keywords(text, config)
@@ -131,7 +131,7 @@ module Indico
 
   def self.batch_named_entities(text, config = nil)
     warn(
-      "The `batch_named_entities` function will be deprecated in the next major upgrade. " + 
+      "The `batch_named_entities` function will be deprecated in the next major upgrade. " +
       "Please call `named_entities` instead with the same arguments"
     )
     self.named_entities(text, config)
@@ -144,7 +144,7 @@ module Indico
 
   def self.batch_fer(image, config = nil)
     warn(
-      "The `batch_fer` function will be deprecated in the next major upgrade. " + 
+      "The `batch_fer` function will be deprecated in the next major upgrade. " +
       "Please call `fer` instead with the same arguments"
     )
     self.fer(image, config)
@@ -157,31 +157,35 @@ module Indico
 
   def self.batch_facial_features(image, config = nil)
     warn(
-      "The `batch_facial_features` function will be deprecated in the next major upgrade. " + 
+      "The `batch_facial_features` function will be deprecated in the next major upgrade. " +
       "Please call `facial_features` instead with the same arguments"
     )
     self.facial_features(image, config)
   end
 
   def self.facial_localization(image, config = nil)
-    api_handler(preprocess(image, 128, false), 'faciallocalization', config)
+    api_handler(preprocess(image, false, false), 'faciallocalization', config)
   end
 
   def self.batch_facial_localization(image, config = nil)
     warn(
-      "The `batch_facial_localization` function will be deprecated in the next major upgrade. " + 
+      "The `batch_facial_localization` function will be deprecated in the next major upgrade. " +
       "Please call `facial_localization` instead with the same arguments"
     )
     self.facial_localization(image, config)
   end
 
   def self.image_features(image, config = nil)
-    api_handler(preprocess(image, 64, false), 'imagefeatures', config)
+    api_handler(preprocess(image, 144, true), 'imagefeatures', config)
+  end
+
+  def self.image_recognition(image, config = nil)
+    api_handler(preprocess(image, 144, true), 'imagerecognition', config)
   end
 
   def self.batch_image_features(image, config = nil)
     warn(
-      "The `batch_image_features` function will be deprecated in the next major upgrade. " + 
+      "The `batch_image_features` function will be deprecated in the next major upgrade. " +
       "Please call `image_features` instead with the same arguments"
     )
     self.image_features(image, config)
@@ -193,7 +197,7 @@ module Indico
 
   def self.batch_content_filtering(image, config = nil)
     warn(
-      "The `batch_content_filtering` function will be deprecated in the next major upgrade. " + 
+      "The `batch_content_filtering` function will be deprecated in the next major upgrade. " +
       "Please call `content_filtering` instead with the same arguments"
     )
     self.content_filtering(image, config)
@@ -206,7 +210,7 @@ module Indico
 
   def self.batch_analyze_image(image, apis = IMAGE_APIS, config = nil)
     warn(
-      "The `batch_analyze_image` function will be deprecated in the next major upgrade. " + 
+      "The `batch_analyze_image` function will be deprecated in the next major upgrade. " +
       "Please call `analyze_image` instead with the same arguments"
     )
     self.analyze_image(image, apis, config)
@@ -219,7 +223,7 @@ module Indico
 
   def self.batch_analyze_text(text, apis = TEXT_APIS, config = nil)
     warn(
-      "The `batch_analyze_text` function will be deprecated in the next major upgrade. " + 
+      "The `batch_analyze_text` function will be deprecated in the next major upgrade. " +
       "Please call `analyze_text` instead with the same arguments"
     )
     self.analyze_text(text, apis, config)
