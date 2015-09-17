@@ -6,8 +6,6 @@ describe Indico do
   before do
     api_key = ENV['INDICO_API_KEY']
     private_cloud = 'indico-test'
-    # FIXME - REMOVE WHEN SENTIMENTHQ RELEASE
-    TEXT_APIS.delete("sentiment_hq")
     @config = { api_key: api_key, cloud: private_cloud}
   end
 
@@ -117,14 +115,14 @@ describe Indico do
   it 'should tag text with correct keywords for auto detect language' do
     text = "La semaine suivante, il remporte sa premiere victoire, dans la descente de Val Gardena en Italie, près de cinq ans après la dernière victoire en Coupe du monde d'un Français dans cette discipline, avec le succès de Nicolas Burtin à Kvitfjell."
     config = { "language" => "detect" }
-    response = Indico.keywords(text)
+    response = Indico.keywords(text, config)
 
     expect Set.new(response.keys).subset?(Set.new(text.gsub(/\s+/m, ' ').strip.split(" ")))
   end
   it 'should tag text with correct keywords for specified language' do
     text = "La semaine suivante, il remporte sa premiere victoire, dans la descente de Val Gardena en Italie, près de cinq ans après la dernière victoire en Coupe du monde d'un Français dans cette discipline, avec le succès de Nicolas Burtin à Kvitfjell."
     config = { "language" => "French" }
-    response = Indico.keywords(text)
+    response = Indico.keywords(text, config)
 
     expect Set.new(response.keys).subset?(Set.new(text.gsub(/\s+/m, ' ').strip.split(" ")))
   end
@@ -180,6 +178,14 @@ describe Indico do
 
   it 'should tag image with correct image features' do
     test_image= File.dirname(__FILE__) + "/data/happy.png"
+    silent_warnings do
+      response = Indico.image_features(test_image)
+      expect(response.length).to eql(2048)
+    end
+  end
+
+  it 'should tag image with correct image features with jpg files' do
+    test_image= File.dirname(__FILE__) + "/data/dog.jpg"
     silent_warnings do
       response = Indico.image_features(test_image)
       expect(response.length).to eql(2048)
@@ -277,7 +283,7 @@ describe Indico do
   #   response = Indico.image_features('http://icons.iconarchive.com/icons/' +
   #                                    'oxygen-icons.org/oxygen/48/' +
   #                                    'Emotes-face-smile-icon.png')
-
+  #
   #   expect(response.length).to eql(2048)
   # end
 end
