@@ -7,20 +7,20 @@ HEADERS = { 'Content-Type' => 'application/json',
             'version-number' => Indico::VERSION }
 # APIS
 TEXT_APIS = [
-  "political", 
-  "sentiment", 
-  "sentiment_hq", 
+  "political",
+  "sentiment",
+  "sentiment_hq",
   "language", 
-  "text_tags", 
-  "twitter_engagement", 
-  "keywords", 
+  "text_tags",
+  "twitter_engagement",
+  "keywords",
   "named_entities"
 ]
 IMAGE_APIS = [
-  "fer", 
-  "facial_features", 
+  "fer",
+  "facial_features",
   "facial_localization",
-  "image_features", 
+  "image_features",
   "content_filtering"
 ]
 
