@@ -184,6 +184,14 @@ describe Indico do
     end
   end
 
+  it 'should tag image with correct image features with jpg files' do
+    test_image= File.dirname(__FILE__) + "/data/dog.jpg"
+    silent_warnings do
+      response = Indico.image_features(test_image)
+      expect(response.length).to eql(2048)
+    end
+  end
+
   it "should tag rgb image with correct image features" do
     test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
     silent_warnings do
@@ -275,7 +283,7 @@ describe Indico do
   #   response = Indico.image_features('http://icons.iconarchive.com/icons/' +
   #                                    'oxygen-icons.org/oxygen/48/' +
   #                                    'Emotes-face-smile-icon.png')
-
+  #
   #   expect(response.length).to eql(2048)
   # end
 end
