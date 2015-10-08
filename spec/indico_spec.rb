@@ -278,12 +278,11 @@ describe Indico do
     expect(Set.new(response.keys)).to eql(Set.new(['sentiment']))
   end
 
-  # Uncomment when frontend updated to accept image urls
-  # it 'should accept image urls' do
-  #   response = Indico.image_features('http://icons.iconarchive.com/icons/' +
-  #                                    'oxygen-icons.org/oxygen/48/' +
-  #                                    'Emotes-face-smile-icon.png')
-  #
-  #   expect(response.length).to eql(2048)
-  # end
+  it 'should accept image urls' do
+    response = Indico.image_features('http://icons.iconarchive.com/icons/' +
+                                     'oxygen-icons.org/oxygen/48/' +
+                                     'Emotes-face-smile-icon.png')
+  
+    expect(response.length).to eql(2048)
+  end
 end

@@ -1,5 +1,6 @@
 require 'oily_png'
 require 'base64'
+require 'uri'
 
 module Indico
     def self.preprocess(image, size, min_axis)
@@ -52,6 +53,8 @@ module Indico
                     image = Base64.encode64(file.read)
                 end
             end
+        elsif str =~ /\A#{URI::regexp}\z/
+            image = str
         else
             begin
                 image = ChunkyPNG::Image.from_data_url("data:image/png;base64," + str.gsub("data:image/png;base64," ,""))
