@@ -48,6 +48,11 @@ module Indico
     response = make_request(url, JSON.dump(d),
                             add_api_key_to_header(api_key))
 
+    response.header.each_header do |key, value|
+      if key.downcase == 'x-warning'
+        warn value
+      end
+    end
 
     results = JSON.parse(response.body)
     if results.key?('error')
