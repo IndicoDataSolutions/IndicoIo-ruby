@@ -10,8 +10,8 @@ module Indico
       Indico.cloud_protocol + root + '.indico.domains/' + api
     end
   end
-
-  def self.api_handler(data, api, config)
+  
+  def self.api_handler(data, api, config, method='predict')
     server = nil
     api_key = nil
     version = nil
@@ -24,6 +24,8 @@ module Indico
         api += "/batch"
       end
     end
+
+    api += (method != "predict" ? ("/" + method) : "")
 
     unless config.nil?
       server = config.delete('cloud')
@@ -48,7 +50,7 @@ module Indico
     response = make_request(url, JSON.dump(d),
                             add_api_key_to_header(api_key))
 
-    response.header.each_header do |key, value|
+    response.each_header do |key, value|
       if key.downcase == 'x-warning'
         warn value
       end
