@@ -21,6 +21,27 @@ describe Indico do
     expect(Set.new(response[1].keys)).to eql(expected_keys)
   end
 
+  it 'should return personality values for text' do
+    expected_keys = Set.new(%w(openness extraversion conscientiousness agreeableness))
+    
+    data = ['I love my friends!', 'I like to be alone']
+    response = Indico.personality(data)
+
+    expect(Set.new(response[0].keys)).to eql(expected_keys)
+    expect(Set.new(response[1].keys)).to eql(expected_keys)
+  end
+
+  it 'should return personas for text' do
+    expected_keys = Set.new(%w(architect mediator executive entertainer))
+    data = ['I love my friends!', 'I like to be alone']
+    response = Indico.personas(data)
+
+    expected_keys.each do |key|
+      expect(Set.new(response[0].keys)).to include(key)
+      expect(Set.new(response[1].keys)).to include(key)
+    end
+  end
+
   it 'should access a private cloud' do
     expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
     data = ['Guns don\'t kill people.', ' People kill people.']
@@ -172,8 +193,8 @@ describe Indico do
     test_image = File.dirname(__FILE__) + "/data/happy.png"
     silent_warnings do
       response = Indico.image_features([test_image, test_image], @config)
-      expect(response[0].length).to eql(2048)
-      expect(response[1].length).to eql(2048)
+      expect(response[0].length).to eql(4096)
+      expect(response[1].length).to eql(4096)
     end
   end
 
@@ -217,15 +238,13 @@ describe Indico do
     end
   end
 
+  it "should accept image urls" do
+    test_image = 'http://icons.iconarchive.com/icons/oxygen-icons.org/' +
+                 'oxygen/48/Emotes-face-smile-icon.png'
+    response = Indico.image_features([test_image, test_image],
+                                           @config)
 
-  # Uncomment when frontend updated to accept image urls
-  # it "should accept image urls" do
-  #   test_image = 'http://icons.iconarchive.com/icons/oxygen-icons.org/' +
-  #                'oxygen/48/Emotes-face-smile-icon.png'
-  #   response = Indico.image_features([test_image, test_image],
-  #                                          @config)
-
-  #   expect(response[0].length).to eql(2048)
-  #   expect(response[1].length).to eql(2048)
-  # end
+    expect(response[0].length).to eql(4096)
+    expect(response[1].length).to eql(4096)
+  end
 end
