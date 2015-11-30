@@ -16,6 +16,22 @@ describe Indico do
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
+  it 'should return personality values for text' do
+    expected_keys = Set.new(%w(openness extraversion conscientiousness agreeableness))
+    response = Indico.personality('I love my friends!')
+
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
+  it 'should return personas for text' do
+    expected_keys = Set.new(%w(architect mediator executive entertainer))
+    response = Indico.personas('I love my friends!')
+
+    expected_keys.each do |key|
+      expect(Set.new(response.keys)).to include(key)
+    end
+  end
+
   it 'should tag text with correct political tags' do
     expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
     data = 'Guns don\'t kill people. People kill people.'
@@ -180,7 +196,7 @@ describe Indico do
     test_image= File.dirname(__FILE__) + "/data/happy.png"
     silent_warnings do
       response = Indico.image_features(test_image)
-      expect(response.length).to eql(2048)
+      expect(response.length).to eql(4096)
     end
   end
 
@@ -188,7 +204,7 @@ describe Indico do
     test_image= File.dirname(__FILE__) + "/data/dog.jpg"
     silent_warnings do
       response = Indico.image_features(test_image)
-      expect(response.length).to eql(2048)
+      expect(response.length).to eql(4096)
     end
   end
 
@@ -196,7 +212,7 @@ describe Indico do
     test_image = File.open(File.dirname(__FILE__) + "/data/happy64.txt", 'rb') { |f| f.read }
     silent_warnings do
       response = Indico.image_features(test_image)
-      expect(response.length).to eql(2048)
+      expect(response.length).to eql(4096)
     end
   end
 
@@ -282,7 +298,7 @@ describe Indico do
     response = Indico.image_features('http://icons.iconarchive.com/icons/' +
                                      'oxygen-icons.org/oxygen/48/' +
                                      'Emotes-face-smile-icon.png')
-  
-    expect(response.length).to eql(2048)
+
+    expect(response.length).to eql(4096)
   end
 end

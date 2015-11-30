@@ -36,6 +36,14 @@ module Indico
     api_handler(text, 'sentiment', config)
   end
 
+  def self.personality(text, config = nil)
+    api_handler(text, 'personality', config)
+  end
+
+  def self.personas(text, config = {'persona'=> true})
+    api_handler(text, 'personality', config)
+  end
+
   def self.twitter_engagement(text, config = nil)
     api_handler(text, 'twitterengagement', config)
   end
@@ -73,13 +81,17 @@ module Indico
     api_handler(preprocess(image, false, false), 'faciallocalization', config)
   end
 
-  def self.image_features(image, config = nil)
+  def self.image_features(image, config = {})
+    unless config.key?(:v) or config.key?(:version)
+      config[:version] = "3"
+    end
     api_handler(preprocess(image, 144, true), 'imagefeatures', config)
   end
 
   def self.image_recognition(image, config = nil)
     api_handler(preprocess(image, 144, true), 'imagerecognition', config)
   end
+
 
   def self.content_filtering(image, config = nil)
     api_handler(preprocess(image, 128, true), 'contentfiltering', config)
@@ -102,13 +114,17 @@ module Indico
   class Collection
 
       def initialize(collection)
-        @collection = collection
+        if collection.kind_of?(String)
+          @collection = collection
+        else
+          raise TypeError, "Collection must be initialized with a String name"
+        end
       end
 
       def add_data(data, config = nil)
 
-        batch = data[0].kind_of?(Array)
-        if batch
+        is_batch = data[0].kind_of?(Array)
+        if is_batch
           x, y = data.transpose
           x = Indico::preprocess(x, 144, true)
           data = x.zip(y)
