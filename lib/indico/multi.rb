@@ -15,7 +15,8 @@ module Indico
     "facial_localization" => "facial_localization",
     "image_features" => "imagefeatures",
     "content_filtering" => "contentfiltering",
-    "twitter_engagement" => "twitterengagement"
+    "twitter_engagement" => "twitterengagement",
+    "myers_briigs" => "myersbriggs"
   }
 
   SERVER_TO_CLIENT = CLIENT_TO_SERVER.invert
