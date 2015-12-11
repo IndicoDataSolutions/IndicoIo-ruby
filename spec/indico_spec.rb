@@ -135,38 +135,12 @@ describe Indico do
 
     expect Set.new(response.keys).subset?(Set.new(text.gsub(/\s+/m, ' ').strip.split(" ")))
   end
-
   it 'should tag text with correct keywords for specified language' do
     text = "La semaine suivante, il remporte sa premiere victoire, dans la descente de Val Gardena en Italie, près de cinq ans après la dernière victoire en Coupe du monde d'un Français dans cette discipline, avec le succès de Nicolas Burtin à Kvitfjell."
     config = { "language" => "French" }
     response = Indico.keywords(text, config)
 
     expect Set.new(response.keys).subset?(Set.new(text.gsub(/\s+/m, ' ').strip.split(" ")))
-  end
-
-  it 'should return the relevance between a set of documents and a set of query strings' do
-    text = 'If patience is a necessary quality for a Jedi, fans who have gathered in front of a Hollywood theater in anticipation of Thursday\'s midnight screening of "The Force Awakens" are surely experts in the ways of the Force.'
-    query = 'star wars'
-    result = Indico.relevance(text, query)
-    expect result >= 0.5
-  end
-
-  it 'should return people found in the text provided' do
-    text = "Chef Michael Solomonov's gorgeous cookbook \"Zahav\" is taking up too much space on my dining room table, but his family stories, recipes and photography keep me from shelving it."
-    result = Indico.people(text).sort_by { |k| -k["confidence"] }
-    expect result[0]["text"].include? "Michael Solomonov"
-  end
-
-  it 'should return organizations found in the text provided' do
-    text = "Chinese internet giant Alibaba is to buy Hong Kong-based newspaper the South China Morning Post (SCMP)."
-    result = Indico.organizations(text).sort_by { |k| -k["confidence"] }
-    expect result[0]["text"].include? "Alibaba"
-  end
-
-  it 'should return places found in the text provided' do
-    text = "Alibaba to buy Hong Kong's South China Morning Post"
-    result = Indico.places(text).sort_by { |k| -k["confidence"] }
-    expect result[0]["text"].include? "China"
   end
 
   it 'should return all named entities with category breakdowns' do
@@ -259,16 +233,16 @@ describe Indico do
   end
 
   it "should respond with all text apis called" do
-    expected_keys = Set.new(TEXT_APIS) - Set.new(MULTIAPI_NOT_SUPPORTED)
-    response = Indico.analyze_text("Worst movie ever.")
+    expected_keys = Set.new(TEXT_APIS)
+    response = Indico.analyze_text("Worst movie ever.", TEXT_APIS)
 
     expect(response.class).to eql(Hash)
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
   it "should respond with all text apis called by default" do
-    expected_keys = Set.new(TEXT_APIS) - Set.new(MULTIAPI_NOT_SUPPORTED)
-    response = Indico.analyze_text("Worst movie ever.")
+    expected_keys = Set.new(TEXT_APIS)
+    response = Indico.analyze_text("Worst movie ever.", TEXT_APIS)
 
     expect(response.class).to eql(Hash)
     expect(Set.new(response.keys)).to eql(expected_keys)

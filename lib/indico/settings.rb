@@ -14,10 +14,7 @@ TEXT_APIS = [
   "text_tags",
   "twitter_engagement",
   "keywords",
-  "named_entities",
-  "people",
-  "places",
-  "organizations"
+  "named_entities"
 ]
 IMAGE_APIS = [
   "fer",
@@ -27,9 +24,6 @@ IMAGE_APIS = [
   "content_filtering"
 ]
 
-MULTIAPI_NOT_SUPPORTED = [
-  "relevance"
-]
 API_TYPES = {}
 TEXT_APIS.each do |api|
   API_TYPES[:api] = 'text'
