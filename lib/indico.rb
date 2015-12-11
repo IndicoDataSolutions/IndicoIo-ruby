@@ -68,6 +68,26 @@ module Indico
     api_handler(test_text, 'namedentities', config)
   end
 
+  def self.relevance(text, queries, config = nil)
+    if config.nil?
+      config = Hash.new()
+    end
+    config[:queries] = queries
+    return api_handler(text, 'relevance', config)
+  end
+
+  def self.people(text, config = nil)
+    api_handler(text, "people", config)
+  end
+
+  def self.organizations(text, config = nil)
+    api_handler(text, "organizations", config)
+  end
+
+  def self.places(text, config = nil)
+    api_handler(text, "places", config)
+  end
+
   def self.fer(image, config = nil)
     size = (config != nil and config["detect"] == true) ? false : 48
     api_handler(preprocess(image, size, false), 'fer', config)
