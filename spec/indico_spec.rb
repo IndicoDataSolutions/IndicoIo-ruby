@@ -148,7 +148,7 @@ describe Indico do
     text = 'If patience is a necessary quality for a Jedi, fans who have gathered in front of a Hollywood theater in anticipation of Thursday\'s midnight screening of "The Force Awakens" are surely experts in the ways of the Force.'
     query = 'star wars'
     result = Indico.relevance(text, query)
-    expect result >= 0.5
+    expect result[0] >= 0.5
   end
 
   it 'should return people found in the text provided' do

@@ -28,7 +28,8 @@ IMAGE_APIS = [
 ]
 
 MULTIAPI_NOT_SUPPORTED = [
-  "relevance"
+  "relevance",
+  "personas"
 ]
 API_TYPES = {}
 TEXT_APIS.each do |api|
