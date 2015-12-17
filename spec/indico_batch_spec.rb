@@ -42,6 +42,41 @@ describe Indico do
     end
   end
 
+  it 'should return the relevance between a set of documents and a set of query strings' do
+    text = ['If patience is a necessary quality for a Jedi, fans who have gathered in front of a Hollywood theater in anticipation of Thursday\'s midnight screening of "The Force Awakens" are surely experts in the ways of the Force.']
+    query = ['star wars', 'jedi']
+    result = Indico.relevance(text, query)
+    expect result[0][0] >= 0.5
+    expect result[0][0] >= 0.5
+  end
+
+  it 'should return people found in the text provided' do
+    text = ["Chef Michael Solomonov's gorgeous cookbook \"Zahav\" is taking up too much space on my dining room table, but his family stories, recipes and photography keep me from shelving it."]
+    text += text
+    result = Indico.people(text)
+    result[0] = result[0].sort_by { |k| -k["confidence"] }
+    expect result[0][0]["text"].include? "Michael Solomonov"
+    expect result.length == 2
+  end
+
+  it 'should return organizations found in the text provided' do
+    text = ["Chinese internet giant Alibaba is to buy Hong Kong-based newspaper the South China Morning Post (SCMP)."]
+    text += text
+    result = Indico.organizations(text)
+    result[0] = result[0].sort_by { |k| -k["confidence"] }
+    expect result[0][0]["text"].include? "Alibaba"
+    expect result.length == 2
+  end
+
+  it 'should return places found in the text provided' do
+    text = ["Alibaba to buy Hong Kong's South China Morning Post"]
+    text += text
+    result = Indico.places(text)
+    result[0] = result[0].sort_by { |k| -k["confidence"] }
+    expect result[0][0]["text"].include? "China"
+    expect result.length == 2
+  end
+
   it 'should access a private cloud' do
     expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
     data = ['Guns don\'t kill people.', ' People kill people.']
