@@ -50,6 +50,12 @@ describe Indico do
     expect result[0][0] >= 0.5
   end
 
+  it 'should return the feature vector for given input text' do
+    text = ['Queen of England', 'Prime Minister of Canada']
+    result = Indico.text_features(text)
+    expect result[0].length == 300
+  end
+
   it 'should return people found in the text provided' do
     text = ["Chef Michael Solomonov's gorgeous cookbook \"Zahav\" is taking up too much space on my dining room table, but his family stories, recipes and photography keep me from shelving it."]
     text += text
