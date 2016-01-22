@@ -16,7 +16,8 @@ module Indico
     "image_features" => "imagefeatures",
     "content_filtering" => "contentfiltering",
     "twitter_engagement" => "twitterengagement",
-    "myers_briggs" => "myersbriggs"
+    "personality" => "personality",
+    "personas" => "personas"
   }
 
   SERVER_TO_CLIENT = CLIENT_TO_SERVER.invert
