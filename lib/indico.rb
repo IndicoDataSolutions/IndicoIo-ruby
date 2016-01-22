@@ -76,6 +76,10 @@ module Indico
     return api_handler(text, 'relevance', config)
   end
 
+  def self.text_features(text, config = nil)
+    return api_handler(text, 'textfeatures', config)
+  end
+
   def self.people(text, config = nil)
     api_handler(text, "people", config)
   end

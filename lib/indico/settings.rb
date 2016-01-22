@@ -17,7 +17,8 @@ TEXT_APIS = [
   "named_entities",
   "people",
   "places",
-  "organizations"
+  "organizations",
+  "textfeatures"
 ]
 IMAGE_APIS = [
   "fer",
