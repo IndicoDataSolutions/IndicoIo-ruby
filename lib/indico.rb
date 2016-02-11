@@ -109,7 +109,7 @@ module Indico
     unless config.key?(:v) or config.key?(:version)
       config[:version] = "3"
     end
-    api_handler(preprocess(image, 144, true), 'imagefeatures', config)
+    api_handler(preprocess(image, 512, true), 'imagefeatures', config)
   end
 
   def self.image_recognition(image, config = nil)
