@@ -172,7 +172,12 @@ module Indico
       end
 
       def wait(interval = 1)
-        while info()['status'] != "ready" do
+        while true do
+          status = info()['status']
+          if status != "training" && status != "ready"
+            warn("Collection training ended with failure: " + status)
+            break
+          end
           sleep(interval)
         end
       end
