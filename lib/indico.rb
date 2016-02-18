@@ -137,9 +137,10 @@ module Indico
 
   class Collection
 
-      def initialize(collection)
+      def initialize(collection, config = nil)
         if collection.kind_of?(String)
           @collection = collection
+          @domain = config.nil? ? nil : config["domain"]
         else
           raise TypeError, "Collection must be initialized with a String name"
         end
@@ -160,6 +161,7 @@ module Indico
           config = Hash.new()
         end
         config[:collection] = @collection
+        config[:domain] = @domain || config["domain"]
         Indico.api_handler(data, 'custom', config, 'add_data')
       end
 
@@ -187,6 +189,7 @@ module Indico
           config = Hash.new()
         end
         config[:collection] = @collection
+        config[:domain] = config[:domain] = @domain || config["domain"]
         Indico.api_handler(data, 'custom', config, 'predict')
       end
 
