@@ -152,10 +152,10 @@ module Indico
         is_batch = data[0].kind_of?(Array)
         if is_batch
           x, y = data.transpose
-          x = Indico::preprocess(x, 144, true)
+          x = Indico::preprocess(x, 512, true)
           data = x.zip(y)
         else
-          data[0] = Indico::preprocess(data[0], 144, true)
+          data[0] = Indico::preprocess(data[0], 512, true)
         end
 
         if config.nil?
@@ -192,7 +192,7 @@ module Indico
       end
 
       def predict(data, config = nil)
-        data = Indico::preprocess(data, 144, true)
+        data = Indico::preprocess(data, 512, true)
         if config.nil?
           config = Hash.new()
         end
@@ -202,7 +202,7 @@ module Indico
       end
 
       def remove_example(data, config = nil)
-        data = Indico::preprocess(data, 144, true)
+        data = Indico::preprocess(data, 512, true)
         if config.nil?
           config = Hash.new()
         end
