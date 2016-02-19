@@ -197,7 +197,7 @@ module Indico
           config = Hash.new()
         end
         config[:collection] = @collection
-        config[:domain] = config[:domain] = @domain || config["domain"]
+        config[:domain] = @domain || config["domain"]
         Indico.api_handler(data, 'custom', config, 'predict')
       end
 
