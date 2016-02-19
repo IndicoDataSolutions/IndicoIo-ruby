@@ -174,7 +174,9 @@ module Indico
       def wait(interval = 1)
         while true do
           status = info()['status']
-          if status != "training" && status != "ready"
+          if status == "ready"
+            break
+          elsif status != "training"
             warn("Collection training ended with failure: " + status)
             break
           end
