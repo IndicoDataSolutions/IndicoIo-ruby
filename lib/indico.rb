@@ -3,6 +3,7 @@ require 'indico/helper'
 require 'indico/image'
 require 'indico/multi'
 require 'indico/settings'
+require 'indico/errors'
 require 'uri'
 require 'json'
 require 'net/https'
@@ -177,7 +178,7 @@ module Indico
           if status == "ready"
             break
           elsif status != "training"
-            warn("Collection training ended with failure: " + status)
+            raise IndicoError, "Collection training ended with failure: " + status
             break
           end
           sleep(interval)
