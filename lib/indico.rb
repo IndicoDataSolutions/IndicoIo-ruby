@@ -3,6 +3,7 @@ require 'indico/helper'
 require 'indico/image'
 require 'indico/multi'
 require 'indico/settings'
+require 'indico/errors'
 require 'uri'
 require 'json'
 require 'net/https'
@@ -137,9 +138,10 @@ module Indico
 
   class Collection
 
-      def initialize(collection)
+      def initialize(collection, config = nil)
         if collection.kind_of?(String)
           @collection = collection
+          @domain = config.nil? ? nil : config["domain"]
         else
           raise TypeError, "Collection must be initialized with a String name"
         end
@@ -150,16 +152,17 @@ module Indico
         is_batch = data[0].kind_of?(Array)
         if is_batch
           x, y = data.transpose
-          x = Indico::preprocess(x, 144, true)
+          x = Indico::preprocess(x, 512, true)
           data = x.zip(y)
         else
-          data[0] = Indico::preprocess(data[0], 144, true)
+          data[0] = Indico::preprocess(data[0], 512, true)
         end
 
         if config.nil?
           config = Hash.new()
         end
         config[:collection] = @collection
+        config[:domain] = @domain || config["domain"]
         Indico.api_handler(data, 'custom', config, 'add_data')
       end
 
@@ -172,7 +175,14 @@ module Indico
       end
 
       def wait(interval = 1)
-        while info()['status'] != "ready" do
+        while true do
+          status = info()['status']
+          if status == "ready"
+            break
+          elsif status != "training"
+            raise IndicoError, "Collection training ended with failure: " + status
+            break
+          end
           sleep(interval)
         end
       end
@@ -182,16 +192,17 @@ module Indico
       end
 
       def predict(data, config = nil)
-        data = Indico::preprocess(data, 144, true)
+        data = Indico::preprocess(data, 512, true)
         if config.nil?
           config = Hash.new()
         end
         config[:collection] = @collection
+        config[:domain] = @domain || config["domain"]
         Indico.api_handler(data, 'custom', config, 'predict')
       end
 
       def remove_example(data, config = nil)
-        data = Indico::preprocess(data, 144, true)
+        data = Indico::preprocess(data, 512, true)
         if config.nil?
           config = Hash.new()
         end
