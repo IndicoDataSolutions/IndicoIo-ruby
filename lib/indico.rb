@@ -57,6 +57,10 @@ module Indico
     api_handler(text, 'language', config)
   end
 
+  def self.emotion(text, config = nil)
+    api_handler(text, 'emotion', config)
+  end
+
   def self.text_tags(text, config = nil)
     api_handler(text, 'texttags', config)
   end

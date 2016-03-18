@@ -43,6 +43,14 @@ describe Indico do
     expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
+  it 'should tag text with correct emotion tags' do
+    expected_keys = Set.new(%w(anger fear joy sadness surprise))
+    data = "I did it. I got into Grad School. Not just any program, but a GREAT program. :-)"
+
+    response = Indico.emotion(data)
+    expect(Set.new(response.keys)).to eql(expected_keys)
+  end
+
   it 'should tag text with correct sentiment tags' do
     response = Indico.sentiment('Worst movie ever.')
 
