@@ -57,12 +57,23 @@ module Indico
     api_handler(text, 'language', config)
   end
 
+  def self.emotion(text, config = nil)
+    api_handler(text, 'emotion', config)
+  end
+
   def self.text_tags(text, config = nil)
     api_handler(text, 'texttags', config)
   end
 
   def self.keywords(text, config = nil)
+    unless !config or config.key?(:v) or config.key?(:version)
+      config[:version] = "2"
+    end
+    if config and config.key?(:language) and config[:language] != "english"
+      config[:version] = "1"
+    end
     api_handler(text, 'keywords', config)
+
   end
 
   def self.named_entities(test_text, config = nil)
