@@ -42,10 +42,15 @@ module Indico
       raise ArgumentError, 'api key is required'
     end
     
-    url = url_join(server, api) + \
-         ("?key=" + api_key) + \
-         (apis ? "&apis=" + apis.join(",") : "") + \
-         (version ? "&version=" + version : "")
+    url_params = Array.new
+    if apis
+      url_params.push(['apis', apis.join(",")])
+    end
+    if version
+      url_params.push(['version', version])
+    end
+    url_params = URI.encode_www_form(url_params)
+    url = url_join(server, api) + "?" + url_params
 
     response = make_request(url, JSON.dump(d),
                             add_api_key_to_header(api_key))
