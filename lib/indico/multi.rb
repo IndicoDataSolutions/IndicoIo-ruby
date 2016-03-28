@@ -37,7 +37,7 @@ module Indico
     end
 
     self.validate_apis(apis, type, allowed)
-    config[:apis] = apis
+    config['apis'] = apis
     response = api_handler(data, batch ? "apis/batch" : "apis", config)
     return handle_multi(response)
   end
@@ -63,7 +63,7 @@ module Indico
     end
 
     self.validate_apis(apis)
-    config[:apis] = apis
+    config['apis'] = apis
     response = api_handler(data, "apis/intersections", config)
     return response
 
