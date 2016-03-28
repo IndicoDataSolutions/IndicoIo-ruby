@@ -67,10 +67,10 @@ module Indico
 
   def self.keywords(text, config = nil)
     unless !config or config.key?(:v) or config.key?(:version)
-      config[:version] = "2"
+      config['version'] = "2"
     end
     if config and config.key?(:language) and config[:language] != "english"
-      config[:version] = "1"
+      config['version'] = "1"
     end
     api_handler(text, 'keywords', config)
 
@@ -118,8 +118,8 @@ module Indico
   end
 
   def self.image_features(image, config = {})
-    unless config.key?(:v) or config.key?(:version)
-      config[:version] = "3"
+    unless config.key?('v') or config.key?('version')
+      config['version'] = "3"
     end
     api_handler(preprocess(image, 512, true), 'imagefeatures', config)
   end
@@ -134,12 +134,12 @@ module Indico
   end
 
   def self.analyze_image(face, apis = IMAGE_APIS, config = nil)
-    api_hash = {apis:apis}
+    api_hash = {'apis' => apis}
     multi(preprocess(face, 48, false), "image", apis, IMAGE_APIS, config ? config.update(api_hash) : api_hash)
   end
 
   def self.analyze_text(text, apis = TEXT_APIS, config = nil)
-    api_hash = {apis:apis}
+    api_hash = {'apis' => apis}
     multi(text, "text", apis, TEXT_APIS, config ? config.update(api_hash) : api_hash)
   end
 
