@@ -30,8 +30,8 @@ module Indico
     unless config.nil?
       server = config.delete('cloud')
       api_key = config.delete('api_key')
-      apis = config.delete(:apis)
-      version = config.delete(:version)
+      apis = config.delete('apis')
+      version = config.delete('version')
       d = d.merge(config)
     end
 
