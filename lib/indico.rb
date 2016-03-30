@@ -85,10 +85,19 @@ module Indico
       config = Hash.new()
     end
     config[:queries] = queries
+    unless config.key?(:synonyms)
+      config[:synonyms] = false
+    end
     return api_handler(text, 'relevance', config)
   end
 
   def self.text_features(text, config = nil)
+    if config.nil?
+      config = Hash.new()
+    end
+    unless config.key?(:synonyms)
+      config[:synonyms] = false
+    end
     return api_handler(text, 'textfeatures', config)
   end
 
