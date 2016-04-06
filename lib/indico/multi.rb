@@ -9,7 +9,6 @@ module Indico
     "language" => "language",
     "text_tags" => "texttags",
     "fer" => "fer",
-    "named_entities" => "namedentities",
     "keywords" => "keywords",
     "facial_features" => "facialfeatures",
     "facial_localization" => "facial_localization",

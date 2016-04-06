@@ -76,10 +76,6 @@ module Indico
 
   end
 
-  def self.named_entities(test_text, config = nil)
-    api_handler(test_text, 'namedentities', config)
-  end
-
   def self.relevance(text, queries, config = nil)
     if config.nil?
       config = Hash.new()
