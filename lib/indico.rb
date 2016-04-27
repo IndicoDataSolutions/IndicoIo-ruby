@@ -199,8 +199,12 @@ module Indico
         end
       end
 
-      def info(interval = 1)
-        Indico.collections()[@collection]
+      def info(config = nil)
+        if config.nil?
+          config = Hash.new()
+        end
+        config[:collection] = @collection
+        Indico.api_handler(nil, 'custom', config, 'info')
       end
 
       def predict(data, config = nil)
