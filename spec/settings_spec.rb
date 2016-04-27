@@ -25,6 +25,10 @@ describe Indico do
     it 'should read in variables from the user\'s environment' do
         api_key = 'testapikey'
         cloud = 'cloud'
+
+        saved_api_key = ENV['INDICO_API_KEY']
+        saved_private_cloud = ENV['INDICO_CLOUD']
+
         ENV['INDICO_API_KEY'] = api_key
         ENV['INDICO_CLOUD'] = cloud
 
@@ -37,11 +41,18 @@ describe Indico do
 
         expect(config['auth']).to eql(expected_auth)
         expect(config['private_cloud']).to eql(expected_cloud)
+
+        ENV['INDICO_API_KEY'] = saved_api_key
+        ENV['INDICO_CLOUD'] = saved_private_cloud
     end
 
     it 'should combine file and env variable configuration' do
         api_key = 'testapikey'
         cloud = 'cloud'
+
+        saved_api_key = ENV['INDICO_API_KEY']
+        saved_private_cloud = ENV['INDICO_CLOUD']
+
         ENV['INDICO_API_KEY'] = api_key
         ENV['INDICO_CLOUD'] = cloud
 
@@ -51,6 +62,9 @@ describe Indico do
 
         config = Indico.load_config()
         expect(config).to eql(expected)
+
+        ENV['INDICO_API_KEY'] = saved_api_key
+        ENV['INDICO_CLOUD'] = saved_private_cloud
     end
 
     it 'should merge configurations properly' do
@@ -65,6 +79,9 @@ describe Indico do
 
         env_api_key = 'env-api-key'
         env_cloud = 'env-cloud'
+        saved_api_key = ENV['INDICO_API_KEY'] 
+        saved_private_cloud = ENV['INDICO_CLOUD'] 
+
         ENV['INDICO_API_KEY'] = env_api_key
         ENV['INDICO_CLOUD'] = env_cloud
 
@@ -72,6 +89,9 @@ describe Indico do
         merged = Indico.merge_config(file_config, env_config)
         expect(merged['auth']['api_key']).to eql(env_api_key)
         expect(merged['private_cloud']['cloud']).to eql(env_cloud)
+
+        ENV['INDICO_API_KEY'] = saved_api_key
+        ENV['INDICO_CLOUD'] = saved_private_cloud 
     end
 
     it 'should set api key with a call to set_api_key' do
