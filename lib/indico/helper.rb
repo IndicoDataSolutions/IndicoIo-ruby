@@ -10,7 +10,7 @@ module Indico
       Indico.cloud_protocol + root + '.indico.domains/' + api
     end
   end
-  
+
   def self.api_handler(data, api, config, method='predict')
     server = nil
     api_key = nil
@@ -27,7 +27,7 @@ module Indico
 
     api += (method != "predict" ? ("/" + method) : "")
 
-    unless config.nil?
+    if config
       server = config.delete('cloud')
       api_key = config.delete('api_key')
       apis = config.delete('apis')
@@ -41,7 +41,7 @@ module Indico
     if api_key.nil?
       raise ArgumentError, 'api key is required'
     end
-    
+
     url_params = Array.new
     if apis
       url_params.push(['apis', apis.join(",")])

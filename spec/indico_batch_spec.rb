@@ -12,15 +12,6 @@ describe Indico do
     TEXT_APIS.delete("sentiment_hq")
   end
 
-  it 'should tag text with correct political tags' do
-    expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
-    data = ['Guns don\'t kill people.', ' People kill people.']
-    response = Indico.political(data, @config)
-
-    expect(Set.new(response[0].keys)).to eql(expected_keys)
-    expect(Set.new(response[1].keys)).to eql(expected_keys)
-  end
-
   it 'should tag text with correct emotion tags' do
     expected_keys = Set.new(%w(anger fear joy sadness surprise))
     data = "I did it. I got into Grad School. Not just any program, but a GREAT program. :-)"
