@@ -11,13 +11,6 @@ describe Indico do
     @config = { api_key: api_key, cloud: private_cloud}
   end
 
-  it 'should tag text with correct political tags' do
-    expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
-    response = Indico.political('Guns don\'t kill people. People kill people.')
-
-    expect(Set.new(response.keys)).to eql(expected_keys)
-  end
-
   it 'should return personality values for text' do
     expected_keys = Set.new(%w(openness extraversion conscientiousness agreeableness))
     response = Indico.personality('I love my friends!')
@@ -32,17 +25,6 @@ describe Indico do
     expected_keys.each do |key|
       expect(Set.new(response.keys)).to include(key)
     end
-  end
-
-  it 'should tag text with correct political tags' do
-    expected_keys = Set.new(%w(Conservative Green Liberal Libertarian))
-    data = 'Guns don\'t kill people. People kill people.'
-
-    # for mocking: use http to redirect requests to our public cloud endpoint
-    Indico.cloud_protocol = 'http://'
-    response = Indico.political(data, @config)
-    Indico.cloud_protocol = 'https://'
-    expect(Set.new(response.keys)).to eql(expected_keys)
   end
 
   it 'should tag text with correct emotion tags' do
