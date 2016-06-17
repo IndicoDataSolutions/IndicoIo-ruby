@@ -26,6 +26,12 @@ module Indico
   end
 
   def self.political(text, config = nil)
+    if !config
+      config = {}
+    end
+    if !config.key?(:v) and !config.key?(:version)
+      config['version'] = "2"
+    end
     api_handler(text, 'political', config)
   end
 
@@ -66,10 +72,13 @@ module Indico
   end
 
   def self.keywords(text, config = nil)
-    unless !config or config.key?(:v) or config.key?(:version)
+    if !config
+      config = {}
+    end
+    if !config.key?(:v) and !config.key?(:version)
       config['version'] = "2"
     end
-    if config and config.key?(:language) and config[:language] != "english"
+    if config.key?(:language) and config[:language] != "english"
       config['version'] = "1"
     end
     api_handler(text, 'keywords', config)
