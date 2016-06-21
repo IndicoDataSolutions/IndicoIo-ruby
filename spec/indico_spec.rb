@@ -150,9 +150,9 @@ describe Indico do
   end
 
   it 'should return people found in the text provided' do
-    text = "Chef Michael Solomonov's gorgeous cookbook \"Zahav\" is taking up too much space on my dining room table, but his family stories, recipes and photography keep me from shelving it."
+    text = "Bill Gates, founder of Microsoft, can jump over a chair from standing position"
     result = Indico.people(text).sort_by { |k| -k["confidence"] }
-    expect result[0]["text"].include? "Michael Solomonov"
+    expect result[0]["text"].include? "Bill Gates"
   end
 
   it 'should return organizations found in the text provided' do
