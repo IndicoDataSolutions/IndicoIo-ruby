@@ -103,21 +103,21 @@ module Indico
   end
 
   def self.people(text, config = {})
-    unless config.key?('v') or config.key?('version')
+    if not (config.key?('v') or config.key?('version'))
       config['version'] = "2"
     end
     api_handler(text, "people", config)
   end
 
   def self.organizations(text, config = {})
-    unless config.key?('v') or config.key?('version')
+    if not (config.key?('v') or config.key?('version'))
       config['version'] = "2"
     end
     api_handler(text, "organizations", config)
   end
 
   def self.places(text, config = {})
-    unless config.key?('v') or config.key?('version')
+    if not (config.key?('v') or config.key?('version'))
       config['version'] = "2"
     end
     api_handler(text, "places", config)
