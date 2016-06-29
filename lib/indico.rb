@@ -102,15 +102,24 @@ module Indico
     return api_handler(text, 'textfeatures', config)
   end
 
-  def self.people(text, config = nil)
+  def self.people(text, config = {})
+    if not (config.key?('v') or config.key?('version'))
+      config['version'] = "2"
+    end
     api_handler(text, "people", config)
   end
 
-  def self.organizations(text, config = nil)
+  def self.organizations(text, config = {})
+    if not (config.key?('v') or config.key?('version'))
+      config['version'] = "2"
+    end
     api_handler(text, "organizations", config)
   end
 
-  def self.places(text, config = nil)
+  def self.places(text, config = {})
+    if not (config.key?('v') or config.key?('version'))
+      config['version'] = "2"
+    end
     api_handler(text, "places", config)
   end
 
@@ -182,8 +191,10 @@ module Indico
         if config.nil?
           config = Hash.new()
         end
+        if @domain
+          config[:domain] = @domain
+        end
         config[:collection] = @collection
-        config[:domain] = @domain || config["domain"]
         Indico.api_handler(data, 'custom', config, 'add_data')
       end
 
@@ -222,7 +233,9 @@ module Indico
           config = Hash.new()
         end
         config[:collection] = @collection
-        config[:domain] = @domain || config["domain"]
+        if @domain
+          config[:domain] = @domain
+        end
         Indico.api_handler(data, 'custom', config, 'predict')
       end
 
