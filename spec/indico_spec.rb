@@ -150,21 +150,27 @@ describe Indico do
   end
 
   it 'should return people found in the text provided' do
-    text = "Chef Michael Solomonov's gorgeous cookbook \"Zahav\" is taking up too much space on my dining room table, but his family stories, recipes and photography keep me from shelving it."
+    text = "Bill Gates, founder of Microsoft, can jump over a chair from standing position"
     result = Indico.people(text).sort_by { |k| -k["confidence"] }
-    expect result[0]["text"].include? "Michael Solomonov"
+    v1_result = Indico.people(text, config={version: "2"}).sort_by { |k| -k["confidence"] }
+    expect result[0]["text"].include? "Bill Gates"
+    expect result[0]["confidence"] != v1_result[0]["confidence"]
   end
 
   it 'should return organizations found in the text provided' do
     text = "Chinese internet giant Alibaba is to buy Hong Kong-based newspaper the South China Morning Post (SCMP)."
     result = Indico.organizations(text).sort_by { |k| -k["confidence"] }
     expect result[0]["text"].include? "Alibaba"
+    v1_result = Indico.organizations(text, config={version: "2"}).sort_by { |k| -k["confidence"] }
+    expect result[0]["confidence"] != v1_result[0]["confidence"]
   end
 
   it 'should return places found in the text provided' do
     text = "Alibaba to buy Hong Kong's South China Morning Post"
     result = Indico.places(text).sort_by { |k| -k["confidence"] }
     expect result[0]["text"].include? "China"
+    v1_result = Indico.places(text, config={version: "2"}).sort_by { |k| -k["confidence"] }
+    expect result[0]["confidence"] != v1_result[0]["confidence"]
   end
 
   it 'should tag face with correct facial expression' do
