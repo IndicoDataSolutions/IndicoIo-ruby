@@ -255,5 +255,49 @@ module Indico
         config[:collection] = @collection
         Indico.api_handler(nil, 'custom', config, 'clear_collection')
       end
+
+      def rename(name, config = nil)
+        if config.nil?
+          config = Hash.new()
+        end
+        config[:collection] = @collection
+        config[:name] = name
+        Indico.api_handler(nil, 'custom', config, 'rename')
+      end
+
+      def register(config = nil)
+        if config.nil?
+          config = Hash.new()
+        end
+        config[:collection] = @collection
+        Indico.api_handler(nil, 'custom', config, 'register')
+      end
+
+      def deregister(config = nil)
+        if config.nil?
+          config = Hash.new()
+        end
+        config[:collection] = @collection
+        Indico.api_handler(nil, 'custom', config, 'deregister')
+      end
+
+      def authorize(email, permission_type = 'read', config = nil)
+        if config.nil?
+          config = Hash.new()
+        end
+        config[:collection] = @collection
+        config[:email] = email
+        config[:permission_type] = permission_type
+        Indico.api_handler(nil, 'custom', config, 'authorize')
+      end
+
+      def deauthorize(email, config = nil)
+        if config.nil?
+          config = Hash.new()
+        end
+        config[:collection] = @collection
+        config[:email] = email
+        Indico.api_handler(nil, 'custom', config, 'deauthorize')
+      end
   end
 end
