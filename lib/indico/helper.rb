@@ -17,7 +17,9 @@ module Indico
     version = nil
 
     d = {}
-    d['data'] = data
+    if data != nil 
+      d['data'] = data
+    end
 
     if data.class == Array
       if api != "apis/intersections"
