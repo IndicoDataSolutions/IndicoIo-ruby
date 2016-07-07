@@ -170,11 +170,23 @@ module Indico
 
       def initialize(collection, config = nil)
         if collection.kind_of?(String)
-          @collection = collection
-          @domain = config.nil? ? nil : config["domain"]
+          @keywords = {
+            "shared" => config.nil? ? nil : config["shared"],
+            "domain" => config.nil? ? nil : config["domain"],
+            "collection" => collection
+          }
+
         else
           raise TypeError, "Collection must be initialized with a String name"
         end
+      end
+
+      def _api_handler(data, api, config = nil, method = 'predict')
+        if config.nil?
+          config = Hash.new()
+        end
+        config = @keywords.merge(config)
+        Indico.api_handler(data, api, config, method)
       end
 
       def add_data(data, config = nil)
@@ -188,22 +200,11 @@ module Indico
           data[0] = Indico::preprocess(data[0], 512, true)
         end
 
-        if config.nil?
-          config = Hash.new()
-        end
-        if @domain
-          config[:domain] = @domain
-        end
-        config[:collection] = @collection
-        Indico.api_handler(data, 'custom', config, 'add_data')
+        _api_handler(data, 'custom', config, 'add_data')
       end
 
       def train(config = nil)
-        if config.nil?
-          config = Hash.new()
-        end
-        config[:collection] = @collection
-        Indico.api_handler(nil, 'custom', config, 'train')
+        _api_handler(nil, 'custom', config, 'train')
       end
 
       def wait(interval = 1)
@@ -220,40 +221,56 @@ module Indico
       end
 
       def info(config = nil)
-        if config.nil?
-          config = Hash.new()
-        end
-        config[:collection] = @collection
-        Indico.api_handler(nil, 'custom', config, 'info')
+        _api_handler(nil, 'custom', config, 'info')
       end
 
       def predict(data, config = nil)
         data = Indico::preprocess(data, 512, true)
-        if config.nil?
-          config = Hash.new()
-        end
-        config[:collection] = @collection
-        if @domain
-          config[:domain] = @domain
-        end
-        Indico.api_handler(data, 'custom', config, 'predict')
+        _api_handler(data, 'custom', config, 'predict')
       end
 
       def remove_example(data, config = nil)
         data = Indico::preprocess(data, 512, true)
-        if config.nil?
-          config = Hash.new()
-        end
-        config[:collection] = @collection
-        Indico.api_handler(data, 'custom', config, 'remove_example')
+        _api_handler(data, 'custom', config, 'remove_example')
       end
 
       def clear(config = nil)
+        _api_handler(nil, 'custom', config, 'clear_collection')
+      end
+
+      def rename(name, config = nil)
         if config.nil?
           config = Hash.new()
         end
-        config[:collection] = @collection
-        Indico.api_handler(nil, 'custom', config, 'clear_collection')
+        config[:name] = name
+        result = _api_handler(nil, 'custom', config, 'rename')
+        @keywords['collection'] = name
+        return result
+      end
+
+      def register(config = nil)
+        _api_handler(nil, 'custom', config, 'register')
+      end
+
+      def deregister(config = nil)
+        _api_handler(nil, 'custom', config, 'deregister')
+      end
+
+      def authorize(email, permission_type = 'read', config = nil)
+        if config.nil?
+          config = Hash.new()
+        end
+        config[:email] = email
+        config[:permission_type] = permission_type
+        _api_handler(nil, 'custom', config, 'authorize')
+      end
+
+      def deauthorize(email, config = nil)
+        if config.nil?
+          config = Hash.new()
+        end
+        config[:email] = email
+        _api_handler(nil, 'custom', config, 'deauthorize')
       end
   end
 end
