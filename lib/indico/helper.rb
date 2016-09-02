@@ -21,7 +21,7 @@ module Indico
       d['data'] = data
     end
 
-    if api != "custom/add_data"
+    if !(api == "custom" && method == "add_data")
       if api != "apis/intersections" and data.class == Array
         api += "/batch"
       end
