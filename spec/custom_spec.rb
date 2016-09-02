@@ -40,7 +40,8 @@ describe Indico do
 
   it 'should instantiate a Collection object and add data to the collection' do
     collection = Indico::Collection.new(text_collection)
-    collection.add_data(test_data)
+    collection.add_data(test_data[0]) # single
+    collection.add_data(test_data) # batch
   end
 
   it "should add data, train, and predict" do
