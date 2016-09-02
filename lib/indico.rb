@@ -199,7 +199,6 @@ module Indico
         else
           data[0] = Indico::preprocess(data[0], 512, true)
         end
-
         _api_handler(data, 'custom', config, 'add_data')
       end
 
