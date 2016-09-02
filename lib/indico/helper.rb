@@ -17,12 +17,16 @@ module Indico
     version = nil
 
     d = {}
-    if data != nil 
+    if data != nil
       d['data'] = data
     end
 
-    if data.class == Array
-      if api != "apis/intersections"
+    if api != "custom/add_data"
+      if api != "apis/intersections" and data.class == Array
+        api += "/batch"
+      end
+    else
+      if data.class == Array and data[0].class == Array
         api += "/batch"
       end
     end
