@@ -69,7 +69,7 @@ module Indico
 
     results = JSON.parse(response.body)
     if results.key?('error')
-      fail results['error']
+      fail IndicoError, results['error']
     else
       results['results']
     end
