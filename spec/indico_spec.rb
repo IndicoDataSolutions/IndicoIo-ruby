@@ -173,6 +173,14 @@ describe Indico do
     expect result[0]["confidence"] != v1_result[0]["confidence"]
   end
 
+  it 'should return a text summary' do
+    text = "We've been debunking this hoax for SEVEN YEARS now, and here we are doing it again. " \
+           "No, Facebook hasn't changed its privacy settings. " \
+           "No, what you post doesn't belong to Facebook now. "
+    result = Indico.summarization(text, {top_n: 1})
+    expect(result.length).to eql(1)
+  end
+
   it 'should tag face with correct facial expression' do
     expected_keys = Set.new(%w(Angry Sad Neutral Surprise Fear Happy))
     test_face= File.dirname(__FILE__) + "/data/happy.png"
