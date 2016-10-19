@@ -123,6 +123,10 @@ module Indico
     api_handler(text, "places", config)
   end
 
+  def self.summarization(text, config = {})
+    api_handler(text, "summarization", config)
+  end
+
   def self.fer(image, config = nil)
     size = (config != nil and config["detect"] == true) ? false : 48
     api_handler(preprocess(image, size, false), 'fer', config)
