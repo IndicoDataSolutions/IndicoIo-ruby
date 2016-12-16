@@ -13,7 +13,7 @@ module Indico
 
             return pdf_array
         elsif pdf.class != String
-            raise Exception.new("Image input must be filename or base64 string")
+            raise Exception.new("PDF input must be filename, url or base64 string")
         end
 
         begin

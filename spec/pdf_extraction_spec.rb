@@ -26,4 +26,18 @@ describe Indico do
 
         expect(Set.new(response.keys)).to eql(expected_keys)
     end
+
+    it 'should properly handle array of local pdf files' do
+        pdf_path = File.expand_path(
+            File.join(File.dirname(__FILE__), "data", "test.pdf")
+        )
+        arr = Array.new()
+        arr.push(pdf_path)
+        arr.push(pdf_path)
+
+        response = Indico.pdf_extraction(arr, @config)
+        expected_keys = Set.new(%w(metadata text))
+
+        expect(Set.new(response[0].keys)).to eql(expected_keys)
+    end
 end
