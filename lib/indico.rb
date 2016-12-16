@@ -1,6 +1,7 @@
 require 'indico/version'
 require 'indico/helper'
 require 'indico/image'
+require 'indico/pdf'
 require 'indico/multi'
 require 'indico/settings'
 require 'indico/errors'
@@ -125,6 +126,10 @@ module Indico
 
   def self.summarization(text, config = {})
     api_handler(text, "summarization", config)
+  end
+
+  def self.pdf_extraction(pdf, config = {})
+    api_handler(preprocess_pdf(pdf), "pdfextraction", config)
   end
 
   def self.fer(image, config = nil)
