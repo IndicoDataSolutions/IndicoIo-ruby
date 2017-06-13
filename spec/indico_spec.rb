@@ -25,6 +25,10 @@ describe Indico do
     expected_keys.each do |key|
       expect(Set.new(response.keys)).to include(key)
     end
+
+    response = Indico.personas('I love my friends!', {top_n: 5})
+
+    expect(response.length).to eql(5)
   end
 
   it 'should tag text with correct emotion tags' do

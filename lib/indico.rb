@@ -48,7 +48,8 @@ module Indico
     api_handler(text, 'personality', config)
   end
 
-  def self.personas(text, config = {'persona'=> true})
+  def self.personas(text, config = {})
+    config['persona'] = true
     api_handler(text, 'personality', config)
   end
 
